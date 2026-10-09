@@ -1,0 +1,221 @@
+[gd_scene load_steps=14 format=3 uid="uid://oakx4fjegnuw"]
+
+[ext_resource type="Shader" uid="uid://b7d6wgq1kiwmr" path="res://assets_gd/shaders/cv_primary.gdshader" id="1_yfw8b"]
+[ext_resource type="Script" uid="uid://calice56hwr16" path="res://scenes/nav_specific/play_flow/member_tile.gd" id="2_wi21y"]
+[ext_resource type="Texture2D" uid="uid://dqy8dy43r5ica" path="res://game_default/packs_player/Player/player.png" id="3_0hw11"]
+[ext_resource type="Texture2D" uid="uid://bw702swedbncn" path="res://graphic/image/cv_temp_player_icon.png" id="3_dcmg2"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="4_smpbp"]
+[ext_resource type="Texture2D" uid="uid://oo7lhrhyhro8" path="res://graphic/image/cv_temp_mic_icon.png" id="5_j3e43"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="7_1mdpp"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="8_285wx"]
+[ext_resource type="Texture2D" uid="uid://cbredouvu4lf5" path="res://graphic/gradient/invis_button.tres" id="9_h3b24"]
+
+[sub_resource type="Gradient" id="Gradient_75qq0"]
+offsets = PackedFloat32Array(0, 0.0393258, 0.536517, 0.803371)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 0.830335, 0.830335, 0.830335, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vfbl5"]
+gradient = SubResource("Gradient_75qq0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3uaj"]
+shader = ExtResource("1_yfw8b")
+shader_parameter/node_size = Vector2(1, 2)
+shader_parameter/edge = SubResource("GradientTexture1D_vfbl5")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/invert = false
+shader_parameter/x_roundness = 0.05
+shader_parameter/y_roundness = 0.05
+shader_parameter/use_primary = true
+shader_parameter/primary_alter_hsv_value = true
+shader_parameter/primary_color = Color(0, 0, 0, 0.341176)
+shader_parameter/primary_falloff = 1.0
+shader_parameter/primary_x_roundness = 0.25
+shader_parameter/primary_y_roundness = 0.25
+shader_parameter/primary_border_distance_cutoff = 0.0
+shader_parameter/primary_border_softness = 0.0
+shader_parameter/primary_use_own_border = false
+shader_parameter/primary_shift_x = 0.0
+shader_parameter/primary_shift_y = 1.405
+shader_parameter/primary_scale_x = 4.485
+shader_parameter/primary_scale_y = 2.36
+shader_parameter/use_secondary = false
+shader_parameter/secondary_alter_hsv_value = true
+shader_parameter/secondary_color = Color(1, 1, 1, 0.8)
+shader_parameter/secondary_falloff = 1.0
+shader_parameter/secondary_x_roundness = 0.25
+shader_parameter/secondary_y_roundness = 0.25
+shader_parameter/secondary_border_distance_cutoff = 0.0
+shader_parameter/secondary_border_softness = 0.0
+shader_parameter/secondary_use_own_border = false
+shader_parameter/secondary_shift_x = 0.0
+shader_parameter/secondary_shift_y = 0.0
+shader_parameter/secondary_scale_x = 1.0
+shader_parameter/secondary_scale_y = 1.0
+shader_parameter/use_tertiary = false
+shader_parameter/tertiary_alter_hsv_value = true
+shader_parameter/tertiary_color = Color(1, 1, 1, 0.8)
+shader_parameter/tertiary_falloff = 1.0
+shader_parameter/tertiary_x_roundness = 0.25
+shader_parameter/tertiary_y_roundness = 0.25
+shader_parameter/tertiary_border_distance_cutoff = 0.0
+shader_parameter/tertiary_border_softness = 0.0
+shader_parameter/tertiary_use_own_border = false
+shader_parameter/tertiary_shift_x = 0.0
+shader_parameter/tertiary_shift_y = 0.0
+shader_parameter/tertiary_scale_x = 1.0
+shader_parameter/tertiary_scale_y = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6xb51"]
+resource_local_to_scene = true
+shader = ExtResource("8_285wx")
+shader_parameter/palette = ExtResource("9_h3b24")
+shader_parameter/node_size = Vector2(3, 1)
+shader_parameter/x_corner_margin = 0.3
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.3
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.968627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.205
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.871
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.11
+shader_parameter/reflection_y_scale = 0.696
+
+[node name="MemberTile" type="ColorRect"]
+material = SubResource("ShaderMaterial_d3uaj")
+custom_minimum_size = Vector2(192, 0)
+script = ExtResource("2_wi21y")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Area" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ContestantView" type="TextureRect" parent="MarginContainer/Area"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("3_0hw11")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/Area"]
+layout_mode = 2
+
+[node name="[Info&Dropdown] Contestant" type="VBoxContainer" parent="MarginContainer/Area"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Area/[Info&Dropdown] Contestant"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Area/[Info&Dropdown] Contestant/HBoxContainer"]
+modulate = Color(0.0430392, 0.0430392, 0.0430392, 1)
+layout_mode = 2
+texture = ExtResource("3_dcmg2")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="MarginContainer/Area/[Info&Dropdown] Contestant/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_smpbp")
+text = "Contestant"
+
+[node name="DropdownPacks" type="OptionButton" parent="MarginContainer/Area/[Info&Dropdown] Contestant"]
+unique_name_in_owner = true
+layout_mode = 2
+text_overrun_behavior = 1
+fit_to_longest_item = false
+
+[node name="b" type="Control" parent="MarginContainer/Area"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="[Info&Dropdown] AudioInput" type="VBoxContainer" parent="MarginContainer/Area"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Area/[Info&Dropdown] AudioInput"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Area/[Info&Dropdown] AudioInput/HBoxContainer"]
+modulate = Color(0.0430392, 0.0430392, 0.0430392, 1)
+layout_mode = 2
+texture = ExtResource("5_j3e43")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="MarginContainer/Area/[Info&Dropdown] AudioInput/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_smpbp")
+text = "Audio Device"
+
+[node name="DropdownAudioDevices" type="OptionButton" parent="MarginContainer/Area/[Info&Dropdown] AudioInput"]
+unique_name_in_owner = true
+layout_mode = 2
+text_overrun_behavior = 1
+fit_to_longest_item = false
+
+[node name="b2" type="Control" parent="MarginContainer/Area"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="BtnKill" parent="." instance=ExtResource("7_1mdpp")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_6xb51")
+custom_minimum_size = Vector2(64, 24)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = -64.0
+offset_bottom = 24.0
+grow_horizontal = 0
+grow_vertical = 1
+size_flags_horizontal = 3
+button_type = 3
+sound_type = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="BtnKill"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.368627, 0.752941, 0.878431, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 10
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="item_selected" from="MarginContainer/Area/[Info&Dropdown] Contestant/DropdownPacks" to="." method="_dropdown_pack_selected"]
+[connection signal="button_clicked" from="BtnKill" to="." method="_kill_self"]

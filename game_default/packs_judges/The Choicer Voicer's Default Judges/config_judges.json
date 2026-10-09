@@ -1,0 +1,18 @@
+{
+	"judge1": {
+		"name" : ""
+	},
+	"judge2": {
+		"name" : ""
+	},
+	"judge3": {
+		"name" : ""
+	},
+	"judge4": {
+		"name" : ""
+	},
+	"judge5": {
+		"name" : ""
+	},
+	"play_voices_with_blips":true
+}

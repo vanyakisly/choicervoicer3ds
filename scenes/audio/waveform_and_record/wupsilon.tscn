@@ -1,0 +1,108 @@
+[gd_scene load_steps=8 format=3 uid="uid://boqes1hevjick"]
+
+[ext_resource type="Script" uid="uid://cstemylbvabsj" path="res://scenes/audio/waveform_and_record/wupsilon.gd" id="1_rkwbn"]
+[ext_resource type="Script" uid="uid://de53icphqmghr" path="res://scenes/audio/waveform_and_record/spectrum_drawer_DEPRECATED.gd" id="2_oqwvu"]
+[ext_resource type="AudioStream" uid="uid://dyiliaintyif" path="res://test/Hugh neutron dancing with diarrhea sounds [ZFAKrsQA4w0].ogg" id="3_b8cug"]
+[ext_resource type="Script" uid="uid://bxuxtv6yo2cm2" path="res://scenes/audio/waveform_and_record/spectrum_sampler.gd" id="3_cqkyk"]
+[ext_resource type="Texture2D" uid="uid://dw3cqacwfy06o" path="res://assets/images/textures/waveform_buffer.png" id="3_yeudu"]
+
+[sub_resource type="Gradient" id="Gradient_1n7tv"]
+colors = PackedColorArray(1, 0, 0, 0, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cmoqc"]
+gradient = SubResource("Gradient_1n7tv")
+width = 9
+height = 648
+
+[node name="Wupsilon" type="SubViewport" node_paths=PackedStringArray("vclip_player", "vclip_drawer", "vclip_sampler", "plmic_drawer", "plmic_sampler", "pecho_player")]
+script = ExtResource("1_rkwbn")
+left_buffer_time = 0.8
+right_buffer_time = 0.4
+vclip_player = NodePath("VclipPlayer")
+vclip_drawer = NodePath("Control/Row/BlackBackground/VclipSpectrumDrawer")
+vclip_sampler = NodePath("SpectrumSamplerVclip")
+plmic_drawer = NodePath("Control/Row/BlackBackground/PlmicSpectrumDrawer")
+plmic_sampler = NodePath("SpectrumSamplerPlmic")
+pecho_player = NodePath("PechoPlayer")
+
+[node name="SpectrumSamplerVclip" type="Node" parent="."]
+script = ExtResource("3_cqkyk")
+sampling_target = 1
+
+[node name="SpectrumSamplerPlmic" type="Node" parent="."]
+script = ExtResource("3_cqkyk")
+sampling_target = 2
+
+[node name="VclipPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_b8cug")
+bus = &"Vclip"
+
+[node name="PechoPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Pecho"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Row" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="WaveformBufferLeft" type="TextureRect" parent="Control/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+texture = ExtResource("3_yeudu")
+expand_mode = 1
+
+[node name="BlackBackground" type="ColorRect" parent="Control/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0, 0, 1)
+
+[node name="VclipSpectrumDrawer" type="Control" parent="Control/Row/BlackBackground" node_paths=PackedStringArray("spectrum_sampler")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_oqwvu")
+spectrum_sampler = NodePath("../../../../SpectrumSamplerVclip")
+
+[node name="PlmicSpectrumDrawer" type="Control" parent="Control/Row/BlackBackground" node_paths=PackedStringArray("spectrum_sampler")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_oqwvu")
+waveform_color_average = Color(0, 1, 1, 1)
+waveform_color_maximum = Color(0, 1, 1, 0.439216)
+waveform_color_pitch = Color(0, 1, 0, 1)
+spectrum_sampler = NodePath("../../../../SpectrumSamplerPlmic")
+
+[node name="WaveformBufferRight" type="TextureRect" parent="Control/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+texture = ExtResource("3_yeudu")
+expand_mode = 1
+
+[node name="Playbar" type="TextureRect" parent="Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 1
+offset_left = -9.0
+offset_bottom = 648.0
+texture = SubResource("GradientTexture2D_cmoqc")

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c3jn2w6w80ehs"
+path="res://.godot/imported/button_sfx_hover.wav-33ab92ccec07d2d8aad497aee21fde72.sample"
+
+[deps]
+
+source_file="res://game_default/packs_menu/The Choicer Voicer's Default Menu/button_sfx_hover.wav"
+dest_files=["res://.godot/imported/button_sfx_hover.wav-33ab92ccec07d2d8aad497aee21fde72.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=0
+compress/mode=0

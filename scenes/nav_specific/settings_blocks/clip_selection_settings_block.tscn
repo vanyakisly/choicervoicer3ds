@@ -1,0 +1,324 @@
+[gd_scene load_steps=12 format=3 uid="uid://jbxq3imurfa5"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_5gafg"]
+[ext_resource type="Script" uid="uid://c2mmfejec8hpq" path="res://scenes/nav_specific/settings_blocks/clip_selection_settings_block.gd" id="2_4xuap"]
+
+[sub_resource type="Gradient" id="Gradient_fp3f3"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_fp3f3")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_lr55t"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_lr55t")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iyit"]
+bg_color = Color(0.190762, 0.190762, 0.190762, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="Theme" id="Theme_k0yo7"]
+CheckButton/fonts/font = ExtResource("1_5gafg")
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("1_5gafg")
+TooltipLabel/font_sizes/font_size = 16
+TooltipLabel/fonts/font = ExtResource("1_5gafg")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_6iyit")
+
+[node name="ClipRandomSelectionBlock" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_k0yo7")
+script = ExtResource("2_4xuap")
+
+[node name="SignalSendTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.167
+one_shot = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ChkClipsLengthFiltered" type="CheckButton" parent="VBoxContainer/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer7"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer7"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Filter clips by length"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer7"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[When enabled, voice clips shorter than the minimum and
+longer than the maximum will not be randomly selected]"
+
+[node name="MinClipLength" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RowMinClipLength" type="HBoxContainer" parent="VBoxContainer/MinClipLength"]
+layout_mode = 2
+
+[node name="NumMinLength" type="SpinBox" parent="VBoxContainer/MinClipLength/RowMinClipLength"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+max_value = 59.5
+step = 0.5
+update_on_text_changed = true
+suffix = "seconds(s)"
+
+[node name="Label" type="Label" parent="VBoxContainer/MinClipLength/RowMinClipLength"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Minimum clip length"
+
+[node name="Label2" type="Label" parent="VBoxContainer/MinClipLength/RowMinClipLength"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "[Voice clips shorter than this will not be randomly selected]"
+
+[node name="RowMaxClipLength" type="HBoxContainer" parent="VBoxContainer/MinClipLength"]
+layout_mode = 2
+
+[node name="NumMaxLength" type="SpinBox" parent="VBoxContainer/MinClipLength/RowMaxClipLength"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = 0.5
+max_value = 60.0
+step = 0.5
+value = 0.5
+update_on_text_changed = true
+suffix = "seconds(s)"
+
+[node name="Label" type="Label" parent="VBoxContainer/MinClipLength/RowMaxClipLength"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Maximum clip length"
+
+[node name="Label2" type="Label" parent="VBoxContainer/MinClipLength/RowMaxClipLength"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Voice clips longer than this will not be randomly selected]
+[Maximum is 60 seconds. Recommended value is 5.5 seconds]"
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ChkTagNestedFolders" type="CheckButton" parent="VBoxContainer/HBoxContainer9"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer9"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer9"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Tag with nested folders"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer9"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Tag voice clips with the names of its nested folders]"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="b" type="Control" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="NumNewClipBias" type="SpinBox" parent="VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+step = 5.0
+update_on_text_changed = true
+suffix = "%"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "New clip chance"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[The chance that a seen clip will reroll to an unseen one]
+[Set to 100% to force unseen clips, if any are available]"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ChkClipsOrdered" type="CheckButton" parent="VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Ordered clips"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Chosen clips will be sorted alphabetically by file name]"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ChkSelectionPackWeighted" type="CheckButton" parent="VBoxContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Pack-weighted clips"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[When on, each voice pack has an "
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="b" type="Control" parent="VBoxContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="NumDefaultRounds" type="SpinBox" parent="VBoxContainer/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 50.0
+value = 1.0
+update_on_text_changed = true
+suffix = "round(s)"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Default rounds"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Starting number of rounds on the selection screen]"
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ChkSortDubCharacter" type="CheckButton" parent="VBoxContainer/HBoxContainer8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer8"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer8"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Order by characters"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer8"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[In Dub Mode, sort by character tags, instead of alphabetically]"

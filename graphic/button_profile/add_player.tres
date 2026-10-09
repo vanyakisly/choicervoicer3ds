@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="ButtonProfile" load_steps=7 format=3 uid="uid://dvnrwqa1v8hjq"]
+
+[ext_resource type="Texture2D" uid="uid://b3t3prdfgj23a" path="res://graphic/gradient/button_add_player.tres" id="1_imw8a"]
+[ext_resource type="Script" uid="uid://8evkjpj7w6d4" path="res://graphic/button_profile/button_profile.gd" id="1_vd2ro"]
+
+[sub_resource type="Gradient" id="Gradient_4n1in"]
+offsets = PackedFloat32Array(0.0566667, 0.133333, 0.22)
+colors = PackedColorArray(1, 1, 1, 0, 0.306923, 0.306923, 0.306923, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7ue7x"]
+gradient = SubResource("Gradient_4n1in")
+
+[sub_resource type="Gradient" id="Gradient_7q6ca"]
+offsets = PackedFloat32Array(0.0566667, 0.133333, 0.22)
+colors = PackedColorArray(0.37, 0.895, 1, 0, 0.368627, 0.894118, 1, 1, 0.37, 0.895, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_clrks"]
+gradient = SubResource("Gradient_7q6ca")
+
+[resource]
+script = ExtResource("1_vd2ro")
+gradient_standard = ExtResource("1_imw8a")
+gradient_hover = SubResource("GradientTexture1D_clrks")
+gradient_disabled = SubResource("GradientTexture1D_7ue7x")
+center_detail = Color(0, 0, 0, 1)
+reflection = Color(0, 0, 0, 1)
+font_color = Color(1, 1, 1, 1)
+center_detail_disabled = Color(0, 0, 0, 1)
+reflection_disabled = Color(0, 0, 0, 1)
+font_color_disabled = Color(0.384314, 0.384314, 0.384314, 1)
+enabled_color_allow = Array[bool]([true, true, true])
+hover_color_allow = Array[bool]([true, true, true])
+disabled_color_allow = Array[bool]([false, false, false])
+center_color_allow = false
+reflection_color_allow = false
+font_color_allow = true
+enabled_invert_allow = Array[bool]([false, false, false])
+hover_invert_allow = Array[bool]([false, false, false])
+disabled_invert_allow = Array[bool]([false, false, false])
+center_invert_allow = false
+reflection_invert_allow = false
+font_invert_allow = false

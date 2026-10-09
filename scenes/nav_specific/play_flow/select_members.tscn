@@ -1,0 +1,273 @@
+[gd_scene load_steps=18 format=3 uid="uid://d08y7rq2yq8j3"]
+
+[ext_resource type="Script" uid="uid://h5k0gfma4cni" path="res://scenes/nav_specific/play_flow/select_members.gd" id="1_1g267"]
+[ext_resource type="Script" uid="uid://cgbfs5yb7iy60" path="res://resource/menu_data.gd" id="2_87emw"]
+[ext_resource type="PackedScene" uid="uid://oakx4fjegnuw" path="res://scenes/nav_specific/play_flow/member_tile.tscn" id="3_kks66"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="3_x2kjc"]
+[ext_resource type="Shader" uid="uid://b7d6wgq1kiwmr" path="res://assets_gd/shaders/cv_primary.gdshader" id="4_4eyhd"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="4_tghfa"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="5_m6rpp"]
+[ext_resource type="Texture2D" uid="uid://b3t3prdfgj23a" path="res://graphic/gradient/button_add_player.tres" id="7_h7bu0"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="8_go4ub"]
+
+[sub_resource type="Resource" id="Resource_m4kwe"]
+script = ExtResource("2_87emw")
+back_path = &"res://scenes/nav_specific/play_flow/select_member_count.tscn"
+slide_hint = PackedStringArray("Main Menu", "Player Count", "Add Players")
+type = 0
+assume_path = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8rd2t"]
+resource_local_to_scene = true
+shader = ExtResource("4_tghfa")
+shader_parameter/palette = ExtResource("7_h7bu0")
+shader_parameter/node_size = Vector2(1, 2)
+shader_parameter/x_corner_margin = 0.1
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.1
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_dqgvg"]
+offsets = PackedFloat32Array(0.0561798, 0.219101)
+colors = PackedColorArray(1, 1, 1, 0, 0.211765, 0.211765, 0.211765, 0.886275)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vcdq3"]
+gradient = SubResource("Gradient_dqgvg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fjqei"]
+shader = ExtResource("4_4eyhd")
+shader_parameter/node_size = Vector2(1, 2)
+shader_parameter/edge = SubResource("GradientTexture1D_vcdq3")
+shader_parameter/color = Color(0.682, 0.872, 0.91, 1)
+shader_parameter/invert = false
+shader_parameter/x_roundness = 0.1
+shader_parameter/y_roundness = 0.1
+shader_parameter/use_primary = false
+shader_parameter/primary_alter_hsv_value = true
+shader_parameter/primary_color = Color(1, 1, 1, 0.8)
+shader_parameter/primary_falloff = 1.0
+shader_parameter/primary_x_roundness = 0.25
+shader_parameter/primary_y_roundness = 0.25
+shader_parameter/primary_border_distance_cutoff = 0.0
+shader_parameter/primary_border_softness = 0.0
+shader_parameter/primary_use_own_border = false
+shader_parameter/primary_shift_x = 0.0
+shader_parameter/primary_shift_y = 0.0
+shader_parameter/primary_scale_x = 1.0
+shader_parameter/primary_scale_y = 1.0
+shader_parameter/use_secondary = false
+shader_parameter/secondary_alter_hsv_value = true
+shader_parameter/secondary_color = Color(1, 1, 1, 0.8)
+shader_parameter/secondary_falloff = 1.0
+shader_parameter/secondary_x_roundness = 0.25
+shader_parameter/secondary_y_roundness = 0.25
+shader_parameter/secondary_border_distance_cutoff = 0.0
+shader_parameter/secondary_border_softness = 0.0
+shader_parameter/secondary_use_own_border = false
+shader_parameter/secondary_shift_x = 0.0
+shader_parameter/secondary_shift_y = 0.0
+shader_parameter/secondary_scale_x = 1.0
+shader_parameter/secondary_scale_y = 1.0
+shader_parameter/use_tertiary = false
+shader_parameter/tertiary_alter_hsv_value = true
+shader_parameter/tertiary_color = Color(1, 1, 1, 0.8)
+shader_parameter/tertiary_falloff = 1.0
+shader_parameter/tertiary_x_roundness = 0.25
+shader_parameter/tertiary_y_roundness = 0.25
+shader_parameter/tertiary_border_distance_cutoff = 0.0
+shader_parameter/tertiary_border_softness = 0.0
+shader_parameter/tertiary_use_own_border = false
+shader_parameter/tertiary_shift_x = 0.0
+shader_parameter/tertiary_shift_y = 0.0
+shader_parameter/tertiary_scale_x = 1.0
+shader_parameter/tertiary_scale_y = 1.0
+
+[sub_resource type="Gradient" id="Gradient_m7ium"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kx8if"]
+gradient = SubResource("Gradient_m7ium")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qhsm5"]
+resource_local_to_scene = true
+shader = ExtResource("4_tghfa")
+shader_parameter/palette = SubResource("GradientTexture1D_kx8if")
+shader_parameter/node_size = Vector2(512, 144)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="SelectMemberCount" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1g267")
+menu_data = SubResource("Resource_m4kwe")
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 58
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 58
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="PlayerTileList" type="HBoxContainer" parent="MarginContainer/MarginContainer/ScrollContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MemberTileStatic" parent="MarginContainer/MarginContainer/ScrollContainer/HBoxContainer/PlayerTileList" instance=ExtResource("3_kks66")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AddPlayerTile" parent="MarginContainer/MarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_x2kjc")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_8rd2t")
+clip_contents = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+button_type = 5
+
+[node name="Label" type="Label" parent="MarginContainer/MarginContainer/ScrollContainer/HBoxContainer/AddPlayerTile"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_go4ub")
+theme_override_font_sizes/font_size = 108
+text = "+"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/MarginContainer/ScrollContainer/HBoxContainer/AddPlayerTile"]
+modulate = Color(0.497474, 0.497474, 0.497474, 1)
+show_behind_parent = true
+material = SubResource("ShaderMaterial_fjqei")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("5_m6rpp")
+theme_override_font_sizes/font_size = 48
+text = "Choose Your Contestants"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="BtnContinue" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_x2kjc")]
+material = SubResource("ShaderMaterial_qhsm5")
+custom_minimum_size = Vector2(256, 48)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/BtnContinue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_m6rpp")
+theme_override_font_sizes/font_size = 30
+text = "Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[connection signal="child_order_changed" from="MarginContainer/MarginContainer/ScrollContainer/HBoxContainer/PlayerTileList" to="." method="_update_add_button_visible"]
+[connection signal="button_clicked" from="MarginContainer/MarginContainer/ScrollContainer/HBoxContainer/AddPlayerTile" to="." method="_add_player_tile"]
+[connection signal="button_clicked" from="MarginContainer/VBoxContainer/BtnContinue" to="." method="_next_page"]

@@ -1,0 +1,888 @@
+[gd_scene load_steps=45 format=3 uid="uid://bmvohlhqnbor2"]
+
+[ext_resource type="Script" uid="uid://b2q04dysr7dd3" path="res://scene/menu/customize/menu_customize.gd" id="1_fhu61"]
+[ext_resource type="Script" uid="uid://cgbfs5yb7iy60" path="res://resource/menu_data.gd" id="2_qbpvr"]
+[ext_resource type="PackedScene" uid="uid://ce6q8ropmbfnl" path="res://scene/module/button/button_array.tscn" id="3_odvkw"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="4_l5nrt"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="5_80vu1"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="6_3py0d"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="6_mtbaf"]
+[ext_resource type="PackedScene" uid="uid://crdfmdg5fnvkq" path="res://scene/module/button/button_cv_small.tscn" id="7_30syn"]
+[ext_resource type="Shader" uid="uid://4ga3dmidbqgy" path="res://graphic/shader/small_button.gdshader" id="8_pd0iy"]
+[ext_resource type="Theme" uid="uid://dhwrqw1asfdt" path="res://assets_gd/resources/themes/tree_light.tres" id="10_n48rv"]
+[ext_resource type="Script" uid="uid://7gmpw8p4ovev" path="res://common/control/voice_pack_tree.gd" id="11_javhx"]
+[ext_resource type="Script" uid="uid://d28mcx32ixjg3" path="res://common/control/pack_tree_multi.gd" id="12_javhx"]
+
+[sub_resource type="Resource" id="Resource_k8v2i"]
+script = ExtResource("2_qbpvr")
+back_path = &"home/menu_home"
+slide_hint = PackedStringArray("Main Menu", "Customize")
+type = 0
+assume_path = true
+
+[sub_resource type="Gradient" id="Gradient_ms5sb"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_30syn"]
+gradient = SubResource("Gradient_ms5sb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_22kfc"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_30syn")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_ktws3"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_koopm"]
+gradient = SubResource("Gradient_ktws3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_am4q1"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_koopm")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_6m3ou"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b72d6"]
+gradient = SubResource("Gradient_6m3ou")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l1gvt"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_b72d6")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1uj1g"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_b72d6")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hdxls"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_b72d6")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cvpou"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_b72d6")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n48rv"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_30syn")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_n48rv"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_huftt"]
+gradient = SubResource("Gradient_n48rv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_javhx"]
+resource_local_to_scene = true
+shader = ExtResource("8_pd0iy")
+shader_parameter/palette = SubResource("GradientTexture1D_huftt")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="Gradient" id="Gradient_3aoj3"]
+offsets = PackedFloat32Array(0, 0.035, 0.216)
+colors = PackedColorArray(0.32549, 0.32549, 0.32549, 0, 0.368627, 0.368627, 0.368627, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j6byy"]
+gradient = SubResource("Gradient_3aoj3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dq4p1"]
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_j6byy")
+shader_parameter/node_size = Vector2(288, 532)
+shader_parameter/x_corner_margin = 0.05
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.05
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wodsk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bqe0t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4385k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xje7d"]
+
+[sub_resource type="Gradient" id="Gradient_wdo8a"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xuuq4"]
+gradient = SubResource("Gradient_wdo8a")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gcdv0"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_xuuq4")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bu6qq"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_xuuq4")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_48tux"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_xuuq4")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_q135c"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2hfv5"]
+gradient = SubResource("Gradient_q135c")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_331ll"]
+resource_local_to_scene = true
+shader = ExtResource("5_80vu1")
+shader_parameter/palette = SubResource("GradientTexture1D_2hfv5")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="MenuCustomize" type="Control" groups=["OnBack"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fhu61")
+menu_data = SubResource("Resource_k8v2i")
+
+[node name="UnboundedHostCapsule" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Border" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 58
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 58
+
+[node name="Main" type="HBoxContainer" parent="Border"]
+layout_mode = 2
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PackButtonArray" parent="Border/Main/VBoxContainer" instance=ExtResource("3_odvkw")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnMenu" parent="Border/Main/VBoxContainer/PackButtonArray" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_22kfc")
+custom_minimum_size = Vector2(0, 93)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+sound_type = 3
+
+[node name="Label" type="Label" parent="Border/Main/VBoxContainer/PackButtonArray/BtnMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 30
+text = "Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnPlayer" parent="Border/Main/VBoxContainer/PackButtonArray" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_am4q1")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+sound_type = 3
+
+[node name="Label" type="Label" parent="Border/Main/VBoxContainer/PackButtonArray/BtnPlayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 30
+text = "Player"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnStudio" parent="Border/Main/VBoxContainer/PackButtonArray" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_l1gvt")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+sound_type = 3
+
+[node name="Label" type="Label" parent="Border/Main/VBoxContainer/PackButtonArray/BtnStudio"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 30
+text = "Studio"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnJudges" parent="Border/Main/VBoxContainer/PackButtonArray" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_1uj1g")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+sound_type = 3
+
+[node name="Label" type="Label" parent="Border/Main/VBoxContainer/PackButtonArray/BtnJudges"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 30
+text = "Judges"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnHost" parent="Border/Main/VBoxContainer/PackButtonArray" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_hdxls")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/Main/VBoxContainer/PackButtonArray/BtnHost"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 30
+text = "Host"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnVoices" parent="Border/Main/VBoxContainer/PackButtonArray" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_cvpou")
+custom_minimum_size = Vector2(0, 93)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Border/Main/VBoxContainer/PackButtonArray/BtnVoices"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 30
+text = "Voice"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnChatter" parent="Border/Main/VBoxContainer/PackButtonArray" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_n48rv")
+custom_minimum_size = Vector2(0, 93)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Border/Main/VBoxContainer/PackButtonArray/BtnChatter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 30
+text = "Chatter"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnPacksPage" parent="Border/Main/VBoxContainer" instance=ExtResource("7_30syn")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_javhx")
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/Main/VBoxContainer/BtnPacksPage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_mtbaf")
+text = "Page 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PackListings" type="VBoxContainer" parent="Border/Main"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+
+[node name="List" type="ColorRect" parent="Border/Main/PackListings"]
+material = SubResource("ShaderMaterial_dq4p1")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Border/Main/PackListings/List"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Tree" type="Tree" parent="Border/Main/PackListings/List/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/title_button_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hovered_color = Color(0.10748, 0.10748, 0.10748, 1)
+theme_override_colors/font_color = Color(0.501961, 0.501961, 0.501961, 1)
+theme_override_constants/v_separation = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wodsk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_bqe0t")
+theme_override_styles/selected = SubResource("StyleBoxEmpty_4385k")
+theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_xje7d")
+allow_reselect = true
+auto_tooltip = false
+
+[node name="TreeCheckmarks" type="Tree" parent="Border/Main/PackListings/List/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/title_button_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.501961, 0.501961, 0.501961, 1)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wodsk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_bqe0t")
+theme_override_styles/selected = SubResource("StyleBoxEmpty_4385k")
+theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_xje7d")
+columns = 2
+allow_reselect = true
+
+[node name="VoicePackTree" type="Tree" parent="Border/Main/PackListings/List/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme = ExtResource("10_n48rv")
+script = ExtResource("11_javhx")
+use_case = 2
+metadata/_custom_type_script = "uid://7gmpw8p4ovev"
+
+[node name="TreePackToggle" type="Tree" parent="Border/Main/PackListings/List/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("10_n48rv")
+script = ExtResource("12_javhx")
+personalizer_type = 7
+load_when_visible = true
+metadata/_custom_type_script = "uid://d28mcx32ixjg3"
+
+[node name="AddNew" type="HBoxContainer" parent="Border/Main/PackListings"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+
+[node name="NewPackNameTextEdit" type="LineEdit" parent="Border/Main/PackListings/AddNew"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("6_mtbaf")
+placeholder_text = "Pack Name"
+
+[node name="BtnNewAdd" parent="Border/Main/PackListings/AddNew" instance=ExtResource("4_l5nrt")]
+material = SubResource("ShaderMaterial_gcdv0")
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+size_flags_vertical = 3
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="Border/Main/PackListings/AddNew/BtnNewAdd"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("6_mtbaf")
+theme_override_font_sizes/font_size = 18
+text = "Add"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnNewCancel" parent="Border/Main/PackListings/AddNew" instance=ExtResource("4_l5nrt")]
+material = SubResource("ShaderMaterial_bu6qq")
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+size_flags_vertical = 3
+sound_type = 1
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="Border/Main/PackListings/AddNew/BtnNewCancel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("6_mtbaf")
+theme_override_font_sizes/font_size = 18
+text = "Cancel"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/Main/PackListings"]
+custom_minimum_size = Vector2(256, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="BtnOpenPackBrowser" parent="Border/Main/PackListings/HBoxContainer" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_48tux")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="Border/Main/PackListings/HBoxContainer/BtnOpenPackBrowser"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 23
+text = "Open Pack
+in Browser"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnAddNewPack" parent="Border/Main/PackListings/HBoxContainer" instance=ExtResource("4_l5nrt")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_331ll")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/Main/PackListings/HBoxContainer/BtnAddNewPack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("6_3py0d")
+theme_override_font_sizes/font_size = 23
+text = "+ Create
+New"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InterfaceCapsule" type="Control" parent="Border/Main"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(536, 0)
+layout_mode = 2
+
+[connection signal="button_clicked" from="Border/Main/VBoxContainer/PackButtonArray/BtnMenu" to="." method="_on_btn_menu_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/VBoxContainer/PackButtonArray/BtnPlayer" to="." method="_on_btn_player_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/VBoxContainer/PackButtonArray/BtnStudio" to="." method="_on_btn_studio_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/VBoxContainer/PackButtonArray/BtnJudges" to="." method="_on_btn_judges_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/VBoxContainer/PackButtonArray/BtnHost" to="." method="_on_btn_host_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/VBoxContainer/PackButtonArray/BtnVoices" to="." method="_on_btn_voices_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/VBoxContainer/PackButtonArray/BtnChatter" to="." method="_on_btn_chatter_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/VBoxContainer/BtnPacksPage" to="." method="_change_packs_buttons_page"]
+[connection signal="cell_selected" from="Border/Main/PackListings/List/MarginContainer/Tree" to="." method="_on_tree_cell_selected"]
+[connection signal="cell_selected" from="Border/Main/PackListings/List/MarginContainer/TreeCheckmarks" to="." method="_on_tree_checkmarks_cell_selected"]
+[connection signal="pack_selected" from="Border/Main/PackListings/List/MarginContainer/VoicePackTree" to="." method="_on_voice_pack_tree_pack_selected"]
+[connection signal="pack_selected" from="Border/Main/PackListings/List/MarginContainer/TreePackToggle" to="." method="_on_tree_pack_toggle_pack_selected"]
+[connection signal="text_submitted" from="Border/Main/PackListings/AddNew/NewPackNameTextEdit" to="." method="_on_btn_new_add_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/PackListings/AddNew/BtnNewAdd" to="." method="_on_btn_new_add_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/PackListings/AddNew/BtnNewCancel" to="." method="_on_btn_new_cancel_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/PackListings/HBoxContainer/BtnOpenPackBrowser" to="." method="_on_btn_open_pack_browser_button_clicked"]
+[connection signal="button_clicked" from="Border/Main/PackListings/HBoxContainer/BtnAddNewPack" to="." method="_on_btn_add_new_pack_button_clicked"]

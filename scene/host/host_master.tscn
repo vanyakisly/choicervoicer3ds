@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://dll858u2sikkn"]
+
+[ext_resource type="Script" uid="uid://bv8ilrbrm3584" path="res://scene/host/host_master.gd" id="1_01338"]
+[ext_resource type="Shader" uid="uid://bih6hnhuo8cb3" path="res://graphic/shader/texture_shift.gdshader" id="1_ff0kq"]
+[ext_resource type="Texture2D" uid="uid://dmmc40c8okkda" path="res://game_default/packs_host/Default - Shae/host.png" id="2_mrsdg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yrexh"]
+shader = ExtResource("1_ff0kq")
+shader_parameter/shift_amount = 0.0
+
+[node name="HostMaster" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_01338")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="b" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HostTexture" type="TextureRect" parent="HBoxContainer"]
+material = SubResource("ShaderMaterial_yrexh")
+layout_mode = 2
+texture = ExtResource("2_mrsdg")
+expand_mode = 3

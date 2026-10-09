@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="OmniClip" load_steps=3 format=3 uid="uid://bwpq2q7xsedqf"]
+
+[ext_resource type="Script" uid="uid://c2aa7yubwdqo0" path="res://common/data/omni_clip.gd" id="1_cxtei"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_2dt6t"]
+buffer_length = 1.75
+
+[resource]
+script = ExtResource("1_cxtei")
+error_flags = 0
+self_global_path = ""
+use_as = 1
+clip_audio = SubResource("AudioStreamGenerator_2dt6t")
+clip_caption = ""
+tags = PackedStringArray()
+image_sibling_name = ""
+dub_only = false
+dub_timestamps = PackedFloat32Array()
+dub_characters = PackedStringArray()
+dub_use_as_is = false
+seen = false

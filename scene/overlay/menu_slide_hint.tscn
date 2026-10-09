@@ -1,0 +1,122 @@
+[gd_scene load_steps=10 format=3 uid="uid://b6i1bohisp4hh"]
+
+[ext_resource type="FontFile" uid="uid://dhl33r7hfv4bn" path="res://graphic/font/Rounded Elegance.ttf" id="1_acctr"]
+[ext_resource type="Script" uid="uid://btyxluoxev0e3" path="res://scene/overlay/menu_slide_hint.gd" id="1_xxnj3"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="2_oe6rd"]
+
+[sub_resource type="Gradient" id="Gradient_gfffq"]
+offsets = PackedFloat32Array(0, 0.772727)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.690196)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g8p78"]
+gradient = SubResource("Gradient_gfffq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ugs5b"]
+shader = ExtResource("2_oe6rd")
+shader_parameter/palette = SubResource("GradientTexture1D_g8p78")
+shader_parameter/node_size = Vector2(1, 1)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 16.0
+shader_parameter/y_corner_margin = 0.25
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = false
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_btpy4"]
+offsets = PackedFloat32Array(0, 0.391608)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.690196)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_73np3"]
+gradient = SubResource("Gradient_btpy4")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n6d0v"]
+shader = ExtResource("2_oe6rd")
+shader_parameter/palette = SubResource("GradientTexture1D_73np3")
+shader_parameter/node_size = Vector2(1, 1)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = -0.5
+shader_parameter/x_scale = 2.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = false
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="MenuSlideHint" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_xxnj3")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+
+[node name="Label" type="Label" parent="MarginContainer" groups=["MenuHint"]]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_acctr")
+text = "  Settings > File Management    "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Label"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/Label/HBoxContainer"]
+material = SubResource("ShaderMaterial_ugs5b")
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="MarginContainer/Label/HBoxContainer"]
+material = SubResource("ShaderMaterial_n6d0v")
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+color = Color(0.0627451, 0.0627451, 0.0627451, 1)

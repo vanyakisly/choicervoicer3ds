@@ -1,0 +1,112 @@
+[gd_scene load_steps=10 format=3 uid="uid://bnqimh2lu47ft"]
+
+[ext_resource type="Script" uid="uid://7yphg1yovkdj" path="res://scene/menu/play/menu_play.gd" id="1_l76ti"]
+[ext_resource type="Script" uid="uid://cgbfs5yb7iy60" path="res://resource/menu_data.gd" id="2_6dtm5"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="3_xubwc"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="4_c788h"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="5_cyct5"]
+
+[sub_resource type="Resource" id="Resource_lcyq3"]
+script = ExtResource("2_6dtm5")
+back_path = &"home/menu_home"
+slide_hint = PackedStringArray("Main Menu", "Play a Match")
+type = 0
+assume_path = true
+
+[sub_resource type="Gradient" id="Gradient_3iw5l"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_krikr"]
+gradient = SubResource("Gradient_3iw5l")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e1faj"]
+resource_local_to_scene = true
+shader = ExtResource("4_c788h")
+shader_parameter/palette = SubResource("GradientTexture1D_krikr")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="MenuPlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l76ti")
+menu_data = SubResource("Resource_lcyq3")
+
+[node name="BtnSingleplayer" parent="." instance=ExtResource("3_xubwc")]
+material = SubResource("ShaderMaterial_e1faj")
+layout_mode = 1
+offset_left = 72.0
+offset_top = 80.0
+offset_right = -793.0
+offset_bottom = -457.0
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="BtnSingleplayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_cyct5")
+theme_override_font_sizes/font_size = 24
+text = "Singleplayer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnLocalMultiplayer" parent="." instance=ExtResource("3_xubwc")]
+material = SubResource("ShaderMaterial_e1faj")
+layout_mode = 1
+offset_left = 68.0
+offset_top = 243.0
+offset_right = -797.0
+offset_bottom = -294.0
+enabled = false
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="BtnLocalMultiplayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_cyct5")
+theme_override_font_sizes/font_size = 24
+text = "Local Multiplayer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="button_clicked" from="BtnSingleplayer" to="." method="_on_btn_singleplayer_button_clicked"]

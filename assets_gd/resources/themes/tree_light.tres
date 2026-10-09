@@ -1,0 +1,19 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://dhwrqw1asfdt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x0vxu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1mhuf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_en2if"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r86vf"]
+
+[resource]
+Tree/colors/font_color = Color(0.501961, 0.501961, 0.501961, 1)
+Tree/colors/font_hovered_color = Color(0.105882, 0.105882, 0.105882, 1)
+Tree/colors/font_selected_color = Color(0, 0, 0, 1)
+Tree/colors/title_button_color = Color(0, 0, 0, 1)
+Tree/styles/focus = SubResource("StyleBoxEmpty_x0vxu")
+Tree/styles/panel = SubResource("StyleBoxEmpty_1mhuf")
+Tree/styles/selected = SubResource("StyleBoxEmpty_en2if")
+Tree/styles/selected_focus = SubResource("StyleBoxEmpty_r86vf")

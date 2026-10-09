@@ -1,0 +1,142 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxvc8d416472h"]
+
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="1_5ju4l"]
+[ext_resource type="Script" uid="uid://u0ednoemdosc" path="res://scenes/ui_modules/chatter_view/chatter_previewer_scene.gd" id="1_we22p"]
+[ext_resource type="Texture2D" uid="uid://brshc1xninagf" path="res://graphic/gradient/black_double_border.tres" id="2_we22p"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="3_2tb2q"]
+[ext_resource type="PackedScene" uid="uid://rv3n67nmljyc" path="res://scenes/ui_modules/chatter_view/chatter_previewer.tscn" id="5_2tb2q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2qnem"]
+shader = ExtResource("1_5ju4l")
+shader_parameter/palette = ExtResource("2_we22p")
+shader_parameter/node_size = Vector2(528, 472)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="ChatterPreviewerScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_we22p")
+
+[node name="EditWindow" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PagesAndBottomRow" type="VBoxContainer" parent="EditWindow"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BlackBox" type="ColorRect" parent="EditWindow/PagesAndBottomRow"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_2qnem")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="EditWindow/PagesAndBottomRow/BlackBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="b" type="Control" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="PackIcon" type="TextureRect" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LblPackName" type="Label" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_2tb2q")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="LblPackAuthors" type="Label" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_2tb2q")
+horizontal_alignment = 2
+autowrap_mode = 2
+
+[node name="b2" type="Control" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChatterPreviewer" parent="EditWindow/PagesAndBottomRow/BlackBox/MarginContainer/VBoxContainer/ScrollContainer" instance=ExtResource("5_2tb2q")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="b" type="Control" parent="EditWindow/PagesAndBottomRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2

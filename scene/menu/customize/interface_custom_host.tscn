@@ -1,0 +1,1546 @@
+[gd_scene load_steps=30 format=3 uid="uid://b7kuy6jf0l5sx"]
+
+[ext_resource type="Script" uid="uid://b4cdc3pcp2kbi" path="res://scene/menu/customize/interface_custom_host.gd" id="1_fcpj1"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="1_mmax0"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="2_bll7n"]
+[ext_resource type="PackedScene" uid="uid://dll858u2sikkn" path="res://scene/host/host_master.tscn" id="2_fbqsp"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="3_3m5x8"]
+[ext_resource type="Texture2D" uid="uid://brshc1xninagf" path="res://graphic/gradient/black_double_border.tres" id="4_c4rrn"]
+[ext_resource type="PackedScene" uid="uid://ce6q8ropmbfnl" path="res://scene/module/button/button_array.tscn" id="5_dpxpj"]
+[ext_resource type="Texture2D" uid="uid://c7eihay6y5php" path="res://graphic/gradient/header_box.tres" id="6_5f80f"]
+[ext_resource type="PackedScene" uid="uid://crdfmdg5fnvkq" path="res://scene/module/button/button_cv_small.tscn" id="6_u8t0k"]
+[ext_resource type="Shader" uid="uid://4ga3dmidbqgy" path="res://graphic/shader/small_button.gdshader" id="7_3y702"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="8_vwcfa"]
+
+[sub_resource type="Gradient" id="Gradient_wdo8a"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s2mwh"]
+gradient = SubResource("Gradient_wdo8a")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gcdv0"]
+resource_local_to_scene = true
+shader = ExtResource("2_bll7n")
+shader_parameter/palette = SubResource("GradientTexture1D_s2mwh")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_16sy2"]
+shader = ExtResource("2_bll7n")
+shader_parameter/palette = ExtResource("6_5f80f")
+shader_parameter/node_size = Vector2(512, 56)
+shader_parameter/x_corner_margin = 0.4
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.4
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sipco"]
+shader = ExtResource("2_bll7n")
+shader_parameter/palette = ExtResource("4_c4rrn")
+shader_parameter/node_size = Vector2(528, 472)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_nqkga"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ve5xe"]
+gradient = SubResource("Gradient_nqkga")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vf485"]
+resource_local_to_scene = true
+shader = ExtResource("2_bll7n")
+shader_parameter/palette = SubResource("GradientTexture1D_ve5xe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hieqi"]
+resource_local_to_scene = true
+shader = ExtResource("2_bll7n")
+shader_parameter/palette = SubResource("GradientTexture1D_ve5xe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_kmako"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ytl47"]
+gradient = SubResource("Gradient_kmako")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4etim"]
+resource_local_to_scene = true
+shader = ExtResource("7_3y702")
+shader_parameter/palette = SubResource("GradientTexture1D_ytl47")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="Gradient" id="Gradient_w3cb6"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ox7a6"]
+gradient = SubResource("Gradient_w3cb6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u6t4e"]
+resource_local_to_scene = true
+shader = ExtResource("7_3y702")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="Gradient" id="Gradient_xoxaq"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2juu1"]
+gradient = SubResource("Gradient_xoxaq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bfck4"]
+resource_local_to_scene = true
+shader = ExtResource("2_bll7n")
+shader_parameter/palette = SubResource("GradientTexture1D_2juu1")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="InterfaceCustomHost" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+script = ExtResource("1_fcpj1")
+oveep = 1
+
+[node name="HostMaster" parent="." instance=ExtResource("2_fbqsp")]
+unique_name_in_owner = true
+layout_mode = 1
+mouse_filter = 2
+
+[node name="EditWindow" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Pages" type="VBoxContainer" parent="EditWindow"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Presentation" type="VBoxContainer" parent="EditWindow/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="BtnNewHostImage" parent="EditWindow/Pages/Presentation" instance=ExtResource("1_mmax0")]
+visible = false
+material = SubResource("ShaderMaterial_gcdv0")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Presentation/BtnNewHostImage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("3_3m5x8")
+theme_override_font_sizes/font_size = 18
+text = "New Image⬈"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="EditWindow/Pages/Presentation"]
+material = SubResource("ShaderMaterial_16sy2")
+custom_minimum_size = Vector2(448, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/Presentation/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Presentation/ColorRect/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_3m5x8")
+text = "Host Name: "
+
+[node name="HostNameTextEdit" type="LineEdit" parent="EditWindow/Pages/Presentation/ColorRect/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 36)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_3m5x8")
+theme_override_font_sizes/font_size = 18
+
+[node name="Dialogue" type="ColorRect" parent="EditWindow/Pages"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_sipco")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="EditWindow/Pages/Dialogue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ScrollContainer" type="ScrollContainer" parent="EditWindow/Pages/Dialogue/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer"]
+custom_minimum_size = Vector2(481, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "match_dialogue"
+
+[node name="JudgingSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer3"]
+layout_mode = 2
+text = "judging (single & multi)"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "score_0"
+
+[node name="match_singleplayer_score_0" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "score_1"
+
+[node name="match_singleplayer_score_1" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer6"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer6"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "score_2"
+
+[node name="match_singleplayer_score_2" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer7"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer7"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "score_3"
+
+[node name="match_singleplayer_score_3" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer8"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer8"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "score_4"
+
+[node name="match_singleplayer_score_4" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer9"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer9"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "score_5"
+
+[node name="match_singleplayer_score_5" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/JudgingSet/HBoxContainer9"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="SingleplayerSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/VBoxContainer"]
+layout_mode = 2
+text = "match_singleplayer"
+
+[node name="IntroSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer3"]
+layout_mode = 2
+text = "intro"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "a_welcome"
+
+[node name="match_singleplayer_welcome" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "b_contestant"
+
+[node name="match_singleplayer_contestant" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer6"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer6"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "c_judges"
+
+[node name="match_singleplayer_judges" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer7"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer7"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "d_explanation"
+
+[node name="match_singleplayer_explanation" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/IntroSet/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="RoundSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer3"]
+layout_mode = 2
+text = "round"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "b_post_record"
+
+[node name="match_singleplayer_post_record" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer6"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer6"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "c_post_listen"
+
+[node name="match_singleplayer_post_listen" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer8"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer8"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "round_next"
+
+[node name="match_singleplayer_round_next" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer7"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer7"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "round_final"
+
+[node name="match_singleplayer_round_final" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/RoundSet/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="EndSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer3"]
+layout_mode = 2
+text = "end"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "final_score"
+
+[node name="match_singleplayer_final_score" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "lose_0"
+
+[node name="match_singleplayer_lose_0" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer6"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer6"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "lose_standard"
+
+[node name="match_singleplayer_lose_standard" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer8"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer8"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "lose_barely"
+
+[node name="match_singleplayer_lose_barely" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer7"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer7"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "win_barely"
+
+[node name="match_singleplayer_win_barely" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer10" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer10"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer10"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "win_standard"
+
+[node name="match_singleplayer_win_standard" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer10"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer9"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer9"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "win_100"
+
+[node name="match_singleplayer_win_100" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/SingleplayerSet/EndSet/HBoxContainer9"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="MultiplayerSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/VBoxContainer"]
+layout_mode = 2
+text = "match_multiplayer"
+
+[node name="IntroSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer3"]
+layout_mode = 2
+text = "intro"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "a_welcome"
+
+[node name="match_multiplayer_welcome" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "b_contestants"
+
+[node name="match_multiplayer_contestants" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer6"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer6"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "c_judges"
+
+[node name="match_multiplayer_judges" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer7"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer7"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "d_explanation"
+
+[node name="match_multiplayer_explanation" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/IntroSet/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="RoundSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer3"]
+layout_mode = 2
+text = "round"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "a_get_ready"
+
+[node name="match_multiplayer_get_ready" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "b_post_record"
+
+[node name="match_multiplayer_post_record" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer6"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer6"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "c_post_listen"
+
+[node name="match_multiplayer_post_listen" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer8"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer8"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "round_next"
+
+[node name="match_multiplayer_round_next" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer7"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer7"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "round_final"
+
+[node name="match_multiplayer_round_final" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/RoundSet/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="JudgingSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet/HBoxContainer3"]
+layout_mode = 2
+text = "judging"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "judged_player"
+
+[node name="match_multiplayer_judged_player" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "post_judging"
+
+[node name="match_multiplayer_post_judging" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/JudgingSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="EndSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer3"]
+layout_mode = 2
+text = "end"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "final_score"
+
+[node name="match_multiplayer_final_score" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "winner"
+
+[node name="match_multiplayer_winner" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer8"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer8"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "tie_win"
+
+[node name="match_multiplayer_tie_win" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer6"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer6"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "tie_win_start"
+
+[node name="match_multiplayer_tie_win_start" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer7"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer7"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "tie_win_end"
+
+[node name="match_multiplayer_tie_win_end" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer9"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer9"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "congrats_goodbye"
+
+[node name="match_multiplayer_congrats_goodbye" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/MultiplayerSet/EndSet/HBoxContainer9"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="TwitchSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/VBoxContainer"]
+layout_mode = 2
+text = "twitch"
+
+[node name="IntroSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/IntroSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/IntroSet/HBoxContainer3"]
+layout_mode = 2
+text = "standard"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/IntroSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/IntroSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/IntroSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "intro_audience"
+
+[node name="match_twitch_intro_audience" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/IntroSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="RoundSet" type="VBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer3"]
+layout_mode = 2
+text = "round"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer4"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "a_audience_turn_1"
+
+[node name="match_twitch_round_audience_1" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer5"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "b_audience_turn_2"
+
+[node name="match_twitch_round_audience_2" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer6"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer6"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+text = "c_polls_closed"
+
+[node name="match_twitch_polls_closed" type="TextEdit" parent="EditWindow/Pages/Dialogue/MarginContainer/ScrollContainer/VBoxContainer/TwitchSet/RoundSet/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+scroll_fit_content_height = true
+
+[node name="ButtonRow" type="HBoxContainer" parent="EditWindow/Pages"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/ButtonRow"]
+layout_mode = 2
+
+[node name="BtnSaveChanges" parent="EditWindow/Pages/ButtonRow/HBoxContainer" instance=ExtResource("1_mmax0")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_vf485")
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/HBoxContainer/BtnSaveChanges"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_vwcfa")
+theme_override_font_sizes/font_size = 23
+text = "Save
+edits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnRevertChanges" parent="EditWindow/Pages/ButtonRow/HBoxContainer" instance=ExtResource("1_mmax0")]
+material = SubResource("ShaderMaterial_hieqi")
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_vertical = 3
+sound_type = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/HBoxContainer/BtnRevertChanges"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_vwcfa")
+theme_override_font_sizes/font_size = 23
+text = "Discard
+edits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HostTabs" parent="EditWindow/Pages/ButtonRow" instance=ExtResource("5_dpxpj")]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/h_separation = 12
+columns = 4
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/ButtonRow/HostTabs" instance=ExtResource("6_u8t0k")]
+material = SubResource("ShaderMaterial_4etim")
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/HostTabs/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_vwcfa")
+theme_override_font_sizes/font_size = 20
+text = "Preview"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/ButtonRow/HostTabs" instance=ExtResource("6_u8t0k")]
+material = SubResource("ShaderMaterial_u6t4e")
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/HostTabs/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_vwcfa")
+theme_override_font_sizes/font_size = 20
+text = "Edit dialog"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SimpleWindow" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BtnEnableEditing" parent="SimpleWindow" instance=ExtResource("1_mmax0")]
+material = SubResource("ShaderMaterial_bfck4")
+custom_minimum_size = Vector2(192, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="SimpleWindow/BtnEnableEditing"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_vwcfa")
+theme_override_font_sizes/font_size = 23
+text = "Edit Host"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="text_changed" from="EditWindow/Pages/Presentation/ColorRect/HBoxContainer/HostNameTextEdit" to="." method="_on_host_name_text_edit_text_changed"]
+[connection signal="button_clicked" from="EditWindow/Pages/ButtonRow/HBoxContainer/BtnSaveChanges" to="." method="_on_btn_save_changes_button_clicked"]
+[connection signal="button_clicked" from="EditWindow/Pages/ButtonRow/HBoxContainer/BtnRevertChanges" to="." method="_on_btn_revert_changes_button_clicked"]
+[connection signal="selection" from="EditWindow/Pages/ButtonRow/HostTabs" to="." method="_on_host_tabs_selection"]
+[connection signal="button_clicked" from="SimpleWindow/BtnEnableEditing" to="." method="_on_btn_enable_editing_button_clicked"]

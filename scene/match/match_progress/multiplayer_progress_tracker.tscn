@@ -1,0 +1,339 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmbcbxylfwob0"]
+
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="1_6kqbf"]
+[ext_resource type="Script" uid="uid://bynvqlo11unk3" path="res://scene/match/match_progress/multiplayer_progress_tracker.gd" id="2_b0wbe"]
+[ext_resource type="Theme" uid="uid://cdsgtjckesa4h" path="res://graphic/theme/progress_bar.tres" id="2_ian87"]
+[ext_resource type="FontFile" uid="uid://xk6e70rw6fj1" path="res://graphic/font/Waukegan LDO Extended Bold.ttf" id="4_yiwce"]
+
+[sub_resource type="Gradient" id="Gradient_j4wnn"]
+offsets = PackedFloat32Array(0, 0.07, 0.16, 0.226667)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ku4u7"]
+gradient = SubResource("Gradient_j4wnn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xsy6q"]
+resource_local_to_scene = true
+shader = ExtResource("1_6kqbf")
+shader_parameter/palette = SubResource("GradientTexture1D_ku4u7")
+shader_parameter/node_size = Vector2(2.5, 1)
+shader_parameter/x_corner_margin = 0.25
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.25
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="MultiplayerProgressTracker" type="ColorRect"]
+material = SubResource("ShaderMaterial_xsy6q")
+custom_minimum_size = Vector2(544, 256)
+size_flags_horizontal = 4
+script = ExtResource("2_b0wbe")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 104
+
+[node name="Bars" type="HBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(0.65098, 0.941176, 1, 1)
+custom_minimum_size = Vector2(439, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 3
+
+[node name="Panel1" type="Panel" parent="MarginContainer/Bars"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel2" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel3" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel4" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel5" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel6" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel7" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel8" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel9" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel10" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel11" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel12" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel13" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel14" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel15" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel16" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel17" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel18" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel19" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel20" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel21" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel22" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel23" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel24" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel25" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel26" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel27" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel28" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel29" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel30" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel31" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel32" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel33" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="Panel34" type="Panel" parent="MarginContainer/Bars"]
+visible = false
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme = ExtResource("2_ian87")
+
+[node name="GoalMarker" type="HBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(439, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 3
+
+[node name="Control" type="Control" parent="MarginContainer/GoalMarker"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+
+[node name="Panel22" type="Panel" parent="MarginContainer/GoalMarker"]
+modulate = Color(1, 1, 1, 0.501961)
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 156
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer2"]
+custom_minimum_size = Vector2(396, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0, 0, 0, 0)
+
+[node name="RoundImages" type="HBoxContainer" parent="MarginContainer2/ColorRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 72
+theme_override_constants/margin_bottom = 80
+
+[node name="Label" type="Label" parent="MarginContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_yiwce")
+theme_override_font_sizes/font_size = 72
+text = "0.00%"
+vertical_alignment = 1

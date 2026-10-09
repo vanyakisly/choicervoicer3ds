@@ -1,0 +1,117 @@
+[gd_scene load_steps=11 format=3 uid="uid://b8m0cl2cdi7cl"]
+
+[ext_resource type="Script" uid="uid://y412l4elkogc" path="res://scenes/nav_specific/settings_blocks/display_settings_block.gd" id="1_wqure"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="2_nhbbp"]
+
+[sub_resource type="Gradient" id="Gradient_y1bd6"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_y1bd6")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_irkhr"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_irkhr")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="Theme" id="Theme_lu5gx"]
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("2_nhbbp")
+
+[node name="DisplaySettingsBlock" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_lu5gx")
+script = ExtResource("1_wqure")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Window Mode"
+horizontal_alignment = 2
+
+[node name="OptionMode" type="OptionButton" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 32)
+layout_mode = 2
+clip_text = true
+
+[node name="LblResolution" type="Label" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Window Resolution"
+horizontal_alignment = 2
+
+[node name="OptionResolution" type="OptionButton" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+clip_text = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ChkSnapWindowCenter" type="CheckButton" parent="VBoxContainer/HBoxContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+text = "Center window on resize"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "[When the window is resized, it will center to the monitor]"
+
+[connection signal="item_selected" from="VBoxContainer/GridContainer/OptionMode" to="." method="_set_window_mode"]
+[connection signal="item_selected" from="VBoxContainer/GridContainer/OptionResolution" to="." method="_set_resolution"]

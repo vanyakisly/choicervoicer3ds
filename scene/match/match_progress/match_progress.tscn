@@ -1,0 +1,383 @@
+[gd_scene load_steps=21 format=3 uid="uid://bxm3bmsrecoex"]
+
+[ext_resource type="Shader" uid="uid://d2ek43c4pq8wd" path="res://graphic/shader/psp_waves.gdshader" id="1_aqrue"]
+[ext_resource type="Script" uid="uid://j5ubmi7ojjlm" path="res://scene/match/match_progress/match_progress.gd" id="1_kwnou"]
+[ext_resource type="FontFile" uid="uid://dhl33r7hfv4bn" path="res://graphic/font/Rounded Elegance.ttf" id="2_rl66o"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="3_ew7sr"]
+[ext_resource type="Texture2D" uid="uid://di4lswjgvv8hw" path="res://graphic/image/cv_temp_preview_icon.png" id="4_cfntq"]
+[ext_resource type="PackedScene" uid="uid://dmbcbxylfwob0" path="res://scene/match/match_progress/multiplayer_progress_tracker.tscn" id="5_3tacq"]
+[ext_resource type="AudioStream" uid="uid://co3b76lmw4ule" path="res://audio/sfx/percentage_blip.wav" id="6_fuyae"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dr7hx"]
+shader = ExtResource("1_aqrue")
+shader_parameter/kolor = Color(0, 0.694118, 0.929412, 1)
+
+[sub_resource type="Gradient" id="Gradient_1td7e"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.454902)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_icpe2"]
+gradient = SubResource("Gradient_1td7e")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jd3nc"]
+shader = ExtResource("3_ew7sr")
+shader_parameter/palette = SubResource("GradientTexture1D_icpe2")
+shader_parameter/node_size = Vector2(108, 108)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 0.82
+shader_parameter/y_corner_margin = 0.278
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_dsvq0"]
+offsets = PackedFloat32Array(0.06, 0.29)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tbnrn"]
+gradient = SubResource("Gradient_dsvq0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0x588"]
+shader = ExtResource("3_ew7sr")
+shader_parameter/palette = SubResource("GradientTexture1D_tbnrn")
+shader_parameter/node_size = Vector2(1258, 100)
+shader_parameter/x_corner_margin = 0.4
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.4
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_j4wnn"]
+offsets = PackedFloat32Array(0, 0.07, 0.16, 0.226667)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ku4u7"]
+gradient = SubResource("Gradient_j4wnn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a3n64"]
+resource_local_to_scene = true
+shader = ExtResource("3_ew7sr")
+shader_parameter/palette = SubResource("GradientTexture1D_ku4u7")
+shader_parameter/node_size = Vector2(2.5, 1)
+shader_parameter/x_corner_margin = 0.25
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.25
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c326p"]
+resource_local_to_scene = true
+shader = ExtResource("3_ew7sr")
+shader_parameter/palette = SubResource("GradientTexture1D_ku4u7")
+shader_parameter/node_size = Vector2(2.5, 1)
+shader_parameter/x_corner_margin = 0.25
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.25
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1q1yi"]
+resource_local_to_scene = true
+shader = ExtResource("3_ew7sr")
+shader_parameter/palette = SubResource("GradientTexture1D_ku4u7")
+shader_parameter/node_size = Vector2(2.5, 1)
+shader_parameter/x_corner_margin = 0.25
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.25
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l82wp"]
+resource_local_to_scene = true
+shader = ExtResource("3_ew7sr")
+shader_parameter/palette = SubResource("GradientTexture1D_ku4u7")
+shader_parameter/node_size = Vector2(2.5, 1)
+shader_parameter/x_corner_margin = 0.25
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.25
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="MatchProgress" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kwnou")
+
+[node name="Background" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.737255, 0.811765, 1, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Background"]
+material = SubResource("ShaderMaterial_dr7hx")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BgVideo" type="VideoStreamPlayer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand = true
+loop = true
+bus = &"Mute"
+
+[node name="Vertical" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="b" type="Control" parent="Vertical"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="LblRound" type="RichTextLabel" parent="Vertical"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_fonts/normal_font = ExtResource("2_rl66o")
+theme_override_font_sizes/normal_font_size = 74
+bbcode_enabled = true
+text = "[center]Round 1[font_size=24] / 3"
+
+[node name="ColorRect" type="ColorRect" parent="Vertical/LblRound"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_jd3nc")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Vertical"]
+visible = false
+material = SubResource("ShaderMaterial_0x588")
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Vertical/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Vertical/ColorRect/MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Vertical/ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_cfntq")
+expand_mode = 3
+
+[node name="MultiplayerTrackers" type="GridContainer" parent="Vertical"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="MultiplayerProgressTracker" parent="Vertical/MultiplayerTrackers" instance=ExtResource("5_3tacq")]
+material = SubResource("ShaderMaterial_a3n64")
+layout_mode = 2
+
+[node name="MultiplayerProgressTracker2" parent="Vertical/MultiplayerTrackers" instance=ExtResource("5_3tacq")]
+material = SubResource("ShaderMaterial_c326p")
+layout_mode = 2
+contestant_index = 1
+
+[node name="MultiplayerProgressTracker3" parent="Vertical/MultiplayerTrackers" instance=ExtResource("5_3tacq")]
+material = SubResource("ShaderMaterial_1q1yi")
+layout_mode = 2
+contestant_index = 2
+
+[node name="MultiplayerProgressTracker4" parent="Vertical/MultiplayerTrackers" instance=ExtResource("5_3tacq")]
+material = SubResource("ShaderMaterial_l82wp")
+layout_mode = 2
+contestant_index = 3
+
+[node name="MasterBlip" type="AudioStreamPlayer" parent="Vertical"]
+unique_name_in_owner = true
+stream = ExtResource("6_fuyae")
+volume_db = -6.0
+bus = &"SfxUnsort"
+
+[node name="FinalBlip" type="AudioStreamPlayer" parent="Vertical"]
+unique_name_in_owner = true
+stream = ExtResource("6_fuyae")
+volume_db = -3.0
+bus = &"SfxUnsort"
+
+[connection signal="attempt_blip" from="Vertical/MultiplayerTrackers/MultiplayerProgressTracker" to="." method="_attempt_blip"]
+[connection signal="final_blip" from="Vertical/MultiplayerTrackers/MultiplayerProgressTracker" to="." method="_final_blip"]
+[connection signal="attempt_blip" from="Vertical/MultiplayerTrackers/MultiplayerProgressTracker2" to="." method="_attempt_blip"]
+[connection signal="final_blip" from="Vertical/MultiplayerTrackers/MultiplayerProgressTracker2" to="." method="_final_blip"]
+[connection signal="attempt_blip" from="Vertical/MultiplayerTrackers/MultiplayerProgressTracker3" to="." method="_attempt_blip"]
+[connection signal="final_blip" from="Vertical/MultiplayerTrackers/MultiplayerProgressTracker3" to="." method="_final_blip"]
+[connection signal="attempt_blip" from="Vertical/MultiplayerTrackers/MultiplayerProgressTracker4" to="." method="_attempt_blip"]
+[connection signal="final_blip" from="Vertical/MultiplayerTrackers/MultiplayerProgressTracker4" to="." method="_final_blip"]

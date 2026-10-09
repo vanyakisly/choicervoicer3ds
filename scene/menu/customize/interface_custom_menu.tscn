@@ -1,0 +1,1543 @@
+[gd_scene load_steps=46 format=3 uid="uid://bd17lh5fadm8l"]
+
+[ext_resource type="Script" uid="uid://bp7ukl2mq4s60" path="res://scene/menu/customize/interface_custom_menu.gd" id="1_1s1jt"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="3_cowp5"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="4_u0mi2"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="5_23j3x"]
+[ext_resource type="Texture2D" uid="uid://brshc1xninagf" path="res://graphic/gradient/black_double_border.tres" id="7_fyq7m"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="8_1ctdd"]
+[ext_resource type="PackedScene" uid="uid://ce6q8ropmbfnl" path="res://scene/module/button/button_array.tscn" id="8_4jr3f"]
+[ext_resource type="PackedScene" uid="uid://crdfmdg5fnvkq" path="res://scene/module/button/button_cv_small.tscn" id="9_1wsot"]
+[ext_resource type="Texture2D" uid="uid://dli323vaiipcm" path="res://graphic/gradient/button_bubble.tres" id="9_23xg1"]
+[ext_resource type="Shader" uid="uid://4ga3dmidbqgy" path="res://graphic/shader/small_button.gdshader" id="10_1dwic"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sipco"]
+shader = ExtResource("4_u0mi2")
+shader_parameter/palette = ExtResource("7_fyq7m")
+shader_parameter/node_size = Vector2(528, 472)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_w3cb6"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ox7a6"]
+gradient = SubResource("Gradient_w3cb6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_58ygg"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dohi2"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rj5pi"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m5k2x"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_orejx"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0tdv6"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcuaq"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bdcru"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7l83h"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4wqsc"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wa0en"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jah6b"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6o5ul"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pcd2p"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ngda"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcsvt"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l8jxa"]
+resource_local_to_scene = true
+shader = ExtResource("4_u0mi2")
+shader_parameter/palette = ExtResource("9_23xg1")
+shader_parameter/node_size = Vector2(224, 64)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.486275)
+shader_parameter/center_falloff = 0.457
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.925
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = -0.34
+shader_parameter/center_y_scale = 0.57
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rmlg3"]
+resource_local_to_scene = true
+shader = ExtResource("4_u0mi2")
+shader_parameter/palette = ExtResource("9_23xg1")
+shader_parameter/node_size = Vector2(224, 64)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.486275)
+shader_parameter/center_falloff = 0.457
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.925
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = -0.34
+shader_parameter/center_y_scale = 0.57
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jkxt3"]
+resource_local_to_scene = true
+shader = ExtResource("4_u0mi2")
+shader_parameter/palette = ExtResource("9_23xg1")
+shader_parameter/node_size = Vector2(224, 64)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.486275)
+shader_parameter/center_falloff = 0.457
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.925
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = -0.34
+shader_parameter/center_y_scale = 0.57
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hg6rt"]
+resource_local_to_scene = true
+shader = ExtResource("4_u0mi2")
+shader_parameter/palette = ExtResource("9_23xg1")
+shader_parameter/node_size = Vector2(224, 64)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.486275)
+shader_parameter/center_falloff = 0.457
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.925
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = -0.34
+shader_parameter/center_y_scale = 0.57
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xlm7h"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_obunm"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rrr2h"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_ox7a6")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="Gradient" id="Gradient_nqkga"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ve5xe"]
+gradient = SubResource("Gradient_nqkga")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vf485"]
+resource_local_to_scene = true
+shader = ExtResource("4_u0mi2")
+shader_parameter/palette = SubResource("GradientTexture1D_ve5xe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hieqi"]
+resource_local_to_scene = true
+shader = ExtResource("4_u0mi2")
+shader_parameter/palette = SubResource("GradientTexture1D_ve5xe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mp33m"]
+resource_local_to_scene = true
+shader = ExtResource("4_u0mi2")
+shader_parameter/palette = SubResource("GradientTexture1D_ve5xe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_lpa3x"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hbxfj"]
+gradient = SubResource("Gradient_lpa3x")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x1c1f"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_hbxfj")
+shader_parameter/node_size = Vector2(64, 56)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6dmj5"]
+resource_local_to_scene = true
+shader = ExtResource("10_1dwic")
+shader_parameter/palette = SubResource("GradientTexture1D_hbxfj")
+shader_parameter/node_size = Vector2(64, 56)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[node name="InterfaceCustomMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+mouse_filter = 2
+script = ExtResource("1_1s1jt")
+oveep = 3
+
+[node name="EditWindow" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Pages" type="VBoxContainer" parent="EditWindow"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="MenuConfigPanel" type="ColorRect" parent="EditWindow/Pages"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_sipco")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="EditWindow/Pages/MenuConfigPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Overview" type="VBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Title" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+theme_override_font_sizes/font_size = 24
+text = "Menu Configuration"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+visible = false
+layout_mode = 2
+
+[node name="Background" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Background"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = " Background"
+
+[node name="BtnArrayBackground" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Background" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 2
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Background/BtnArrayBackground" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_58ygg")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Background/BtnArrayBackground/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Scroll"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Background/BtnArrayBackground" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_dohi2")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Background/BtnArrayBackground/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Fit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Background"]
+visible = false
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+layout_mode = 2
+
+[node name="Border" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Border"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = " Overlay"
+
+[node name="BtnArrayBorder" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Border" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 2
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Border/BtnArrayBorder" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_rj5pi")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Border/BtnArrayBorder/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Show"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Border/BtnArrayBorder" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_m5k2x")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Border/BtnArrayBorder/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClrLetterbox1" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Border"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+edit_alpha = false
+
+[node name="HSeparator9" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+layout_mode = 2
+
+[node name="Letterbox" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = " Letterbox"
+
+[node name="BtnArrayLetterbox" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 2
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox/BtnArrayLetterbox" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_orejx")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox/BtnArrayLetterbox/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Show"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox/BtnArrayLetterbox" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_0tdv6")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox/BtnArrayLetterbox/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClrLetterbox1" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+edit_alpha = false
+
+[node name="ClrLetterbox2" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+edit_alpha = false
+
+[node name="HSeparator3" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+layout_mode = 2
+
+[node name="TopGradient" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = " Top Gradient"
+
+[node name="BtnArrayTopGradient" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 2
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient/BtnArrayTopGradient" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_rcuaq")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient/BtnArrayTopGradient/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Show"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient/BtnArrayTopGradient" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_bdcru")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient/BtnArrayTopGradient/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClrTopGradient" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator4" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+layout_mode = 2
+
+[node name="BottomGradient" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = " Bottom
+ Gradient"
+
+[node name="BtnArrayBottomGradient" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 2
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient/BtnArrayBottomGradient" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_7l83h")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient/BtnArrayBottomGradient/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Show"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient/BtnArrayBottomGradient" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_4wqsc")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient/BtnArrayBottomGradient/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClrBottomGradient" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator5" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+layout_mode = 2
+
+[node name="Circles" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = " Circles"
+
+[node name="BtnArrayCircles" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 2
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles/BtnArrayCircles" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_wa0en")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles/BtnArrayCircles/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Show"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles/BtnArrayCircles" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_jah6b")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles/BtnArrayCircles/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClrCircles" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator6" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+layout_mode = 2
+
+[node name="Waves" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = " Waves"
+
+[node name="BtnArrayWaves" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 2
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves/BtnArrayWaves" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_6o5ul")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves/BtnArrayWaves/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Show"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves/BtnArrayWaves" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_pcd2p")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves/BtnArrayWaves/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClrWaves" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator7" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = " Buttons"
+
+[node name="BtnArrayButtons" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 2
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons/BtnArrayButtons" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_0ngda")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons/BtnArrayButtons/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Standard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons/BtnArrayButtons" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_rcsvt")
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons/BtnArrayButtons/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Inverted"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClrButtons1" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+edit_alpha = false
+
+[node name="ClrButtons2" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+edit_alpha = false
+
+[node name="Options" type="VBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = "Button Sounds"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnPlaySelect" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer" instance=ExtResource("3_cowp5")]
+material = SubResource("ShaderMaterial_l8jxa")
+custom_minimum_size = Vector2(224, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+button_type = 4
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label2" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer/BtnPlaySelect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "▶ button_sfx_select"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnPlayBack" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer" instance=ExtResource("3_cowp5")]
+material = SubResource("ShaderMaterial_rmlg3")
+custom_minimum_size = Vector2(224, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+button_type = 4
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label2" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer/BtnPlayBack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "▶ button_sfx_back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnPlayDecrease" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer2" instance=ExtResource("3_cowp5")]
+material = SubResource("ShaderMaterial_jkxt3")
+custom_minimum_size = Vector2(224, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+button_type = 4
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label2" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer2/BtnPlayDecrease"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "▶ button_sfx_decrease"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnPlayHover" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer2" instance=ExtResource("3_cowp5")]
+material = SubResource("ShaderMaterial_hg6rt")
+custom_minimum_size = Vector2(224, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+button_type = 4
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label2" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer2/BtnPlayHover"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "▶ button_sfx_hover"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = "Scrolling speed"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = "Horizontal"
+horizontal_alignment = 2
+
+[node name="SpinHorizontal" type="SpinBox" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = -20.0
+max_value = 20.0
+step = 0.1
+value = 0.3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = "Vertical"
+horizontal_alignment = 2
+
+[node name="SpinVertical" type="SpinBox" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = -20.0
+max_value = 20.0
+step = 0.1
+value = 0.2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = "unseen_image"
+horizontal_alignment = 1
+
+[node name="ImgUnseenImage" type="TextureRect" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer4/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer4/VBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = "no_image"
+horizontal_alignment = 1
+
+[node name="ImgNoImage" type="TextureRect" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer4/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HSeparator2" type="HSeparator" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options"]
+layout_mode = 2
+
+[node name="SpinDisc" type="HBoxContainer" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_23j3x")
+text = "Clip Disc"
+
+[node name="BtnArrayDisc" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc" instance=ExtResource("8_4jr3f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+columns = 4
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc/BtnArrayDisc" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_xlm7h")
+custom_minimum_size = Vector2(84, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc/BtnArrayDisc/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc/BtnArrayDisc" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_obunm")
+custom_minimum_size = Vector2(84, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc/BtnArrayDisc/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Clips"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall3" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc/BtnArrayDisc" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_rrr2h")
+custom_minimum_size = Vector2(84, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc/BtnArrayDisc/ButtonCVSmall3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Circles"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClrSpinDisc" type="ColorPickerButton" parent="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+edit_alpha = false
+
+[node name="ButtonRow" type="HBoxContainer" parent="EditWindow/Pages"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditWindow/Pages/ButtonRow"]
+layout_mode = 2
+
+[node name="BtnSaveChanges" parent="EditWindow/Pages/ButtonRow/HBoxContainer" instance=ExtResource("3_cowp5")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_vf485")
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/HBoxContainer/BtnSaveChanges"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 23
+text = "Save
+edits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnRevertChanges" parent="EditWindow/Pages/ButtonRow/HBoxContainer" instance=ExtResource("3_cowp5")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_hieqi")
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_vertical = 3
+sound_type = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/HBoxContainer/BtnRevertChanges"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 23
+text = "Discard
+edits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnViewBackground" parent="EditWindow/Pages/ButtonRow/HBoxContainer" instance=ExtResource("3_cowp5")]
+material = SubResource("ShaderMaterial_mp33m")
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/HBoxContainer/BtnViewBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 23
+text = "View
+Background"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JudgesTabs" parent="EditWindow/Pages/ButtonRow" instance=ExtResource("8_4jr3f")]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/h_separation = 12
+columns = 4
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/Pages/ButtonRow/JudgesTabs" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_x1c1f")
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/JudgesTabs/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Page1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/Pages/ButtonRow/JudgesTabs" instance=ExtResource("9_1wsot")]
+material = SubResource("ShaderMaterial_6dmj5")
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="EditWindow/Pages/ButtonRow/JudgesTabs/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_1ctdd")
+theme_override_font_sizes/font_size = 20
+text = "Page2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Background/BtnArrayBackground" to="." method="_on_btn_array_selection"]
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Border/BtnArrayBorder" to="." method="_on_btn_array_selection"]
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox/BtnArrayLetterbox" to="." method="_on_btn_array_selection"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox/ClrLetterbox1" to="." method="_on_clr_color_changed"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Letterbox/ClrLetterbox2" to="." method="_on_clr_color_changed"]
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient/BtnArrayTopGradient" to="." method="_on_btn_array_selection"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/TopGradient/ClrTopGradient" to="." method="_on_clr_color_changed"]
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient/BtnArrayBottomGradient" to="." method="_on_btn_array_selection"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/BottomGradient/ClrBottomGradient" to="." method="_on_clr_color_changed"]
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles/BtnArrayCircles" to="." method="_on_btn_array_selection"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Circles/ClrCircles" to="." method="_on_clr_color_changed"]
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves/BtnArrayWaves" to="." method="_on_btn_array_selection"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Waves/ClrWaves" to="." method="_on_clr_color_changed"]
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons/BtnArrayButtons" to="." method="_on_btn_array_selection"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons/ClrButtons1" to="." method="_on_clr_color_changed"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Overview/Buttons/ClrButtons2" to="." method="_on_clr_color_changed"]
+[connection signal="button_clicked" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer/BtnPlaySelect" to="." method="_on_btn_play_select_button_clicked"]
+[connection signal="button_clicked" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer/BtnPlayBack" to="." method="_on_btn_play_back_button_clicked"]
+[connection signal="button_clicked" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer2/BtnPlayDecrease" to="." method="_on_btn_play_decrease_button_clicked"]
+[connection signal="button_clicked" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer2/BtnPlayHover" to="." method="_on_btn_play_hover_button_clicked"]
+[connection signal="value_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3/VBoxContainer/HBoxContainer/SpinHorizontal" to="." method="_on_spin_value_changed"]
+[connection signal="value_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/HBoxContainer3/VBoxContainer/HBoxContainer2/SpinVertical" to="." method="_on_spin_value_changed"]
+[connection signal="selection" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc/BtnArrayDisc" to="." method="_on_btn_array_selection"]
+[connection signal="color_changed" from="EditWindow/Pages/MenuConfigPanel/MarginContainer/Options/SpinDisc/ClrSpinDisc" to="." method="_on_clr_color_changed"]
+[connection signal="button_clicked" from="EditWindow/Pages/ButtonRow/HBoxContainer/BtnSaveChanges" to="." method="_on_btn_save_changes_button_clicked"]
+[connection signal="button_clicked" from="EditWindow/Pages/ButtonRow/HBoxContainer/BtnRevertChanges" to="." method="_on_btn_revert_changes_button_clicked"]
+[connection signal="button_clicked" from="EditWindow/Pages/ButtonRow/HBoxContainer/BtnViewBackground" to="." method="_on_btn_view_background_button_clicked"]
+[connection signal="selection" from="EditWindow/Pages/ButtonRow/JudgesTabs" to="." method="_on_judges_tabs_selection"]

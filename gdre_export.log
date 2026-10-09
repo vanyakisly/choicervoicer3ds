@@ -1,0 +1,33 @@
+GDRE Tools v2.7.0
+Windows 10.0.26100, NVIDIA GeForce RTX 3080, vulkan
+Opening file: C:/TestFile/TheChoicerVoicer_0-5-3 standard.exe
+Loaded 399 imported files
+Detected Engine Version: 4.4.1
+Detected Bytecode Revision: 4.3.0-stable (77af6ca)
+Verified 975 files, no errors detected!
+Extracted 975 files, no errors detected!
+Saved project config.
+
+
+********************************EXPORT REPORT********************************
+
+Totals:                                 
+Decompiled scripts:                     226
+Scripts not decompiled:                 0
+Imported resources for export session:  399
+Successfully converted:                 399
+Lossy:                                  23
+Rewrote metadata:                       173
+Non-importable conversions:             0
+Not converted:                          0
+Failed conversions:                     0
+-------------
+
+
+
+------------------------------------------------------------------------------------
+
+Use Godot editor version 4.4.1 to edit the project.
+
+*******************************************************************************
+

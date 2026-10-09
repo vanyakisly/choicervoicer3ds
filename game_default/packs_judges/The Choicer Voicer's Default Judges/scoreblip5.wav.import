@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://xav6dbl58lc1"
+path="res://.godot/imported/scoreblip5.wav-91f60f9cd46ab45a98e0531c773673e9.sample"
+
+[deps]
+
+source_file="res://game_default/packs_judges/The Choicer Voicer's Default Judges/scoreblip5.wav"
+dest_files=["res://.godot/imported/scoreblip5.wav-91f60f9cd46ab45a98e0531c773673e9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=0
+compress/mode=0

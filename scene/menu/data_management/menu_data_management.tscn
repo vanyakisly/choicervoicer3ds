@@ -1,0 +1,760 @@
+[gd_scene load_steps=26 format=3 uid="uid://c1yd8iqnhlpoy"]
+
+[ext_resource type="Script" uid="uid://ditlwjscfclac" path="res://scene/menu/data_management/menu_data_management.gd" id="1_vcj0l"]
+[ext_resource type="Script" uid="uid://cgbfs5yb7iy60" path="res://resource/menu_data.gd" id="2_2708i"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="3_4pfu4"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="4_kx048"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="5_fseip"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="5_oqdli"]
+[ext_resource type="PackedScene" uid="uid://dmwb03lrmo15r" path="res://scene/module/button/outline.tscn" id="6_frmf7"]
+
+[sub_resource type="Resource" id="Resource_shgfj"]
+script = ExtResource("2_2708i")
+back_path = &"extras/menu_extras"
+slide_hint = PackedStringArray("Main Menu", "Extras", "Data Management")
+type = 0
+assume_path = true
+
+[sub_resource type="Gradient" id="Gradient_gqbsb"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rdbwe"]
+gradient = SubResource("Gradient_gqbsb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wsvts"]
+resource_local_to_scene = true
+shader = ExtResource("4_kx048")
+shader_parameter/palette = SubResource("GradientTexture1D_rdbwe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jswim"]
+resource_local_to_scene = true
+shader = ExtResource("4_kx048")
+shader_parameter/palette = SubResource("GradientTexture1D_rdbwe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Shader" id="Shader_x8xlh"]
+code = "shader_type canvas_item;
+
+uniform sampler2D palette;
+uniform vec2 node_size = vec2(1.0, 1.0);
+//uniform float shader_size : hint_range(0.0, 1.0) = 1.0;
+uniform float x_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float x_shift = 0.0;
+uniform float x_scale = 1.0;
+uniform float y_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float y_shift = 0.0;
+uniform float y_scale = 1.0;
+uniform bool dont_merge_black = true;
+
+group_uniforms Center_Detail;
+uniform bool use_center_detail = false;
+uniform vec4 center_color : source_color = vec4(1.0);
+uniform float center_falloff : hint_range(0.0, 2.0) = 1.0;
+uniform float center_x_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float center_x_shift = 0.0;
+uniform float center_x_scale = 1.0;
+uniform float center_y_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float center_y_shift = 0.0;
+uniform float center_y_scale = 1.0;
+
+group_uniforms Reflection;
+uniform bool use_reflection = false;
+uniform vec4 reflection_color : source_color = vec4(1.0);
+uniform float reflection_falloff : hint_range(0.0, 2.0) = 1.0;
+uniform float reflection_x_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float reflection_x_shift = 0.0;
+uniform float reflection_x_scale = 1.0;
+uniform float reflection_y_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float reflection_y_shift = 0.0;
+uniform float reflection_y_scale = 1.0;
+
+
+vec4 merge(vec4 first, vec4 second, float factor) {
+	// The factor is generally anticipated to be the alpha of the second value, but is not necessary
+	if (dont_merge_black && first.xyz == vec3(0.0) && first.a > 0.0) {
+		return vec4(vec3(0.0), first.a);
+	}
+	return first * (1.0 - factor) + vec4(second.r, second.g, second.b, first.a) * factor;
+}
+
+
+float shift_scale_mirror(float canvas_value, float margin, float shift, float scale) {
+	canvas_value -= shift;
+	float pin = 0.5;
+	canvas_value -= pin;
+	canvas_value /= scale;
+	canvas_value += pin;
+	
+	if (canvas_value > margin) {
+		canvas_value = 1.0 - canvas_value;
+	}
+	canvas_value /= margin;
+	canvas_value = clamp(canvas_value, 0.0, 1.0);
+	return canvas_value;
+}
+
+
+vec2 vec2_shift_scale_mirror(vec2 canvas, vec2 margin, vec2 shift, vec2 scale) {
+	canvas.x = shift_scale_mirror(canvas.x, margin.x, shift.x, scale.x);
+	canvas.y = shift_scale_mirror(canvas.y, margin.y, shift.y, scale.y);
+	canvas = clamp(vec2(1.0 - length(canvas - vec2(1.0))), 0.0, 1.0);
+	return canvas;
+}
+
+
+void fragment() {
+	float aspect = node_size.x / node_size.y;
+	vec2 st = UV;
+	
+	// Apply transformations	
+	st = vec2_shift_scale_mirror(st, vec2(x_corner_margin / aspect, y_corner_margin), vec2(x_shift, y_shift), vec2(x_scale, y_scale));
+	vec4 gradient = textureLod(palette, st, 0.0);
+	
+	// Apply center detail
+	if (use_center_detail) {
+		vec2 center = vec2_shift_scale_mirror(UV, vec2(center_x_corner_margin / aspect, center_y_corner_margin), 
+				vec2(center_x_shift, center_y_shift), vec2(center_x_scale, center_y_scale));
+		float value = smoothstep(0.0, center_falloff, center.x); // ???
+		gradient = merge(gradient, center_color, value * center_color.a); 
+	}
+	
+	// Apply reflection
+	if (use_reflection) {
+		vec2 reflection = vec2_shift_scale_mirror(UV, vec2(reflection_x_corner_margin / aspect, reflection_y_corner_margin), 
+				vec2(reflection_x_shift, reflection_y_shift), vec2(reflection_x_scale, reflection_y_scale));
+		float value = smoothstep(0.0, reflection_falloff, reflection.x); // ???
+		gradient = merge(gradient, reflection_color, value * reflection_color.a); 
+	}
+	
+	COLOR = gradient;
+}"
+
+[sub_resource type="Gradient" id="Gradient_doen4"]
+offsets = PackedFloat32Array(0, 0.0347395, 0.215881)
+colors = PackedColorArray(0.325441, 0.325441, 0.325441, 0, 0.370364, 0.370365, 0.370364, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0tbby"]
+gradient = SubResource("Gradient_doen4")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1nvww"]
+shader = SubResource("Shader_x8xlh")
+shader_parameter/palette = SubResource("GradientTexture1D_0tbby")
+shader_parameter/node_size = Vector2(384, 492)
+shader_parameter/x_corner_margin = 0.05
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.05
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ljke1"]
+resource_local_to_scene = true
+shader = ExtResource("4_kx048")
+shader_parameter/palette = SubResource("GradientTexture1D_rdbwe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c4uxm"]
+resource_local_to_scene = true
+shader = ExtResource("4_kx048")
+shader_parameter/palette = SubResource("GradientTexture1D_rdbwe")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Shader" id="Shader_s8xbs"]
+code = "shader_type canvas_item;
+
+uniform sampler2D palette;
+uniform vec2 node_size = vec2(1.0, 1.0);
+//uniform float shader_size : hint_range(0.0, 1.0) = 1.0;
+uniform float x_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float x_shift = 0.0;
+uniform float x_scale = 1.0;
+uniform float y_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float y_shift = 0.0;
+uniform float y_scale = 1.0;
+uniform bool dont_merge_black = true;
+
+group_uniforms Center_Detail;
+uniform bool use_center_detail = false;
+uniform vec4 center_color : source_color = vec4(1.0);
+uniform float center_falloff : hint_range(0.0, 2.0) = 1.0;
+uniform float center_x_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float center_x_shift = 0.0;
+uniform float center_x_scale = 1.0;
+uniform float center_y_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float center_y_shift = 0.0;
+uniform float center_y_scale = 1.0;
+
+group_uniforms Reflection;
+uniform bool use_reflection = false;
+uniform vec4 reflection_color : source_color = vec4(1.0);
+uniform float reflection_falloff : hint_range(0.0, 2.0) = 1.0;
+uniform float reflection_x_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float reflection_x_shift = 0.0;
+uniform float reflection_x_scale = 1.0;
+uniform float reflection_y_corner_margin : hint_range(0.0, 0.5) = 0.25;
+uniform float reflection_y_shift = 0.0;
+uniform float reflection_y_scale = 1.0;
+
+
+vec4 merge(vec4 first, vec4 second, float factor) {
+	// The factor is generally anticipated to be the alpha of the second value, but is not necessary
+	if (dont_merge_black && first.xyz == vec3(0.0) && first.a > 0.0) {
+		return vec4(vec3(0.0), first.a);
+	}
+	return first * (1.0 - factor) + vec4(second.r, second.g, second.b, first.a) * factor;
+}
+
+
+float shift_scale_mirror(float canvas_value, float margin, float shift, float scale) {
+	canvas_value -= shift;
+	float pin = 0.5;
+	canvas_value -= pin;
+	canvas_value /= scale;
+	canvas_value += pin;
+	
+	if (canvas_value > margin) {
+		canvas_value = 1.0 - canvas_value;
+	}
+	canvas_value /= margin;
+	canvas_value = clamp(canvas_value, 0.0, 1.0);
+	return canvas_value;
+}
+
+
+vec2 vec2_shift_scale_mirror(vec2 canvas, vec2 margin, vec2 shift, vec2 scale) {
+	canvas.x = shift_scale_mirror(canvas.x, margin.x, shift.x, scale.x);
+	canvas.y = shift_scale_mirror(canvas.y, margin.y, shift.y, scale.y);
+	canvas = clamp(vec2(1.0 - length(canvas - vec2(1.0))), 0.0, 1.0);
+	return canvas;
+}
+
+
+void fragment() {
+	float aspect = node_size.x / node_size.y;
+	vec2 st = UV;
+	
+	// Apply transformations	
+	st = vec2_shift_scale_mirror(st, vec2(x_corner_margin / aspect, y_corner_margin), vec2(x_shift, y_shift), vec2(x_scale, y_scale));
+	vec4 gradient = textureLod(palette, st, 0.0);
+	
+	// Apply center detail
+	if (use_center_detail) {
+		vec2 center = vec2_shift_scale_mirror(UV, vec2(center_x_corner_margin / aspect, center_y_corner_margin), 
+				vec2(center_x_shift, center_y_shift), vec2(center_x_scale, center_y_scale));
+		float value = smoothstep(0.0, center_falloff, center.x); // ???
+		gradient = merge(gradient, center_color, value * center_color.a); 
+	}
+	
+	// Apply reflection
+	if (use_reflection) {
+		vec2 reflection = vec2_shift_scale_mirror(UV, vec2(reflection_x_corner_margin / aspect, reflection_y_corner_margin), 
+				vec2(reflection_x_shift, reflection_y_shift), vec2(reflection_x_scale, reflection_y_scale));
+		float value = smoothstep(0.0, reflection_falloff, reflection.x); // ???
+		gradient = merge(gradient, reflection_color, value * reflection_color.a); 
+	}
+	
+	COLOR = gradient;
+}"
+
+[sub_resource type="Gradient" id="Gradient_fpx12"]
+offsets = PackedFloat32Array(0, 0.0347395, 0.215881)
+colors = PackedColorArray(0.325441, 0.325441, 0.325441, 0, 0.370364, 0.370365, 0.370364, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i476l"]
+gradient = SubResource("Gradient_fpx12")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_muevk"]
+shader = SubResource("Shader_s8xbs")
+shader_parameter/palette = SubResource("GradientTexture1D_i476l")
+shader_parameter/node_size = Vector2(822, 492)
+shader_parameter/x_corner_margin = 0.05
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.05
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_okact"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_acqph"]
+gradient = SubResource("Gradient_okact")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_67x6k"]
+resource_local_to_scene = true
+shader = ExtResource("4_kx048")
+shader_parameter/palette = SubResource("GradientTexture1D_acqph")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="MenuDataManagement" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vcj0l")
+menu_data = SubResource("Resource_shgfj")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="b" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnRebindSeenVoices" parent="HBoxContainer/VBoxContainer" instance=ExtResource("3_4pfu4")]
+material = SubResource("ShaderMaterial_wsvts")
+custom_minimum_size = Vector2(287, 111)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/BtnRebindSeenVoices"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_fseip")
+theme_override_font_sizes/font_size = 30
+text = "Rebind Seen Clips"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Outline" parent="HBoxContainer/VBoxContainer/BtnRebindSeenVoices" instance=ExtResource("6_frmf7")]
+visible = false
+layout_mode = 1
+
+[node name="BtnDeleteClips" parent="HBoxContainer/VBoxContainer" instance=ExtResource("3_4pfu4")]
+material = SubResource("ShaderMaterial_jswim")
+custom_minimum_size = Vector2(287, 111)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/BtnDeleteClips"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_fseip")
+theme_override_font_sizes/font_size = 30
+text = "Hide Clips"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnSubtitleBatching" parent="HBoxContainer/VBoxContainer" instance=ExtResource("3_4pfu4")]
+visible = false
+material = SubResource("ShaderMaterial_jswim")
+custom_minimum_size = Vector2(287, 111)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/BtnSubtitleBatching"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_fseip")
+theme_override_font_sizes/font_size = 30
+text = "Voice Clip
+Subtitle Editing"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RebindControlPanel" type="ColorRect" parent="HBoxContainer"]
+visible = false
+material = SubResource("ShaderMaterial_1nvww")
+custom_minimum_size = Vector2(384, 492)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/RebindControlPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/RebindControlPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="DuplicateInstructions" type="VBoxContainer" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/DuplicateInstructions"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Your seen clips are saved as an absolute path to the clips. If a clip or its pack is moved, it will no longer be recognized as the same seen clip.
+
+Rebinding will look for the first clip among your packs with the same file name, and set that as the new absolute path.
+
+This action cannot is not recommended if you have clips with duplicate file names."
+fit_content = true
+
+[node name="b" type="Control" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/DuplicateInstructions"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnCheckForDupes" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/DuplicateInstructions" instance=ExtResource("3_4pfu4")]
+material = SubResource("ShaderMaterial_ljke1")
+custom_minimum_size = Vector2(256, 55)
+layout_mode = 2
+size_flags_horizontal = 4
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/DuplicateInstructions/BtnCheckForDupes"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_fseip")
+theme_override_font_sizes/font_size = 23
+text = "Check for duplicates"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RebindComplete" type="VBoxContainer" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="RebindCompleteText" type="RichTextLabel" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/RebindComplete"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Your seen voices are saved as an absolute path to the file. If the file or its pack is moved, it won't be recognized as the same.
+
+Rebinding seen voices will seek a clip with the same file name, and make that the new absolute path.
+
+This action cannot be done on clips that share a file name."
+fit_content = true
+autowrap_mode = 0
+
+[node name="b" type="Control" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/RebindComplete"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ConfirmRebind" type="VBoxContainer" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="ConfirmRebindText" type="RichTextLabel" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/ConfirmRebind"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Your seen voices are saved as an absolute path to the file. If the file or its pack is moved, it won't be recognized as the same.
+
+Rebinding seen voices will seek a clip with the same file name, and make that the new absolute path.
+
+This action cannot be done on clips that share a file name."
+fit_content = true
+
+[node name="b" type="Control" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/ConfirmRebind"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnConfirmRebind" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/ConfirmRebind" instance=ExtResource("3_4pfu4")]
+material = SubResource("ShaderMaterial_c4uxm")
+custom_minimum_size = Vector2(256, 55)
+layout_mode = 2
+size_flags_horizontal = 4
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/ConfirmRebind/BtnConfirmRebind"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_fseip")
+theme_override_font_sizes/font_size = 23
+text = "Begin Rebinding"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeleteControlPanel" type="ColorRect" parent="HBoxContainer"]
+visible = false
+material = SubResource("ShaderMaterial_muevk")
+custom_minimum_size = Vector2(822, 528)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/DeleteControlPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/DeleteControlPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/DeleteControlPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("5_oqdli")
+text = "Hide any of your seen voice clips from their packs, without having to go into the pack itself.
+Useful if you want to remove a single clip without spoiling the contents of the rest of its pack.
+Clips will be given the reserved prefix \"_ignore_\", which prevents the game from loading it."
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/DeleteControlPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DeletionButtonBegin" type="CenterContainer" parent="HBoxContainer/DeleteControlPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnGetListToDelete" parent="HBoxContainer/DeleteControlPanel/MarginContainer/VBoxContainer/DeletionButtonBegin" instance=ExtResource("3_4pfu4")]
+material = SubResource("ShaderMaterial_67x6k")
+custom_minimum_size = Vector2(256, 72)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer/DeleteControlPanel/MarginContainer/VBoxContainer/DeletionButtonBegin/BtnGetListToDelete"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_fseip")
+theme_override_font_sizes/font_size = 25
+text = "Get list"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeletionRetrievedList" type="ScrollContainer" parent="HBoxContainer/DeleteControlPanel/MarginContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(720, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/DeleteControlPanel/MarginContainer/VBoxContainer/DeletionRetrievedList"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 1
+
+[connection signal="button_clicked" from="HBoxContainer/VBoxContainer/BtnRebindSeenVoices" to="." method="_on_btn_rebind_seen_voices_button_clicked"]
+[connection signal="button_clicked" from="HBoxContainer/VBoxContainer/BtnDeleteClips" to="." method="_on_btn_delete_clips_button_clicked"]
+[connection signal="button_clicked" from="HBoxContainer/VBoxContainer/BtnSubtitleBatching" to="." method="_on_btn_delete_clips_button_clicked"]
+[connection signal="button_clicked" from="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/DuplicateInstructions/BtnCheckForDupes" to="." method="_on_btn_check_for_dupes_button_clicked"]
+[connection signal="button_clicked" from="HBoxContainer/RebindControlPanel/MarginContainer/ScrollContainer/VBoxContainer/ConfirmRebind/BtnConfirmRebind" to="." method="_on_btn_confirm_rebind_button_clicked"]
+[connection signal="button_clicked" from="HBoxContainer/DeleteControlPanel/MarginContainer/VBoxContainer/DeletionButtonBegin/BtnGetListToDelete" to="." method="_on_btn_get_list_to_delete_button_clicked"]

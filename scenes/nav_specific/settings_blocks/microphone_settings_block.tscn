@@ -1,0 +1,549 @@
+[gd_scene load_steps=37 format=3 uid="uid://crdl7rayvgk2t"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_vjjtd"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="2_irvc0"]
+[ext_resource type="Script" uid="uid://bokgkrsetqncn" path="res://scenes/nav_specific/settings_blocks/microphone_settings_block.gd" id="2_wfnim"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="3_d6bvk"]
+[ext_resource type="Script" uid="uid://c4asteir35d0c" path="res://scenes/audio/waveform_and_record/audio_interface_manager_bufferless.gd" id="3_ejlet"]
+[ext_resource type="Script" uid="uid://odetqqt2teia" path="res://scenes/audio/waveform_and_record/waveform_display.gd" id="5_ot2d8"]
+[ext_resource type="Script" uid="uid://3pqfbaadekmg" path="res://scenes/audio/waveform_and_record/waveform_viewport.gd" id="6_rufcw"]
+[ext_resource type="Texture2D" uid="uid://dw3cqacwfy06o" path="res://assets/images/textures/waveform_buffer.png" id="7_24rkv"]
+[ext_resource type="Script" uid="uid://db5v6fg7uvs6v" path="res://scenes/audio/waveform_and_record/waveform_drawer.gd" id="8_tvygc"]
+[ext_resource type="AudioStream" uid="uid://cam6732ssb5n3" path="res://assets/audio/functional/tone_delay_check_quieter.mp3" id="9_mgmmd"]
+[ext_resource type="Script" uid="uid://bvmkpp062yeeq" path="res://scenes/audio/waveform_and_record/spectrum_sample_collections/spectrum_aggregate_finite.gd" id="10_ejlet"]
+[ext_resource type="Script" uid="uid://dic1wxxagxna1" path="res://scenes/audio/waveform_and_record/spectrum_sample_collections/spectrum_aggregate_endless.gd" id="11_81evb"]
+[ext_resource type="Script" uid="uid://demxyf6l8cu1h" path="res://scenes/audio/waveform_and_record/audio_spectrum_sampler.gd" id="12_l1ram"]
+
+[sub_resource type="Gradient" id="Gradient_fp3f3"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_fp3f3")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_lr55t"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_lr55t")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iyit"]
+bg_color = Color(0.190762, 0.190762, 0.190762, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="Theme" id="Theme_k0yo7"]
+CheckButton/fonts/font = ExtResource("1_vjjtd")
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("1_vjjtd")
+TooltipLabel/font_sizes/font_size = 16
+TooltipLabel/fonts/font = ExtResource("1_vjjtd")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_6iyit")
+
+[sub_resource type="Gradient" id="Gradient_jrxbn"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_572xl"]
+gradient = SubResource("Gradient_jrxbn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gqu5h"]
+resource_local_to_scene = true
+shader = ExtResource("3_d6bvk")
+shader_parameter/palette = SubResource("GradientTexture1D_572xl")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_mar4t"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uedjl"]
+gradient = SubResource("Gradient_mar4t")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6er8o"]
+resource_local_to_scene = true
+shader = ExtResource("3_d6bvk")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pawcq"]
+resource_local_to_scene = true
+shader = ExtResource("3_d6bvk")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_pgepy"]
+offsets = PackedFloat32Array(0.0229008, 0.0801527, 0.29771)
+colors = PackedColorArray(0, 0, 0, 0, 0.276262, 0.847634, 0.999999, 1, 0.501961, 0.898039, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_orm0g"]
+gradient = SubResource("Gradient_pgepy")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_54421"]
+shader = ExtResource("3_d6bvk")
+shader_parameter/palette = SubResource("GradientTexture1D_orm0g")
+shader_parameter/node_size = Vector2(385, 158)
+shader_parameter/x_corner_margin = 0.1
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.1
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_c5h1s"]
+viewport_path = NodePath("VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mgmmd"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ejlet"]
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_81evb"]
+blend_mode = 1
+
+[node name="MicrophoneSettingsBlock" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_k0yo7")
+script = ExtResource("2_wfnim")
+
+[node name="AudioInterfaceManagerBufferless" type="Node" parent="." node_paths=PackedStringArray("waveform_display", "waveform_drawers_container", "playbar", "spectrum_aggregate_vclip", "spectrum_aggregate_plmic", "audio_spectrum_sampler_vclip", "audio_spectrum_sampler_plmic", "audio_player_vclip", "audio_player_pecho")]
+unique_name_in_owner = true
+script = ExtResource("3_ejlet")
+waveform_display = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay")
+waveform_drawers_container = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/HBoxContainer/BlackBackground")
+playbar = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/Playbar")
+spectrum_aggregate_vclip = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/Audio/SpectrumAggregateVclip")
+spectrum_aggregate_plmic = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/Audio/SpectrumAggregatePlmic")
+audio_spectrum_sampler_vclip = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/Audio/AudioSpectrumSamplerVclip")
+audio_spectrum_sampler_plmic = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/Audio/AudioSpectrumSamplerPlmic")
+audio_player_vclip = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/Audio/Vclip")
+audio_player_pecho = NodePath("../VBoxContainer/HBoxContainer2/WaveformMantle/Audio/Pecho")
+metadata/_custom_type_script = "uid://c4asteir35d0c"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SpinMicSyncOffset" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+max_value = 10.0
+step = 0.01
+value = 0.01
+suffix = "seconds"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Mic Sync Offset"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnRecord" parent="VBoxContainer/HBoxContainer2/VBoxContainer" instance=ExtResource("2_irvc0")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_gqu5h")
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/BtnRecord"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_vjjtd")
+text = "Record"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnHearRecording" parent="VBoxContainer/HBoxContainer2/VBoxContainer" instance=ExtResource("2_irvc0")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_6er8o")
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/BtnHearRecording"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_vjjtd")
+text = "Hear Recording"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnPlaySyncTone" parent="VBoxContainer/HBoxContainer2/VBoxContainer" instance=ExtResource("2_irvc0")]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_pawcq")
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/BtnPlaySyncTone"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_vjjtd")
+text = "Tone Sync"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChkLiveMic" type="CheckButton" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Live Microphone"
+
+[node name="WaveformMantle" type="ColorRect" parent="VBoxContainer/HBoxContainer2"]
+material = SubResource("ShaderMaterial_54421")
+custom_minimum_size = Vector2(385, 158)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.247059, 0.247059, 0.247059, 1)
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer2/WaveformMantle"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="WaveformDisplay" type="TextureRect" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2" node_paths=PackedStringArray("waveform_viewport")]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = SubResource("ViewportTexture_c5h1s")
+expand_mode = 1
+script = ExtResource("5_ot2d8")
+max_width = 675
+waveform_viewport = NodePath("WaveformViewport")
+metadata/_custom_type_script = "uid://odetqqt2teia"
+
+[node name="WaveformViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay" node_paths=PackedStringArray("buffer_left", "buffer_right", "waveform_drawers_container")]
+size = Vector2i(360, 512)
+script = ExtResource("6_rufcw")
+buffer_left = NodePath("HBoxContainer/BufferLeft")
+buffer_right = NodePath("HBoxContainer/BufferRight")
+waveform_drawers_container = NodePath("HBoxContainer/BlackBackground")
+metadata/_custom_type_script = "uid://3pqfbaadekmg"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport"]
+material = SubResource("CanvasItemMaterial_mgmmd")
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="BufferLeft" type="TextureRect" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/HBoxContainer"]
+custom_minimum_size = Vector2(0, 512)
+layout_mode = 2
+texture = ExtResource("7_24rkv")
+expand_mode = 1
+
+[node name="BlackBackground" type="ColorRect" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/HBoxContainer"]
+custom_minimum_size = Vector2(360, 512)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0, 0, 0, 1)
+
+[node name="WaveformDrawerVclip" type="Control" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/HBoxContainer/BlackBackground" node_paths=PackedStringArray("aggregate_data_node")]
+unique_name_in_owner = true
+visible = false
+material = SubResource("CanvasItemMaterial_ejlet")
+anchors_preset = 0
+script = ExtResource("8_tvygc")
+aggregate_data_node = NodePath("../../../../../../Audio/SpectrumAggregateVclip")
+metadata/_custom_type_script = "uid://db5v6fg7uvs6v"
+
+[node name="WaveformDrawerPlmic" type="Control" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/HBoxContainer/BlackBackground" node_paths=PackedStringArray("aggregate_data_node")]
+unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_81evb")
+anchors_preset = 0
+script = ExtResource("8_tvygc")
+waveform_color_average = Color(0, 1, 1, 1)
+waveform_color_maximum = Color(0, 1, 1, 0.439216)
+waveform_color_pitch = Color(0, 1, 0, 1)
+aggregate_data_node = NodePath("../../../../../../Audio/SpectrumAggregatePlmic")
+metadata/_custom_type_script = "uid://db5v6fg7uvs6v"
+
+[node name="WaveformDrawerLive" type="Control" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/HBoxContainer/BlackBackground" node_paths=PackedStringArray("aggregate_data_node")]
+unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_81evb")
+anchors_preset = 0
+script = ExtResource("8_tvygc")
+waveform_color_average = Color(1, 0.666667, 0, 1)
+waveform_color_maximum = Color(1, 0.666667, 0, 0.439216)
+waveform_color_pitch = Color(0.5, 0, 1, 1)
+aggregate_data_node = NodePath("../../../../../../Audio/SpectrumAggregateEndless")
+metadata/_custom_type_script = "uid://db5v6fg7uvs6v"
+
+[node name="BufferRight" type="TextureRect" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_24rkv")
+expand_mode = 1
+
+[node name="WhiteLine" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="b" type="Control" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/WhiteLine"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/WhiteLine"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+
+[node name="b2" type="Control" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport/WhiteLine"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Playbar" type="ColorRect" parent="VBoxContainer/HBoxContainer2/WaveformMantle/MarginContainer2/WaveformDisplay/WaveformViewport"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(4, 512)
+offset_right = 4.0
+color = Color(1, 0.283333, 0.14, 0.745098)
+
+[node name="Audio" type="Node" parent="VBoxContainer/HBoxContainer2/WaveformMantle"]
+
+[node name="VoiceTimeLeft" type="Timer" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="Vclip" type="AudioStreamPlayer" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio"]
+unique_name_in_owner = true
+stream = ExtResource("9_mgmmd")
+bus = &"Vclip"
+
+[node name="Pecho" type="AudioStreamPlayer" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio"]
+unique_name_in_owner = true
+bus = &"Pecho"
+
+[node name="SpectrumAggregateVclip" type="Node" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio" node_paths=PackedStringArray("connected_sampler")]
+unique_name_in_owner = true
+script = ExtResource("10_ejlet")
+connected_sampler = NodePath("../AudioSpectrumSamplerVclip")
+metadata/_custom_type_script = "uid://bvmkpp062yeeq"
+
+[node name="SpectrumAggregatePlmic" type="Node" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio" node_paths=PackedStringArray("connected_sampler")]
+unique_name_in_owner = true
+script = ExtResource("10_ejlet")
+connected_sampler = NodePath("../AudioSpectrumSamplerPlmic")
+metadata/_custom_type_script = "uid://bvmkpp062yeeq"
+
+[node name="SpectrumAggregateEndless" type="Node" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio" node_paths=PackedStringArray("connected_sampler")]
+unique_name_in_owner = true
+script = ExtResource("11_81evb")
+maximum_size = 120
+connected_sampler = NodePath("../AudioSpectrumSamplerEndless")
+metadata/_custom_type_script = "uid://dic1wxxagxna1"
+
+[node name="AudioSpectrumSamplerVclip" type="Node" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio"]
+unique_name_in_owner = true
+script = ExtResource("12_l1ram")
+spectrum_target = 1
+metadata/_custom_type_script = "uid://demxyf6l8cu1h"
+
+[node name="AudioSpectrumSamplerPlmic" type="Node" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio"]
+unique_name_in_owner = true
+script = ExtResource("12_l1ram")
+spectrum_target = 2
+metadata/_custom_type_script = "uid://demxyf6l8cu1h"
+
+[node name="AudioSpectrumSamplerEndless" type="Node" parent="VBoxContainer/HBoxContainer2/WaveformMantle/Audio"]
+unique_name_in_owner = true
+script = ExtResource("12_l1ram")
+spectrum_target = 2
+metadata/_custom_type_script = "uid://demxyf6l8cu1h"
+
+[connection signal="button_clicked" from="VBoxContainer/HBoxContainer2/VBoxContainer/BtnRecord" to="." method="_button_record"]
+[connection signal="button_clicked" from="VBoxContainer/HBoxContainer2/VBoxContainer/BtnHearRecording" to="." method="_button_hear_recording"]
+[connection signal="button_clicked" from="VBoxContainer/HBoxContainer2/VBoxContainer/BtnPlaySyncTone" to="." method="_button_play_tone"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer2/VBoxContainer/ChkLiveMic" to="." method="_live_mic_toggle"]

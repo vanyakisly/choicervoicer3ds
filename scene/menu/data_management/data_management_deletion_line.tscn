@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3 uid="uid://de4jygkh1e3kp"]
+
+[ext_resource type="Script" uid="uid://nha8uvplk0e0" path="res://scene/menu/data_management/data_management_deletion_line.gd" id="1_3p78b"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="1_d4qvq"]
+[ext_resource type="Shader" uid="uid://4ga3dmidbqgy" path="res://graphic/shader/small_button.gdshader" id="2_l6wbi"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="3_got1v"]
+
+[sub_resource type="Gradient" id="Gradient_8ccyj"]
+offsets = PackedFloat32Array(0, 0.321, 0.392, 0.56, 0.756, 1)
+colors = PackedColorArray(0.494118, 0.698039, 0.72549, 1, 0.705882, 0.827451, 0.870588, 1, 0.760784, 0.858824, 0.894118, 1, 0.619608, 0.831373, 0.901961, 1, 0.815686, 0.894118, 0.921569, 1, 0.890196, 0.984314, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6vqx2"]
+gradient = SubResource("Gradient_8ccyj")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r5f0w"]
+resource_local_to_scene = true
+shader = ExtResource("2_l6wbi")
+shader_parameter/palette = SubResource("GradientTexture1D_6vqx2")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[node name="DataManagementDeletionLine" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1138.0
+offset_bottom = -552.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+script = ExtResource("1_3p78b")
+
+[node name="BtnDelete" parent="." instance=ExtResource("1_d4qvq")]
+material = SubResource("ShaderMaterial_r5f0w")
+custom_minimum_size = Vector2(128, 48)
+layout_mode = 2
+size_flags_vertical = 4
+button_type = 2
+sound_type = 2
+
+[node name="Label" type="Label" parent="BtnDelete"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_got1v")
+text = "Hide clip"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Image" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Filename" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="Path" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 13
+
+[connection signal="button_clicked" from="BtnDelete" to="." method="_on_btn_delete_button_clicked"]

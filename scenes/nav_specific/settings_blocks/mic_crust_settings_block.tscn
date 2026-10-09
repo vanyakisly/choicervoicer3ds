@@ -1,0 +1,735 @@
+[gd_scene load_steps=18 format=3 uid="uid://7xc3d3hlnbif"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_3e38y"]
+[ext_resource type="Script" uid="uid://w248tggx8qnf" path="res://scenes/nav_specific/settings_blocks/mic_crust_settings_block.gd" id="2_bn5av"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="3_5xn4l"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="4_44sea"]
+[ext_resource type="Texture2D" uid="uid://dli323vaiipcm" path="res://graphic/gradient/button_bubble.tres" id="5_icjqi"]
+
+[sub_resource type="Gradient" id="Gradient_y1bd6"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_y1bd6")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_irkhr"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_irkhr")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="Theme" id="Theme_lu5gx"]
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("1_3e38y")
+
+[sub_resource type="Gradient" id="Gradient_evjw1"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uedjl"]
+gradient = SubResource("Gradient_evjw1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6krgf"]
+resource_local_to_scene = true
+shader = ExtResource("4_44sea")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(600, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sbmq3"]
+resource_local_to_scene = true
+shader = ExtResource("4_44sea")
+shader_parameter/palette = ExtResource("5_icjqi")
+shader_parameter/node_size = Vector2(260, 64)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.486275)
+shader_parameter/center_falloff = 0.457
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.925
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = -0.34
+shader_parameter/center_y_scale = 0.57
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="MicCrustSettingsBlock" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_lu5gx")
+script = ExtResource("2_bn5av")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="CrustProfileSection" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CrustProfileSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/CrustProfileSection/HBoxContainer"]
+layout_mode = 2
+text = "Crust: "
+
+[node name="OptionCrustProfiles" type="OptionButton" parent="VBoxContainer/CrustProfileSection/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+fit_to_longest_item = false
+
+[node name="BtnOpenSave" parent="VBoxContainer/CrustProfileSection/HBoxContainer" instance=ExtResource("3_5xn4l")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_6krgf")
+custom_minimum_size = Vector2(128, 30)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="VBoxContainer/CrustProfileSection/HBoxContainer/BtnOpenSave"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_3e38y")
+theme_override_font_sizes/font_size = 14
+text = "Save current"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveLine" type="HBoxContainer" parent="VBoxContainer/CrustProfileSection"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+alignment = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/CrustProfileSection/SaveLine"]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+
+[node name="LineCrustProfileName" type="LineEdit" parent="VBoxContainer/CrustProfileSection/SaveLine"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "Crust profile name"
+
+[node name="BtnSave" parent="VBoxContainer/CrustProfileSection/SaveLine" instance=ExtResource("3_5xn4l")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_sbmq3")
+custom_minimum_size = Vector2(128, 30)
+layout_mode = 2
+enabled = false
+metadata/_edit_group_ = true
+
+[node name="LblBtnSave" type="Label" parent="VBoxContainer/CrustProfileSection/SaveLine/BtnSave"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_3e38y")
+theme_override_font_sizes/font_size = 14
+text = "Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(224, 0)
+layout_mode = 2
+text = "Microphone Input"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Volume"
+horizontal_alignment = 2
+
+[node name="SliderMicInputVolume" type="HSlider" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+scrollable = false
+tick_count = 7
+ticks_on_borders = true
+
+[node name="LblMicInputVolume" type="Label" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "[Tweak base input volume]"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Multiplier"
+horizontal_alignment = 2
+
+[node name="SliderMicMultiplier" type="HSlider" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 12.0
+value = 1.0
+rounded = true
+scrollable = false
+tick_count = 12
+ticks_on_borders = true
+
+[node name="LblMicMultiplier" type="Label" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+text = "1x"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "[Amplify input volume. Each increase is minor.]"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+columns = 2
+
+[node name="Compressor" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor"]
+layout_mode = 2
+
+[node name="ChkCompressor" type="CheckButton" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer2"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+text = "Compressor Effect"
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer4"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer4"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Threshold"
+horizontal_alignment = 2
+
+[node name="SliderCompressorThreshold" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = -60.0
+max_value = 0.0
+step = 0.5
+scrollable = false
+
+[node name="LblCompressorThreshold" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "0.1 dB"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer5"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer5"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Gain"
+horizontal_alignment = 2
+
+[node name="SliderCompressorGain" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = -20.0
+max_value = 20.0
+step = 0.5
+value = 9.0
+scrollable = false
+
+[node name="LblCompressorGain" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Compressor/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "9"
+
+[node name="Cutoff" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff"]
+layout_mode = 2
+
+[node name="ChkCutoff" type="CheckButton" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/HBoxContainer8"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/HBoxContainer8"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+text = "Cutoff Effect"
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/HBoxContainer8"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="RowHighPass" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/RowHighPass"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/RowHighPass"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "High Pass"
+horizontal_alignment = 2
+
+[node name="SliderCutoffHighPass" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/RowHighPass"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = 10.0
+max_value = 16000.0
+step = 10.0
+value = 1000.0
+scrollable = false
+
+[node name="LblCutoffHighPass" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/RowHighPass"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "1000 hz"
+
+[node name="RowLowPass" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/RowLowPass"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/RowLowPass"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Low Pass"
+horizontal_alignment = 2
+
+[node name="SliderCutoffLowPass" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/RowLowPass"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = 10.0
+max_value = 16000.0
+step = 10.0
+value = 16000.0
+scrollable = false
+
+[node name="LblCutoffLowPass" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Cutoff/RowLowPass"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "16000 hz"
+
+[node name="Distortion" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer11" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion"]
+layout_mode = 2
+
+[node name="ChkDistortion" type="CheckButton" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer11"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer11"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+text = "Distortion Effect"
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer11"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="HBoxContainer12" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer12"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer12"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Pre-Gain"
+horizontal_alignment = 2
+
+[node name="SliderDistortionPreGain" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer12"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = -60.0
+max_value = 60.0
+step = 0.05
+scrollable = false
+
+[node name="LblDistortionPreGain" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer12"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "0 dB"
+
+[node name="HBoxContainer13" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer13"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer13"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Drive"
+horizontal_alignment = 2
+
+[node name="SliderDistortionDrive" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer13"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+scrollable = false
+
+[node name="LblDistortionDrive" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer13"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "0"
+
+[node name="HBoxContainer14" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer14"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer14"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Post-Gain"
+horizontal_alignment = 2
+
+[node name="SliderDistortionPostGain" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer14"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = -80.0
+max_value = 24.0
+step = 0.05
+value = 6.0
+scrollable = false
+
+[node name="LblDistortionPostGain" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Distortion/HBoxContainer14"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "6 dB"
+
+[node name="Limiter" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter"]
+layout_mode = 2
+
+[node name="ChkLimiter" type="CheckButton" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer3"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+text = "Limiter Effect"
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer6"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer6"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Ceiling"
+horizontal_alignment = 2
+
+[node name="SliderLimiterCeiling" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = -20.0
+max_value = -0.1
+step = 0.1
+value = -10.0
+scrollable = false
+
+[node name="LblLimiterCeiling" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "-10 dB"
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer7"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer7"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Threshold"
+horizontal_alignment = 2
+
+[node name="SliderLimiterThreshold" type="HSlider" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = -30.0
+max_value = 0.0
+step = 0.5
+value = -5.0
+scrollable = false
+
+[node name="LblLimiterThreshold" type="Label" parent="VBoxContainer/VBoxContainer2/GridContainer/Limiter/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "-5 dB"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SampleRate" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer15" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/SampleRate"]
+layout_mode = 2
+
+[node name="ChkSampleRate" type="CheckButton" parent="VBoxContainer/VBoxContainer2/SampleRate/HBoxContainer15"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/SampleRate/HBoxContainer15"]
+layout_mode = 2
+text = "Sample Rate Effect*"
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/SampleRate/HBoxContainer15"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "This effect is applied AFTER recording. It won't be heard during Live Mic."
+
+[node name="HBoxContainer16" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/SampleRate"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2/SampleRate/HBoxContainer16"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer2/SampleRate/HBoxContainer16"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reduction"
+horizontal_alignment = 2
+
+[node name="SliderSampleRateReduction" type="HSlider" parent="VBoxContainer/VBoxContainer2/SampleRate/HBoxContainer16"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+min_value = 2.0
+max_value = 5.0
+value = 2.0
+scrollable = false
+tick_count = 4
+ticks_on_borders = true
+
+[node name="LblSampleRateReduction" type="Label" parent="VBoxContainer/VBoxContainer2/SampleRate/HBoxContainer16"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+text = "1/4"
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 14
+text = "*Post-effects are not heard on live
+mic and do not affect scores."
+horizontal_alignment = 1
+
+[connection signal="item_selected" from="VBoxContainer/CrustProfileSection/HBoxContainer/OptionCrustProfiles" to="." method="_on_option_crust_profiles_item_selected"]
+[connection signal="button_clicked" from="VBoxContainer/CrustProfileSection/HBoxContainer/BtnOpenSave" to="." method="_on_btn_open_save_button_clicked"]
+[connection signal="text_changed" from="VBoxContainer/CrustProfileSection/SaveLine/LineCrustProfileName" to="." method="_on_line_crust_profile_name_text_changed"]
+[connection signal="button_clicked" from="VBoxContainer/CrustProfileSection/SaveLine/BtnSave" to="." method="_save_current_crust"]

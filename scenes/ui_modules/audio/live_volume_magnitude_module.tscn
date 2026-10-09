@@ -1,0 +1,137 @@
+[gd_scene load_steps=8 format=3 uid="uid://c1qxw0f73my78"]
+
+[ext_resource type="Shader" uid="uid://b7d6wgq1kiwmr" path="res://assets_gd/shaders/cv_primary.gdshader" id="1_12yo1"]
+[ext_resource type="Script" uid="uid://wwhfhd0v3gxo" path="res://scenes/ui_modules/audio/live_volume_magnitude_module.gd" id="1_frsxu"]
+[ext_resource type="Script" uid="uid://demxyf6l8cu1h" path="res://scenes/audio/waveform_and_record/audio_spectrum_sampler.gd" id="2_gkk7o"]
+
+[sub_resource type="Gradient" id="Gradient_frsxu"]
+offsets = PackedFloat32Array(0, 0.028169, 0.0985916)
+colors = PackedColorArray(0, 0, 0, 0, 0.0669014, 0.0669014, 0.0669014, 1, 0.169245, 0.169245, 0.169245, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gkk7o"]
+gradient = SubResource("Gradient_frsxu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_25le2"]
+shader = ExtResource("1_12yo1")
+shader_parameter/node_size = Vector2(81.62, 314)
+shader_parameter/edge = SubResource("GradientTexture1D_gkk7o")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/invert = false
+shader_parameter/x_roundness = 0.03
+shader_parameter/y_roundness = 0.03
+shader_parameter/use_primary = true
+shader_parameter/primary_alter_hsv_value = true
+shader_parameter/primary_color = Color(1, 1, 1, 0.0862745)
+shader_parameter/primary_falloff = 1.0
+shader_parameter/primary_x_roundness = 0.04
+shader_parameter/primary_y_roundness = 0.5
+shader_parameter/primary_border_distance_cutoff = 0.0
+shader_parameter/primary_border_softness = 0.0
+shader_parameter/primary_use_own_border = false
+shader_parameter/primary_shift_x = 0.0
+shader_parameter/primary_shift_y = 0.0
+shader_parameter/primary_scale_x = 1.0
+shader_parameter/primary_scale_y = 1.0
+shader_parameter/use_secondary = false
+shader_parameter/secondary_alter_hsv_value = true
+shader_parameter/secondary_color = Color(1, 1, 1, 0.8)
+shader_parameter/secondary_falloff = 1.0
+shader_parameter/secondary_x_roundness = 0.25
+shader_parameter/secondary_y_roundness = 0.25
+shader_parameter/secondary_border_distance_cutoff = 0.0
+shader_parameter/secondary_border_softness = 0.0
+shader_parameter/secondary_use_own_border = false
+shader_parameter/secondary_shift_x = 0.0
+shader_parameter/secondary_shift_y = 0.0
+shader_parameter/secondary_scale_x = 1.0
+shader_parameter/secondary_scale_y = 1.0
+shader_parameter/use_tertiary = false
+shader_parameter/tertiary_alter_hsv_value = true
+shader_parameter/tertiary_color = Color(1, 1, 1, 0.8)
+shader_parameter/tertiary_falloff = 1.0
+shader_parameter/tertiary_x_roundness = 0.25
+shader_parameter/tertiary_y_roundness = 0.25
+shader_parameter/tertiary_border_distance_cutoff = 0.0
+shader_parameter/tertiary_border_softness = 0.0
+shader_parameter/tertiary_use_own_border = false
+shader_parameter/tertiary_shift_x = 0.0
+shader_parameter/tertiary_shift_y = 0.0
+shader_parameter/tertiary_scale_x = 1.0
+shader_parameter/tertiary_scale_y = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gkk7o"]
+bg_color = Color(0.57, 0.25612, 0.2337, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="LiveVolumeMagnitudeModule" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_frsxu")
+
+[node name="AudioSpectrumSampler" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_gkk7o")
+spectrum_target = 2
+metadata/_custom_type_script = "uid://demxyf6l8cu1h"
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_25le2")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.03
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.03
+
+[node name="MagnitudeBar" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/fill = SubResource("StyleBoxFlat_gkk7o")
+min_value = -0.01
+max_value = 1.0
+fill_mode = 3
+show_percentage = false
+
+[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.03
+
+[node name="ColorRect2" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.03
+
+[connection signal="sample_taken" from="AudioSpectrumSampler" to="." method="new_sample"]

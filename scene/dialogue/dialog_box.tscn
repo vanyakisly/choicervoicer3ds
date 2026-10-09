@@ -1,0 +1,214 @@
+[gd_scene load_steps=13 format=3 uid="uid://bmm0k8s1c8d4o"]
+
+[ext_resource type="Script" uid="uid://bkstmheeemisk" path="res://scene/dialogue/dialog_box.gd" id="1_jmf22"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="2_p2m35"]
+[ext_resource type="Texture2D" uid="uid://dr222eglkiwyx" path="res://graphic/image/cv_textboxblip.png" id="3_jmri2"]
+
+[sub_resource type="Gradient" id="Gradient_0w2ca"]
+offsets = PackedFloat32Array(0, 0.063, 0.248, 0.427, 0.579, 0.686)
+colors = PackedColorArray(0.6, 0.6, 0.6, 0, 0.858824, 0.858824, 0.858824, 1, 1, 1, 1, 1, 0.843137, 0.843137, 0.843137, 1, 0.929412, 0.929412, 0.929412, 1, 0.972549, 0.972549, 0.972549, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_htanx"]
+gradient = SubResource("Gradient_0w2ca")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i17yr"]
+shader = ExtResource("2_p2m35")
+shader_parameter/palette = SubResource("GradientTexture1D_htanx")
+shader_parameter/node_size = Vector2(640, 168)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Animation" id="Animation_8bwi2"]
+resource_name = "IncrementText"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/DialogueBox/MarginContainer/HBoxContainer/LblDialogText:visible_characters")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 250]
+}
+
+[sub_resource type="Animation" id="Animation_qk3dd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/DialogueBox/MarginContainer/HBoxContainer/LblDialogText:visible_characters")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [300]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wlv3x"]
+_data = {
+&"IncrementText": SubResource("Animation_8bwi2"),
+&"RESET": SubResource("Animation_qk3dd")
+}
+
+[sub_resource type="Animation" id="Animation_oeei6"]
+resource_name = "DotFade"
+length = 1.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer/Dot:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7, 1, 1.6),
+"transitions": PackedFloat32Array(0.666666, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_24ueb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer/Dot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ybkip"]
+_data = {
+&"DotFade": SubResource("Animation_oeei6"),
+&"RESET": SubResource("Animation_24ueb")
+}
+
+[node name="DialogBox" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_jmf22")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 256
+theme_override_constants/margin_top = 448
+theme_override_constants/margin_right = 256
+theme_override_constants/margin_bottom = 32
+
+[node name="DialogueBox" type="ColorRect" parent="MarginContainer"]
+material = SubResource("ShaderMaterial_i17yr")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DialogueBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DialogueBox/MarginContainer"]
+layout_mode = 2
+
+[node name="LblDialogText" type="Label" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(544, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 26
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 4
+max_lines_visible = 3
+visible_characters = 300
+visible_characters_behavior = 1
+visible_ratio = 0.674157
+
+[node name="AnimText" type="AnimationPlayer" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer/LblDialogText"]
+unique_name_in_owner = true
+root_node = NodePath("../../../../../..")
+libraries = {
+"": SubResource("AnimationLibrary_wlv3x")
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="b" type="Control" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+
+[node name="Dot" type="TextureRect" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+texture = ExtResource("3_jmri2")
+expand_mode = 1
+
+[node name="AnimDot" type="AnimationPlayer" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer/Dot"]
+unique_name_in_owner = true
+root_node = NodePath("../../../../../../..")
+libraries = {
+"": SubResource("AnimationLibrary_ybkip")
+}
+
+[node name="b2" type="Control" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.44

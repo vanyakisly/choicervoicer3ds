@@ -1,0 +1,91 @@
+[gd_scene load_steps=6 format=3 uid="uid://tf3vbti5csjc"]
+
+[ext_resource type="Script" uid="uid://nhqg3b5c5bgm" path="res://scenes/gameplay/dub_mode/cinema/cinema_seat.gd" id="1_p0ffx"]
+[ext_resource type="PackedScene" uid="uid://jtwxk8d7gwvs" path="res://scenes/gameplay/dub_mode/cinema/tempChair.gltf" id="2_4dwn5"]
+
+[sub_resource type="Animation" id="Animation_4dwn5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_p0ffx"]
+resource_name = "bobbing"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.15, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_71j5b"]
+_data = {
+&"RESET": SubResource("Animation_4dwn5"),
+&"bobbing": SubResource("Animation_p0ffx")
+}
+
+[node name="CinemaSeat" type="Node3D"]
+script = ExtResource("1_p0ffx")
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+panning_strength = 0.5
+bus = &"SfxMain"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_71j5b")
+}
+
+[node name="tempChair" parent="." instance=ExtResource("2_4dwn5")]
+visible = false
+
+[node name="SpriteContainer" type="Node3D" parent="."]
+
+[node name="SpriteOffset" type="Node3D" parent="SpriteContainer"]
+unique_name_in_owner = true
+
+[node name="CharacterSprite" type="Sprite3D" parent="SpriteContainer/SpriteOffset"]
+unique_name_in_owner = true
+pixel_size = 0.0025
+shaded = true
+double_sided = false
+texture_filter = 0
+region_rect = Rect2(5, 5, 0, 0)
+
+[node name="CharacterSpriteBackLight" type="Sprite3D" parent="SpriteContainer/SpriteOffset"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.01, 0)
+flip_h = true
+pixel_size = 0.0025
+double_sided = false
+texture_filter = 0
+region_rect = Rect2(5, 5, 0, 0)
+
+[node name="CharacterSpriteBack" type="Sprite3D" parent="SpriteContainer/SpriteOffset"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, -0.05)
+sorting_offset = 1.0
+flip_h = true
+modulate = Color(0, 0, 0, 1)
+pixel_size = 0.0025
+double_sided = false
+texture_filter = 0
+region_rect = Rect2(5, 5, 0, 0)

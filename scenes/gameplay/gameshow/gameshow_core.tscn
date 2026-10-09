@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://krfpw4sm7nrn"]
+
+[ext_resource type="Script" uid="uid://dlf0s7ah63ftp" path="res://scenes/gameplay/gameshow/gameshow_core.gd" id="1_61f1h"]
+
+[node name="GameshowCore" type="Node"]
+script = ExtResource("1_61f1h")
+
+[node name="StudioContainer" type="Node3D" parent="."]
+unique_name_in_owner = true

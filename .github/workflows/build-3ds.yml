@@ -1,0 +1,63 @@
+name: Build The Choicer Voicer for Old 3DS
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-old-3ds:
+    name: Build 3DSX with official devkitPro toolchain
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Check native project files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f 3ds_port/Makefile
+          test -f 3ds_port/source/main.c
+          test -f 3ds_port/icon.png
+          echo "Native 3DS project files found at repository root."
+
+      - name: Pull official devkitPro ARM image
+        run: docker pull devkitpro/devkitarm:latest
+
+      - name: Build Old 3DS homebrew
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            --volume "${GITHUB_WORKSPACE}:/work" \
+            --workdir /work/3ds_port \
+            devkitpro/devkitarm:latest \
+            sh -c 'set -eu; \
+              test -f "$DEVKITARM/3ds_rules"; \
+              echo "Using DEVKITPRO=$DEVKITPRO"; \
+              echo "Using DEVKITARM=$DEVKITARM"; \
+              make clean; \
+              make -j2'
+
+      - name: Verify build outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s 3ds_port/TheChoicerVoicer3DS.3dsx
+          test -s 3ds_port/TheChoicerVoicer3DS.smdh
+          ls -lh 3ds_port/TheChoicerVoicer3DS.3dsx 3ds_port/TheChoicerVoicer3DS.smdh
+
+      - name: Upload Old 3DS build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TheChoicerVoicer-Old3DS
+          if-no-files-found: error
+          path: |
+            3ds_port/TheChoicerVoicer3DS.3dsx
+            3ds_port/TheChoicerVoicer3DS.smdh

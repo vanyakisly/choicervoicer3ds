@@ -1,0 +1,334 @@
+[gd_scene load_steps=15 format=3 uid="uid://t75qhrafb01a"]
+
+[ext_resource type="Script" uid="uid://b2qi4spkicx44" path="res://scene/menu/_master/menu_master.gd" id="1_d8we4"]
+[ext_resource type="PackedScene" uid="uid://cwqewoy3nka8a" path="res://scene/background/modular_background.tscn" id="1_nll6a"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="3_aiw2y"]
+[ext_resource type="PackedScene" uid="uid://b6i1bohisp4hh" path="res://scene/overlay/menu_slide_hint.tscn" id="3_v8c3m"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="4_uv4rt"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="6_4ecl0"]
+
+[sub_resource type="Gradient" id="Gradient_phhgi"]
+offsets = PackedFloat32Array(0.06, 0.075, 0.129, 0.15, 0.222, 0.236, 0.266, 0.281, 0.392, 0.557)
+colors = PackedColorArray(0, 0, 0, 0, 0.00392157, 0.00392157, 0.00392157, 1, 0, 0, 0, 1, 0.780392, 0.780392, 0.780392, 1, 0.780392, 0.780392, 0.780392, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.780392, 0.780392, 0.780392, 1, 0.529412, 0.529412, 0.529412, 1, 0.564706, 0.564706, 0.564706, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2syfd"]
+gradient = SubResource("Gradient_phhgi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ooy7f"]
+shader = ExtResource("4_uv4rt")
+shader_parameter/palette = SubResource("GradientTexture1D_2syfd")
+shader_parameter/node_size = Vector2(128, 44)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.454902)
+shader_parameter/center_falloff = 0.4
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.11
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = 0.52
+shader_parameter/center_y_scale = 0.705
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.568627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.5
+shader_parameter/reflection_x_shift = 0.19
+shader_parameter/reflection_x_scale = 1.211
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.295
+shader_parameter/reflection_y_scale = 0.281
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jk18l"]
+shader = ExtResource("4_uv4rt")
+shader_parameter/palette = SubResource("GradientTexture1D_2syfd")
+shader_parameter/node_size = Vector2(240, 44)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.454902)
+shader_parameter/center_falloff = 0.4
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.11
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = 0.52
+shader_parameter/center_y_scale = 0.705
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.568627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.5
+shader_parameter/reflection_x_shift = 0.19
+shader_parameter/reflection_x_scale = 1.211
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.295
+shader_parameter/reflection_y_scale = 0.281
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wr1cn"]
+shader = ExtResource("4_uv4rt")
+shader_parameter/palette = SubResource("GradientTexture1D_2syfd")
+shader_parameter/node_size = Vector2(240, 44)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.454902)
+shader_parameter/center_falloff = 0.4
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.11
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = 0.52
+shader_parameter/center_y_scale = 0.705
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.568627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.5
+shader_parameter/reflection_x_shift = 0.19
+shader_parameter/reflection_x_scale = 1.211
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.295
+shader_parameter/reflection_y_scale = 0.281
+
+[sub_resource type="Gradient" id="Gradient_nrqd4"]
+offsets = PackedFloat32Array(0.06, 0.075, 0.129, 0.15, 0.222, 0.236, 0.266, 0.281, 0.392, 0.557)
+colors = PackedColorArray(0, 0, 0, 0, 0.00392157, 0.00392157, 0.00392157, 1, 0, 0, 0, 1, 0.780392, 0.780392, 0.780392, 1, 0.780392, 0.780392, 0.780392, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.780392, 0.780392, 0.780392, 1, 0.529412, 0.529412, 0.529412, 1, 0.564706, 0.564706, 0.564706, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3hwsn"]
+gradient = SubResource("Gradient_nrqd4")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k1rjd"]
+shader = ExtResource("4_uv4rt")
+shader_parameter/palette = SubResource("GradientTexture1D_3hwsn")
+shader_parameter/node_size = Vector2(208, 44)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.454902)
+shader_parameter/center_falloff = 0.4
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.11
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = 0.52
+shader_parameter/center_y_scale = 0.705
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.568627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.5
+shader_parameter/reflection_x_shift = 0.19
+shader_parameter/reflection_x_scale = 1.211
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.295
+shader_parameter/reflection_y_scale = 0.281
+
+[node name="MenuMaster" type="Control" groups=["MenuMusic"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_d8we4")
+
+[node name="ModularBackground" parent="." instance=ExtResource("1_nll6a")]
+layout_mode = 1
+
+[node name="MenuSlideHint" parent="." instance=ExtResource("3_v8c3m")]
+
+[node name="SlideCapsule" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BottomButtons" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="BtnBack" parent="BottomButtons" instance=ExtResource("3_aiw2y")]
+material = SubResource("ShaderMaterial_ooy7f")
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+button_type = 1
+sound_type = 1
+
+[node name="Label" type="Label" parent="BottomButtons/BtnBack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_4ecl0")
+theme_override_font_sizes/font_size = 25
+text = "↩ Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnDiscardReturn" parent="BottomButtons" instance=ExtResource("3_aiw2y")]
+material = SubResource("ShaderMaterial_jk18l")
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+button_type = 1
+sound_type = 2
+
+[node name="Label" type="Label" parent="BottomButtons/BtnDiscardReturn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_4ecl0")
+theme_override_font_sizes/font_size = 25
+text = "↩ Discard & Return"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnSaveReturn" parent="BottomButtons" instance=ExtResource("3_aiw2y")]
+material = SubResource("ShaderMaterial_wr1cn")
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+button_type = 1
+
+[node name="Label" type="Label" parent="BottomButtons/BtnSaveReturn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_4ecl0")
+theme_override_font_sizes/font_size = 25
+text = "↩ Save & Return"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitButtonContainer" type="HBoxContainer" parent="BottomButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="BtnExitGame" parent="BottomButtons/ExitButtonContainer" instance=ExtResource("3_aiw2y")]
+material = SubResource("ShaderMaterial_k1rjd")
+custom_minimum_size = Vector2(208, 0)
+layout_mode = 2
+button_type = 1
+sound_type = 1
+
+[node name="Label" type="Label" parent="BottomButtons/ExitButtonContainer/BtnExitGame"]
+custom_minimum_size = Vector2(0, 39)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("6_4ecl0")
+theme_override_font_sizes/font_size = 25
+text = "Exit Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightAdjustedButtons" type="HBoxContainer" parent="BottomButtons"]
+layout_mode = 2
+alignment = 2
+
+[node name="BtnOptions" parent="BottomButtons/RightAdjustedButtons" instance=ExtResource("3_aiw2y")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_k1rjd")
+custom_minimum_size = Vector2(208, 0)
+layout_mode = 2
+button_type = 1
+
+[node name="Label" type="Label" parent="BottomButtons/RightAdjustedButtons/BtnOptions"]
+custom_minimum_size = Vector2(0, 39)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("6_4ecl0")
+theme_override_font_sizes/font_size = 25
+text = "Options"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoadingCapsule" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Version" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 42)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -269.0
+offset_right = -13.0
+offset_bottom = 42.0
+grow_horizontal = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 12
+text = "Early Access Version x.x.x"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+autoplay = true
+bus = &"Music"
+
+[connection signal="music_toggle" from="ModularBackground" to="." method="_on_modular_background_music_toggle"]
+[connection signal="button_clicked" from="BottomButtons/BtnBack" to="." method="_on_btn_back_button_clicked"]
+[connection signal="button_clicked" from="BottomButtons/BtnDiscardReturn" to="." method="_on_btn_discard_return_button_clicked"]
+[connection signal="button_clicked" from="BottomButtons/BtnSaveReturn" to="." method="_on_btn_save_return_button_clicked"]
+[connection signal="button_clicked" from="BottomButtons/ExitButtonContainer/BtnExitGame" to="." method="_on_btn_exit_game_button_clicked"]
+[connection signal="button_clicked" from="BottomButtons/RightAdjustedButtons/BtnOptions" to="." method="_options_button_pressed"]
+[connection signal="finished" from="Music" to="." method="_on_music_finished"]

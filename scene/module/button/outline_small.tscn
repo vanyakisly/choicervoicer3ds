@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cr1qrqbf2hngv"]
+
+[ext_resource type="PackedScene" uid="uid://dyp5fsl5dskpg" path="res://scene/module/button/outline_cornered.tscn" id="1_euuqc"]
+[ext_resource type="Shader" uid="uid://cg6uswns5oa7d" path="res://graphic/shader/selected_button.gdshader" id="2_ni03x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0jplg"]
+shader = ExtResource("2_ni03x")
+shader_parameter/node_size = Vector2(144, 80)
+shader_parameter/x_margin = 0.2
+shader_parameter/y_margin = 0.2
+shader_parameter/margin_percent = 0.333
+shader_parameter/color = Color(1, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -8
+theme_override_constants/margin_top = -8
+theme_override_constants/margin_right = -8
+theme_override_constants/margin_bottom = -8
+
+[node name="OutlineCornered" parent="." instance=ExtResource("1_euuqc")]
+material = SubResource("ShaderMaterial_0jplg")
+layout_mode = 2
+mouse_filter = 2

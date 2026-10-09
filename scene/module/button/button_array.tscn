@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce6q8ropmbfnl"]
+
+[ext_resource type="Script" uid="uid://cfvs3uibxguk1" path="res://scene/module/button/button_array.gd" id="1_cusvf"]
+
+[node name="ButtonArray" type="GridContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cusvf")

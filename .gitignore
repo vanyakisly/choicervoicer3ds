@@ -1,20 +1,10 @@
-# Godot generated cache
-
+# Godot editor/import cache (generated automatically)
 .godot/
-*.translation
 
-# Old 3DS build outputs
-
+# Native Old 3DS build outputs
 3ds_port/build/
-3ds_port/*.3dsx
-3ds_port/*.cia
-3ds_port/*.elf
-3ds_port/*.smdh
-3ds_port/*.map
-3ds_port/*.o
-3ds_port/*.d
-
-# Windows temporary files
-
-Thumbs.db
-Desktop.ini
+3ds_port/TheChoicerVoicer3DS.3dsx
+3ds_port/TheChoicerVoicer3DS.smdh
+3ds_port/TheChoicerVoicer3DS.elf
+3ds_port/TheChoicerVoicer3DS.map
+3ds_port/TheChoicerVoicer3DS.lst

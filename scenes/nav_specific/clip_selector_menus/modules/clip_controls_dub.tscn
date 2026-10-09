@@ -1,0 +1,372 @@
+[gd_scene load_steps=17 format=3 uid="uid://ma2nx7223wpb"]
+
+[ext_resource type="Script" uid="uid://bl7tgxucxipnl" path="res://scenes/nav_specific/clip_selector_menus/modules/clip_controls_dub.gd" id="1_i28xr"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="2_7wae8"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="3_og5fl"]
+[ext_resource type="Texture2D" uid="uid://dli323vaiipcm" path="res://graphic/gradient/button_bubble.tres" id="4_t67w0"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="5_rfrt5"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="6_uckm4"]
+[ext_resource type="PackedScene" uid="uid://wveg1kxnf822" path="res://scenes/nav_specific/settings_blocks/dub_options_settings_block.tscn" id="7_7wae8"]
+[ext_resource type="Texture2D" uid="uid://ci2wiibulstvc" path="res://assets/images/instances/spin_wheel.png" id="7_varjx"]
+
+[sub_resource type="Animation" id="Animation_elc03"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingScreen/SpinWheel:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_1ltk4"]
+resource_name = "SpinWheel"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingScreen/SpinWheel:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_65jjk"]
+_data = {
+&"RESET": SubResource("Animation_elc03"),
+&"SpinWheel": SubResource("Animation_1ltk4")
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i28xr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7wae8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_og5fl"]
+
+[sub_resource type="Theme" id="Theme_5bv0m"]
+CheckBox/colors/font_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_focus_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_hover_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_pressed_color = Color(0, 0, 0, 1)
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_i28xr")
+CheckButton/styles/focus = SubResource("StyleBoxEmpty_7wae8")
+Label/colors/font_color = Color(0, 0, 0, 1)
+OptionButton/styles/focus = SubResource("StyleBoxEmpty_og5fl")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xcx10"]
+resource_local_to_scene = true
+shader = ExtResource("3_og5fl")
+shader_parameter/palette = ExtResource("4_t67w0")
+shader_parameter/node_size = Vector2(192, 64)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.486275)
+shader_parameter/center_falloff = 0.457
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.925
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = -0.34
+shader_parameter/center_y_scale = 0.57
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="ClipControlsDub" type="Control"]
+custom_minimum_size = Vector2(650, 374)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 639.0
+offset_bottom = 374.0
+script = ExtResource("1_i28xr")
+
+[node name="SpinWheelAnimator" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_65jjk")
+}
+
+[node name="Main" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 644.0
+offset_bottom = 356.0
+theme = SubResource("Theme_5bv0m")
+theme_override_constants/separation = 16
+
+[node name="TopRow" type="HBoxContainer" parent="Main"]
+layout_mode = 2
+
+[node name="BtnStart" parent="Main/TopRow" instance=ExtResource("2_7wae8")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_xcx10")
+custom_minimum_size = Vector2(192, 64)
+layout_mode = 2
+size_flags_vertical = 0
+button_type = 4
+enabled = false
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="Main/TopRow/BtnStart"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -5
+theme_override_fonts/font = ExtResource("5_rfrt5")
+theme_override_font_sizes/font_size = 30
+text = "Start!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Main/TopRow"]
+layout_mode = 2
+
+[node name="BottomSection" type="HBoxContainer" parent="Main"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/BottomSection"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="InfoGridContainer" type="GridContainer" parent="Main/BottomSection/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/h_separation = 16
+columns = 2
+
+[node name="LblClipCountSelected" type="RichTextLabel" parent="Main/BottomSection/VBoxContainer/InfoGridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("6_uckm4")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "81"
+scroll_active = false
+horizontal_alignment = 2
+
+[node name="LblPlurals" type="Label" parent="Main/BottomSection/VBoxContainer/InfoGridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_uckm4")
+theme_override_font_sizes/font_size = 24
+text = "Clips selected"
+
+[node name="LblClipLengthSelected" type="Label" parent="Main/BottomSection/VBoxContainer/InfoGridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_uckm4")
+theme_override_font_sizes/font_size = 24
+text = "12:38"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="Main/BottomSection/VBoxContainer/InfoGridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_uckm4")
+theme_override_font_sizes/font_size = 24
+text = "Length of selected"
+
+[node name="LblLongestClip" type="Label" parent="Main/BottomSection/VBoxContainer/InfoGridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_uckm4")
+theme_override_font_sizes/font_size = 24
+text = "35:00"
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="Main/BottomSection/VBoxContainer/InfoGridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_uckm4")
+theme_override_font_sizes/font_size = 24
+text = "Longest clip"
+
+[node name="LblEstimatedPlaytime" type="Label" parent="Main/BottomSection/VBoxContainer/InfoGridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_uckm4")
+theme_override_font_sizes/font_size = 24
+text = "35:00"
+horizontal_alignment = 2
+
+[node name="Label3" type="Label" parent="Main/BottomSection/VBoxContainer/InfoGridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_uckm4")
+theme_override_font_sizes/font_size = 24
+text = "Estimated dub time"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main/BottomSection/VBoxContainer"]
+custom_minimum_size = Vector2(313, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 3
+
+[node name="ChkREF" type="CheckBox" parent="Main/BottomSection/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "[ ]"
+
+[node name="Checklist" type="VBoxContainer" parent="Main/BottomSection/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 3
+theme_override_constants/separation = -6
+
+[node name="VSeparator" type="VSeparator" parent="Main/BottomSection"]
+modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="ClipRandomSelectionBlock" parent="Main/BottomSection" instance=ExtResource("7_7wae8")]
+layout_mode = 2
+
+[node name="b" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer10" index="0"]
+visible = false
+
+[node name="Label3" type="Label" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer10" index="1"]
+layout_mode = 2
+text = "Sort clips:"
+
+[node name="Label" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer10" index="3"]
+visible = false
+
+[node name="Label2" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer10" index="4"]
+visible = false
+
+[node name="ChkMuteBackingTrack" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer12" index="0"]
+custom_minimum_size = Vector2(0, 0)
+
+[node name="Label" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer12" index="2"]
+text = "Mute video backing track
+(not recommended)"
+
+[node name="Label2" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer12" index="3"]
+visible = false
+
+[node name="b" type="Control" parent="Main/BottomSection/ClipRandomSelectionBlock/List" index="2"]
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="Main/BottomSection/ClipRandomSelectionBlock/List" index="3"]
+layout_mode = 2
+text = "Add difficulty:"
+
+[node name="ChkHardOneTake" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer11" index="0"]
+custom_minimum_size = Vector2(0, 0)
+
+[node name="Label2" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer11" index="3"]
+visible = false
+text = "[Disable redos in Dub Mode]"
+
+[node name="ChkHardMute" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer8" index="0"]
+custom_minimum_size = Vector2(0, 0)
+
+[node name="Label2" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer8" index="3"]
+visible = false
+text = "[Disable hearing the clips in Dub Mode]"
+
+[node name="ChkHardNoCaptions" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer9" index="0"]
+custom_minimum_size = Vector2(0, 0)
+
+[node name="Label2" parent="Main/BottomSection/ClipRandomSelectionBlock/List/HBoxContainer9" index="3"]
+visible = false
+text = "[Disable Dub Mode captions, if they exist]"
+
+[node name="LoadingScreen" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="SpinWheel" type="TextureRect" parent="LoadingScreen"]
+unique_name_in_owner = true
+modulate = Color(0.158472, 0.158472, 0.158472, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(128, 128)
+texture = ExtResource("7_varjx")
+
+[node name="LblScanning" type="Label" parent="LoadingScreen"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.0
+offset_top = -147.0
+offset_right = 73.0
+offset_bottom = 147.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_rfrt5")
+theme_override_font_sizes/font_size = 48
+text = "
+
+
+
+
+
+  Scanning..."
+
+[connection signal="button_clicked" from="Main/TopRow/BtnStart" to="." method="_send_package"]
+
+[editable path="Main/BottomSection/ClipRandomSelectionBlock"]

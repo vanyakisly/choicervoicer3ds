@@ -1,0 +1,223 @@
+[gd_scene load_steps=12 format=3 uid="uid://wveg1kxnf822"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_iyu1o"]
+[ext_resource type="Script" uid="uid://ce6t4ig4fpm11" path="res://scenes/nav_specific/settings_blocks/dub_options_settings_block.gd" id="2_iyu1o"]
+
+[sub_resource type="Gradient" id="Gradient_fp3f3"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_fp3f3")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_lr55t"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_lr55t")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iyit"]
+bg_color = Color(0.190762, 0.190762, 0.190762, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="Theme" id="Theme_k0yo7"]
+CheckButton/fonts/font = ExtResource("1_iyu1o")
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("1_iyu1o")
+TooltipLabel/font_sizes/font_size = 16
+TooltipLabel/fonts/font = ExtResource("1_iyu1o")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_6iyit")
+
+[node name="ClipRandomSelectionBlock" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_k0yo7")
+script = ExtResource("2_iyu1o")
+
+[node name="SignalSendTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.167
+one_shot = true
+
+[node name="List" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer10" type="HBoxContainer" parent="List"]
+layout_mode = 2
+
+[node name="b" type="Control" parent="List/HBoxContainer10"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="OptionClipOrder" type="OptionButton" parent="List/HBoxContainer10"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 32)
+layout_mode = 2
+item_count = 4
+popup/item_0/text = "By Character"
+popup/item_0/id = 1
+popup/item_1/text = "Chronological"
+popup/item_1/id = 3
+popup/item_2/text = "By File Name"
+popup/item_2/id = 0
+popup/item_3/text = "Randomized"
+popup/item_3/id = 2
+
+[node name="Label" type="Label" parent="List/HBoxContainer10"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Dub clip sorting"
+
+[node name="Label2" type="Label" parent="List/HBoxContainer10"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[The order of the clips during Dub Mode]"
+
+[node name="HBoxContainer12" type="HBoxContainer" parent="List"]
+layout_mode = 2
+
+[node name="ChkMuteBackingTrack" type="CheckButton" parent="List/HBoxContainer12"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="List/HBoxContainer12"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="List/HBoxContainer12"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Mute backing track"
+
+[node name="Label2" type="Label" parent="List/HBoxContainer12"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Don't play the backing track when watching dubs]
+[Only the voice recordings will be heard]"
+
+[node name="HBoxContainer11" type="HBoxContainer" parent="List"]
+layout_mode = 2
+
+[node name="ChkHardOneTake" type="CheckButton" parent="List/HBoxContainer11"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="List/HBoxContainer11"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="List/HBoxContainer11"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Only first take"
+
+[node name="Label2" type="Label" parent="List/HBoxContainer11"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Difficulty option that disables redos in Dub Mode]"
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="List"]
+layout_mode = 2
+
+[node name="ChkHardMute" type="CheckButton" parent="List/HBoxContainer8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="List/HBoxContainer8"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="List/HBoxContainer8"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Mute clip audio"
+
+[node name="Label2" type="Label" parent="List/HBoxContainer8"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Difficulty option that disables hearing the clips in Dub Mode]"
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="List"]
+layout_mode = 2
+
+[node name="ChkHardNoCaptions" type="CheckButton" parent="List/HBoxContainer9"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="List/HBoxContainer9"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="List/HBoxContainer9"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "No captions"
+
+[node name="Label2" type="Label" parent="List/HBoxContainer9"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Difficulty option that disables Dub Mode captions, if they exist]"

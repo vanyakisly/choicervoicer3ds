@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="PackChatter" load_steps=9 format=3 uid="uid://cshrfoqsqlef3"]
+
+[ext_resource type="Script" uid="uid://ubm6r423hy30" path="res://common/data/container_resources/pack_chatter.gd" id="1_alg58"]
+[ext_resource type="Script" uid="uid://thyifi5mu6i4" path="res://common/data/container_resources/condat_chatter.gd" id="1_okobe"]
+[ext_resource type="Script" uid="uid://dp4s5fw2axnio" path="res://common/data/container_resources/conres_chatter.gd" id="2_3e2ke"]
+[ext_resource type="AudioStream" uid="uid://b7xo32gkn5455" path="res://assets/audio/sfx/solo_clapping.ogg" id="3_hrdrh"]
+[ext_resource type="Script" uid="uid://dnxug08di3ljt" path="res://common/data/container_resources/conres_chatter_instance.gd" id="4_51k06"]
+
+[sub_resource type="Resource" id="Resource_hrdrh"]
+script = ExtResource("1_okobe")
+volume = 1.0
+folder_name = ""
+display_name = "Basic Clapping"
+icon_file_name = ""
+authors = PackedStringArray("YeahMaybe")
+readme = "Responds to any Twitch chat message whose first word contains \"clap.\""
+unix_last_modified = 0
+global_path_agnostic = ""
+metadata/_custom_type_script = "uid://thyifi5mu6i4"
+
+[sub_resource type="Resource" id="Resource_qq583"]
+script = ExtResource("4_51k06")
+audio_file_name = ""
+audio = ExtResource("3_hrdrh")
+is_case_sensitive = false
+is_contains = true
+volume = 1.0
+metadata/_custom_type_script = "uid://dnxug08di3ljt"
+
+[sub_resource type="Resource" id="Resource_51k06"]
+script = ExtResource("2_3e2ke")
+exact_collection = Dictionary[ExtResource("4_51k06"), PackedStringArray]({})
+broad_collection = Dictionary[ExtResource("4_51k06"), PackedStringArray]({
+SubResource("Resource_qq583"): PackedStringArray("clap")
+})
+metadata/_custom_type_script = "uid://dp4s5fw2axnio"
+
+[resource]
+script = ExtResource("1_alg58")
+condat = SubResource("Resource_hrdrh")
+conres = SubResource("Resource_51k06")
+native_pack = true
+metadata/_custom_type_script = "uid://ubm6r423hy30"

@@ -1,0 +1,629 @@
+[gd_scene load_steps=31 format=3 uid="uid://cupjg6eqhfj50"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_roub7"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="2_12yi2"]
+[ext_resource type="Script" uid="uid://dpea74j3x1diy" path="res://scenes/editors/clips/metadata_editor_clip.gd" id="2_hi6kn"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="3_jq2he"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="4_unpm6"]
+[ext_resource type="PackedScene" uid="uid://cdx0jainvjuh1" path="res://scenes/editors/clips/metadata_array_editor_instance.tscn" id="5_hi6kn"]
+[ext_resource type="Script" uid="uid://c4asteir35d0c" path="res://scenes/audio/waveform_and_record/audio_interface_manager_bufferless.gd" id="7_10rwp"]
+[ext_resource type="Script" uid="uid://bvmkpp062yeeq" path="res://scenes/audio/waveform_and_record/spectrum_sample_collections/spectrum_aggregate_finite.gd" id="8_kk1id"]
+[ext_resource type="Script" uid="uid://demxyf6l8cu1h" path="res://scenes/audio/waveform_and_record/audio_spectrum_sampler.gd" id="9_bi7ad"]
+[ext_resource type="Script" uid="uid://odetqqt2teia" path="res://scenes/audio/waveform_and_record/waveform_display.gd" id="10_137qd"]
+[ext_resource type="Texture2D" uid="uid://dli323vaiipcm" path="res://graphic/gradient/button_bubble.tres" id="10_kk1id"]
+[ext_resource type="Script" uid="uid://3pqfbaadekmg" path="res://scenes/audio/waveform_and_record/waveform_viewport.gd" id="11_kcnwc"]
+[ext_resource type="Texture2D" uid="uid://dw3cqacwfy06o" path="res://assets/images/textures/waveform_buffer.png" id="12_3o61n"]
+[ext_resource type="Script" uid="uid://db5v6fg7uvs6v" path="res://scenes/audio/waveform_and_record/waveform_drawer.gd" id="13_psyoh"]
+
+[sub_resource type="Theme" id="Theme_jq2he"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/fonts/font = ExtResource("1_roub7")
+
+[sub_resource type="Gradient" id="Gradient_unpm6"]
+offsets = PackedFloat32Array(0, 0.035, 0.216)
+colors = PackedColorArray(0.32549, 0.32549, 0.32549, 0, 0.368627, 0.368627, 0.368627, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x7vva"]
+gradient = SubResource("Gradient_unpm6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hi6kn"]
+shader = ExtResource("2_12yi2")
+shader_parameter/palette = SubResource("GradientTexture1D_x7vva")
+shader_parameter/node_size = Vector2(288, 480)
+shader_parameter/x_corner_margin = 0.05
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.05
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_hi6kn"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7a4rt"]
+gradient = SubResource("Gradient_hi6kn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kk1id"]
+resource_local_to_scene = true
+shader = ExtResource("2_12yi2")
+shader_parameter/palette = SubResource("GradientTexture1D_7a4rt")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bi7ad"]
+resource_local_to_scene = true
+shader = ExtResource("2_12yi2")
+shader_parameter/palette = ExtResource("10_kk1id")
+shader_parameter/node_size = Vector2(192, 38)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.486275)
+shader_parameter/center_falloff = 0.457
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.925
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = -0.34
+shader_parameter/center_y_scale = 0.57
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tsomb"]
+viewport_path = NodePath("VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport")
+
+[sub_resource type="Gradient" id="Gradient_qm3qb"]
+offsets = PackedFloat32Array(0.0229008, 0.0801527, 0.29771, 0.668367, 0.688776)
+colors = PackedColorArray(0, 0, 0, 0, 0.276262, 0.847634, 0.999999, 1, 0.501961, 0.898039, 1, 1, 0.501961, 0.898039, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pctug"]
+gradient = SubResource("Gradient_qm3qb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t40j2"]
+shader = ExtResource("2_12yi2")
+shader_parameter/palette = SubResource("GradientTexture1D_pctug")
+shader_parameter/node_size = Vector2(1, 1)
+shader_parameter/x_corner_margin = 0.1
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.1
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_78qdm"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_42ue4"]
+blend_mode = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kk1id"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_137qd"]
+resource_local_to_scene = true
+shader = ExtResource("2_12yi2")
+shader_parameter/palette = SubResource("GradientTexture1D_7a4rt")
+shader_parameter/node_size = Vector2(800, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="ClipMetadataEditor" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -762.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jq2he")
+script = ExtResource("2_hi6kn")
+
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png,*.jpg,*.jpeg;Image Files;image/png,image/jpeg")
+use_native_dialog = true
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="AudioInterfaceManagerBufferless" type="Node" parent="Audio" node_paths=PackedStringArray("waveform_display", "waveform_drawers_container", "playbar", "spectrum_aggregate_vclip", "spectrum_aggregate_plmic", "audio_spectrum_sampler_vclip", "audio_spectrum_sampler_plmic", "audio_player_vclip", "audio_player_pecho")]
+unique_name_in_owner = true
+script = ExtResource("7_10rwp")
+waveform_display = NodePath("../../VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay")
+waveform_drawers_container = NodePath("../../VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/HBoxContainer/BlackBackground")
+playbar = NodePath("../../VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/Playbar")
+spectrum_aggregate_vclip = NodePath("../SpectrumAggregateVclip")
+spectrum_aggregate_plmic = NodePath("../Filler")
+audio_spectrum_sampler_vclip = NodePath("../AudioSpectrumSamplerVclip")
+audio_spectrum_sampler_plmic = NodePath("../Filler2")
+audio_player_vclip = NodePath("../AudioPlayerVclip")
+audio_player_pecho = NodePath("../Filler3")
+metadata/_custom_type_script = "uid://c4asteir35d0c"
+
+[node name="SpectrumAggregateVclip" type="Node" parent="Audio" node_paths=PackedStringArray("connected_sampler")]
+unique_name_in_owner = true
+script = ExtResource("8_kk1id")
+connected_sampler = NodePath("../AudioSpectrumSamplerVclip")
+metadata/_custom_type_script = "uid://bvmkpp062yeeq"
+
+[node name="AudioSpectrumSamplerVclip" type="Node" parent="Audio"]
+unique_name_in_owner = true
+script = ExtResource("9_bi7ad")
+spectrum_target = 1
+metadata/_custom_type_script = "uid://demxyf6l8cu1h"
+
+[node name="Filler" type="Node" parent="Audio" node_paths=PackedStringArray("connected_sampler")]
+script = ExtResource("8_kk1id")
+connected_sampler = NodePath("../Filler2")
+metadata/_custom_type_script = "uid://bvmkpp062yeeq"
+
+[node name="Filler2" type="Node" parent="Audio"]
+script = ExtResource("9_bi7ad")
+spectrum_target = 2
+metadata/_custom_type_script = "uid://demxyf6l8cu1h"
+
+[node name="AudioPlayerVclip" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
+bus = &"Vclip"
+
+[node name="Filler3" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
+bus = &"Vclip"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Block" type="ColorRect" parent="VBoxContainer"]
+material = SubResource("ShaderMaterial_hi6kn")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Block"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer"]
+layout_mode = 2
+
+[node name="LblClipName" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(348, 0)
+layout_mode = 2
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 20
+text = "example_clip_name_with_very_long_name.wav"
+autowrap_mode = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SECTION_Image" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LblClipImageName" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(348, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Image: example_clip_name_with_very_long_name.png"
+autowrap_mode = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image"]
+visible = false
+layout_mode = 2
+text = "Image"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ClipTexture" type="TextureRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+expand_mode = 1
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer/ClipTexture"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.947199, 0.947199, 0.947199, 1)
+
+[node name="BtnChangeClipImage" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer" instance=ExtResource("3_jq2he")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_kk1id")
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+size_flags_vertical = 4
+sound_type = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer/BtnChangeClipImage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_unpm6")
+theme_override_font_sizes/font_size = 20
+text = "Pick Image"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SECTION_Caption" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Caption"]
+visible = false
+layout_mode = 2
+text = "Caption"
+
+[node name="LineCaptionText" type="LineEdit" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Caption"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+placeholder_text = "Caption text"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SECTION_Listen" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen"]
+visible = false
+layout_mode = 2
+text = "Audio"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen"]
+layout_mode = 2
+
+[node name="LblLength" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Audio: 58.88 seconds"
+
+[node name="BtnListenStop" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/HBoxContainer" instance=ExtResource("3_jq2he")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_bi7ad")
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+button_type = 4
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/HBoxContainer/BtnListenStop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_unpm6")
+theme_override_font_sizes/font_size = 20
+text = "Listen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveformDisplay" type="TextureRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen" node_paths=PackedStringArray("waveform_viewport")]
+custom_minimum_size = Vector2(100, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = SubResource("ViewportTexture_tsomb")
+expand_mode = 1
+script = ExtResource("10_137qd")
+max_width = 348
+waveform_viewport = NodePath("WaveformViewport")
+metadata/_custom_type_script = "uid://odetqqt2teia"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay"]
+visible = false
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -10
+theme_override_constants/margin_right = -10
+theme_override_constants/margin_bottom = -10
+
+[node name="WaveformBorder" type="ColorRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/MarginContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_t40j2")
+layout_mode = 2
+
+[node name="WaveformViewport" type="SubViewport" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay" node_paths=PackedStringArray("buffer_left", "buffer_right", "waveform_drawers_container")]
+size = Vector2i(100, 512)
+script = ExtResource("11_kcnwc")
+buffer_left = NodePath("HBoxContainer/BufferLeft")
+buffer_right = NodePath("HBoxContainer/BufferRight")
+waveform_drawers_container = NodePath("HBoxContainer/BlackBackground")
+metadata/_custom_type_script = "uid://3pqfbaadekmg"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport"]
+material = SubResource("CanvasItemMaterial_78qdm")
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="BufferLeft" type="TextureRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/HBoxContainer"]
+custom_minimum_size = Vector2(0, 512)
+layout_mode = 2
+texture = ExtResource("12_3o61n")
+expand_mode = 1
+
+[node name="BlackBackground" type="ColorRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/HBoxContainer"]
+custom_minimum_size = Vector2(100, 512)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0, 0, 0, 1)
+
+[node name="WaveformDrawerVclip" type="Control" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/HBoxContainer/BlackBackground" node_paths=PackedStringArray("aggregate_data_node")]
+unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_42ue4")
+anchors_preset = 0
+script = ExtResource("13_psyoh")
+aggregate_data_node = NodePath("../../../../../../../../../../../../../Audio/SpectrumAggregateVclip")
+metadata/_custom_type_script = "uid://db5v6fg7uvs6v"
+
+[node name="BufferRight" type="TextureRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("12_3o61n")
+expand_mode = 1
+
+[node name="WhiteLine" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="b" type="Control" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/WhiteLine"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/WhiteLine"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+
+[node name="b2" type="Control" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport/WhiteLine"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Playbar" type="ColorRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/WaveformDisplay/WaveformViewport"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(4, 512)
+offset_right = 4.0
+color = Color(1, 0.283333, 0.14, 0.745098)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SECTION_Tags" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_hi6kn")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SECTION_DubTimestamps" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_hi6kn")]
+unique_name_in_owner = true
+layout_mode = 2
+type = 1
+title = "Dub Timestamp"
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SECTION_DubCharacters" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_hi6kn")]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Dub Character"
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ChkDubOnlyClip" type="CheckButton" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.369329, 0.806595, 0.869875, 1)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kk1id")
+text = "Dub-only clip
+(won't appear for other game modes)"
+alignment = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnSave" parent="VBoxContainer" instance=ExtResource("3_jq2he")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_137qd")
+custom_minimum_size = Vector2(256, 48)
+layout_mode = 2
+size_flags_vertical = 4
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="VBoxContainer/BtnSave"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_unpm6")
+theme_override_font_sizes/font_size = 24
+text = "Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="file_selected" from="FileDialog" to="." method="_file_image_chosen"]
+[connection signal="idled" from="Audio/AudioInterfaceManagerBufferless" to="." method="_play_finished"]
+[connection signal="finished" from="Audio/Filler3" to="." method="_set_fully_played_once"]
+[connection signal="button_clicked" from="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer/BtnChangeClipImage" to="." method="_open_file_dialog"]
+[connection signal="button_clicked" from="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Listen/HBoxContainer/BtnListenStop" to="." method="_play_clip"]
+[connection signal="button_clicked" from="VBoxContainer/BtnSave" to="." method="save_current"]

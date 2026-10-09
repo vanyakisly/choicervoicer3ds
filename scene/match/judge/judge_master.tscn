@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://xrnserhwr2la"]
+
+[ext_resource type="Script" uid="uid://cu6ot3idht3xf" path="res://scene/match/judge/judge_master.gd" id="1_77hb8"]
+[ext_resource type="PackedScene" uid="uid://demyre2y1sg2v" path="res://scene/match/judge/judge.tscn" id="2_2ve84"]
+[ext_resource type="AudioStream" uid="uid://drcl47csj0flj" path="res://audio/sfx/drum-roll-please-6386.mp3" id="3_bnr8r"]
+
+[node name="JudgeMaster" type="Node3D"]
+script = ExtResource("1_77hb8")
+
+[node name="Judges" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Judge1" parent="Judges" instance=ExtResource("2_2ve84")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0)
+
+[node name="Judge2" parent="Judges" instance=ExtResource("2_2ve84")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 0)
+
+[node name="Judge3" parent="Judges" instance=ExtResource("2_2ve84")]
+
+[node name="Judge4" parent="Judges" instance=ExtResource("2_2ve84")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 0)
+
+[node name="Judge5" parent="Judges" instance=ExtResource("2_2ve84")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 0)
+
+[node name="LongDrumroll" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_bnr8r")
+bus = &"SfxMain"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.728, 3.182)

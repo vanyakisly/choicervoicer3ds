@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://che2vfu0t8er0"
+path="res://.godot/imported/button_sfx_back.wav-75f4ee6df442001f688f4a9a89194d97.sample"
+
+[deps]
+
+source_file="res://game_default/packs_menu/The Choicer Voicer's Default Menu/button_sfx_back.wav"
+dest_files=["res://.godot/imported/button_sfx_back.wav-75f4ee6df442001f688f4a9a89194d97.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=0
+compress/mode=0

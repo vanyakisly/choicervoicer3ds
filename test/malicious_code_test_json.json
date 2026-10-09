@@ -1,0 +1,3 @@
+{
+"arb_code":"Object(RefCounted,\"script\":Object(GDScript,\"script/source\":\"extends RefCounted;func _init():print(\\\"Arbitrary code\\\")\"))"
+}

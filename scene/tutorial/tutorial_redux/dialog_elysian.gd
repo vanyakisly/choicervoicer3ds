@@ -1,0 +1,71 @@
+class_name DialogElysian extends Resource
+
+
+@export var images: Array[Texture2D]
+@export var dialog: Dictionary = {
+	"begin_1": ["Hello there!\nWelcome to the Choicer Voicer,\nI'm happy to see you here!", 
+		"My name is Shae, and I'm this show's default host. However, you'll be able to swap me out with your own judges, too.", 
+		"It looks like this might be your first time.\nFeel free to ask me any questions."], 
+	"begin_2": ["Hello there!\nShae here to answer your questions!"], 
+	"directory": ["What are you interested in?"], 
+	"continue_to_game_immediate": ["Already know your way around? Excellent! Then I'll let you get to it. Enjoy your stay!"], 
+	"continue_to_game_questions": ["Hope I was able to help. Now I'll let you get to it. Enjoy your stay!"], 
+	"continue_to_game_tease": ["Just wanted to see me for a moment, huh?", "I kid, I kid. Have a good one!"], 
+	"how_to_play": ["Of course! Allow me to explain...", 
+		"In The Choicer Voicer, you play sessions where each round is a voice clip.", 
+		"The goal is to replicate the voice clips to the best of your ability.", 
+		"Volume, pitch, and timing are all important factors in how you earn points from a panel of five judges.", 
+		"The number of rounds can be as long or as short as you want. However...", 
+		"...to win a session, you must finish with a performance average of 60% or higher."], 
+	"scuff": ["So, I'll be honest with you. The game's scoring algorithm is... lacking.", 
+		"Our scoring algorithm isn't some advanced AI analyzing your performance or anything. It's just a bit of wonky math.", 
+		"The important takeaway:\nIt's just waveform matching.\nThe waveform images should overlap.", 
+		"The algorithm doesn't know what you're saying, or how you're saying it.\nIt just wants waveforms to line up.", 
+		"And yes, I'm giving you insider information. But I think it's necessary, considering its current state."], 
+	"customize": ["One of our primary goals is making it easy to customize your experience!", 
+		"Each feature has its own \"pack folder\" in your game directory.", 
+		"If you'd like, click this button to open the game folder in your file browser, and take a look.", 
+		"The current features are:\nChatter, Host, Judges, Menu,\nPlayer, Studio, and Voice.", 
+		"Every modpack belongs in one of these pack folders. You might see a Tutorial Pack in \"packs_voice\" right now.", 
+		"When you add new modpacks, make sure you drop or merge it with the correct pack folder, or else it won't be read properly.", 
+		"You can also create a new pack template from the Customize menu in-game, using \"Add New Pack\".", 
+		"Additionally, the \"Modpack Guides\" page lists every file available to you for customization."], 
+
+
+	"mic_check_goto": ["Sure thing!\nLet me just get that for you..."], 
+	"mic_check_actual": [""], 
+
+
+
+
+	"second": ["Of course! Allow me to explain...", 
+		"The goal in The Choicer Voicer is to match audio clips using your voice.", 
+		"This means you're going to need a microphone in order to properly\nplay the game."], 
+	"second_input": ["Would you like to do a mic check before we move on?"], 
+	"skip_mic_check": ["Gotcha, in that case let's continue..."], 
+	"pre_mic": ["Sure thing!\nLet's just bring that up here..."], 
+	"during_mic": ["Test your mic with the record and playback buttons, and then press 'Continue' when you're ready to move on."], 
+	"third": ["Next, we'll have you try the core gameplay: matching an audio clip.", 
+		"First, the clip itself will play.\nYou'll also see its waveform appear.\nJust listen to it at that time.", 
+		"After that, the clip will play again, but it will be your turn. Speak into your mic and replicate what you heard.", 
+		"Your timing might be off initially, but that's fine! Just get comfortable and try your best."], 
+	"third_input": ["Are you ready?\nOr would you like to skip this section?"], 
+	"fourth": ["Awesome, I'm going to give you a set of three clips then. Here's the first.", "Remember: the first time it plays,\njust listen."], 
+	"fourth_await": ["Listen to the audio,\nthen mimic it yourself when prompted."], 
+	"skip_vclips": ["You'd prefer to see it for real?\nThat works for me!", "I look forward to seeing you again soon.\nBye-bye for now!"], 
+	"fifth": ["Good work!", "During normal gameplay your recording would play back, but we'll hurry along to the next one."], 
+	"sixth": ["Okay, next is the final one.\nWe'll listen to your output afterward so you get a better feel for it."], 
+	"seventh": ["Let's hear how you did on this one."], 
+	"eighth": ["Nicely done!"], 
+	"ninth": ["During normal gameplay, five judges will decide how well you did at matching the voice clips.", 
+		"Each judge can give you one point,\n so your score each round can range from zero to five.", 
+		"For these three performances you just did, you would've gotten the scores %s, %s, and %s.", 
+		"You don't need perfect 5s to win.\nA total of 60% or higher will win you the match, so around three votes per round."], 
+	"ninth_pass": ["In your case here, your scores would've given you a passing percentage, meaning you would've won the match!"], 
+	"ninth_fail": ["In your case here, your scores would've been too low to pass, meaning you wouldn't have won the match."], 
+	"tenth": ["Final things for me to note,\nand then I'll let you get to it:", 
+		"In order to play more voice packs, you will either need to get them from others or make them yourself.", 
+		"Voice packs go in 'packs_voice'\nin the game folder.", 
+		"You'll find more info about the game folder and its contents in the Help menu.", 
+		"Bye for now.\nSee you soon!"]
+}

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cjdeik0k6atfu"
+path="res://.godot/imported/ChoicerVoicerTutorialPack2.wav-e613c7430ce2ee5c13b0b1a193a40bfc.sample"
+
+[deps]
+
+source_file="res://game_default/packs_voice/The Choicer Voicer Tutorial Pack/ChoicerVoicerTutorialPack2.wav"
+dest_files=["res://.godot/imported/ChoicerVoicerTutorialPack2.wav-e613c7430ce2ee5c13b0b1a193a40bfc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=0
+compress/mode=0

@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="ButtonProfile" load_steps=8 format=3 uid="uid://b1s7f03ciogbw"]
+
+[ext_resource type="Script" uid="uid://8evkjpj7w6d4" path="res://graphic/button_profile/button_profile.gd" id="1_g8plv"]
+
+[sub_resource type="Gradient" id="Gradient_ihg3d"]
+offsets = PackedFloat32Array(0, 0, 0, 0, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wjjkh"]
+gradient = SubResource("Gradient_ihg3d")
+
+[sub_resource type="Gradient" id="Gradient_icnfm"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.0257235, 0.0546624, 0.173633, 0.209003, 0.450161)
+colors = PackedColorArray(0.298039, 0.615686, 0.709804, 0, 0.298039, 0.615686, 0.709804, 1, 0.374887, 0.707294, 0.80984, 1, 0.728822, 0.728822, 0.728821, 1, 0.881939, 0.881936, 0.881936, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2ie7s"]
+gradient = SubResource("Gradient_icnfm")
+
+[sub_resource type="Gradient" id="Gradient_xl0es"]
+offsets = PackedFloat32Array(0, 0, 0, 0, 0)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_w1iy1"]
+gradient = SubResource("Gradient_xl0es")
+
+[resource]
+script = ExtResource("1_g8plv")
+gradient_standard = SubResource("GradientTexture1D_w1iy1")
+gradient_hover = SubResource("GradientTexture1D_2ie7s")
+gradient_disabled = SubResource("GradientTexture1D_wjjkh")
+center_detail = Color(0, 0, 0, 1)
+reflection = Color(1, 1, 1, 0.968627)
+font_color = Color(0.227451, 0.737255, 0.839216, 1)
+center_detail_disabled = Color(0, 0, 0, 1)
+reflection_disabled = Color(1, 1, 1, 0.968627)
+font_color_disabled = Color(0.839216, 0.839216, 0.839216, 1)
+enabled_color_allow = Array[bool]([false, false, false, false, false])
+hover_color_allow = Array[bool]([true, true, true, false, false])
+disabled_color_allow = Array[bool]([false, false, false, false, false])
+center_color_allow = false
+reflection_color_allow = false
+font_color_allow = true
+enabled_invert_allow = Array[bool]([true, true, true, true, true])
+hover_invert_allow = Array[bool]([true, true, true, true, true])
+disabled_invert_allow = Array[bool]([false, false, false, false, false])
+center_invert_allow = false
+reflection_invert_allow = true
+font_invert_allow = false

@@ -1,0 +1,250 @@
+[gd_scene load_steps=15 format=3 uid="uid://cwqewoy3nka8a"]
+
+[ext_resource type="Shader" uid="uid://bbf4nuni01qyp" path="res://graphic/shader/texture_scroll.gdshader" id="1_oywso"]
+[ext_resource type="Script" uid="uid://csfgd4dl6ttlk" path="res://scene/background/modular_background.gd" id="1_pj7l2"]
+[ext_resource type="Texture2D" uid="uid://ch8206f6oi2la" path="res://game_default/packs_menu/The Choicer Voicer's Default Menu/background.png" id="3_6ffix"]
+[ext_resource type="Shader" uid="uid://tdpuj6eyfq0m" path="res://graphic/shader/basic_circle.gdshader" id="4_cxkmi"]
+[ext_resource type="PackedScene" uid="uid://5a4pm6ttuegu" path="res://scene/background/spin_disc.tscn" id="5_5171p"]
+[ext_resource type="Shader" uid="uid://d2ek43c4pq8wd" path="res://graphic/shader/psp_waves.gdshader" id="5_bkps7"]
+[ext_resource type="Texture2D" uid="uid://c2oj7ot8pxt14" path="res://graphic/gradient/letterbox.tres" id="5_udg4q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1ks03"]
+shader = ExtResource("1_oywso")
+shader_parameter/direction = Vector2(0.2, 0.2)
+shader_parameter/speed = 1.0
+shader_parameter/color = Vector3(1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6mnng"]
+shader = ExtResource("4_cxkmi")
+shader_parameter/color = Color(0.670588, 0.898039, 0.960784, 0.8)
+shader_parameter/start = 0.782
+shader_parameter/end = 0.815
+shader_parameter/falloff = 0.003
+shader_parameter/spin_speed = 0.03
+shader_parameter/pivot_offset = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ml5d7"]
+shader = ExtResource("5_bkps7")
+shader_parameter/kolor = Color(1, 1, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_qwcp1"]
+offsets = PackedFloat32Array(0.667, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7vvbk"]
+gradient = SubResource("Gradient_qwcp1")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_utg3x"]
+offsets = PackedFloat32Array(0.667, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mca6i"]
+gradient = SubResource("Gradient_utg3x")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[node name="ModularBackground" type="Control" groups=["ModularBackground"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pj7l2")
+
+[node name="BackgroundTexture" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_1ks03")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_6ffix")
+stretch_mode = 1
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+autoplay = true
+expand = true
+loop = true
+bus = &"Video"
+
+[node name="SpinningCircles" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpinningCircle" type="ColorRect" parent="SpinningCircles"]
+material = SubResource("ShaderMaterial_6mnng")
+layout_mode = 0
+offset_left = 470.0
+offset_top = -427.0
+offset_right = 1302.0
+offset_bottom = 405.0
+rotation = 1.5708
+pivot_offset = Vector2(416, 416)
+
+[node name="SpinningCircle2" type="ColorRect" parent="SpinningCircles"]
+material = SubResource("ShaderMaterial_6mnng")
+layout_mode = 0
+offset_left = -280.0
+offset_top = -323.0
+offset_right = 405.0
+offset_bottom = 362.0
+
+[node name="SpinningCircleCen" type="ColorRect" parent="SpinningCircles"]
+material = SubResource("ShaderMaterial_6mnng")
+layout_mode = 0
+offset_left = 159.0
+offset_top = 47.0
+offset_right = 844.0
+offset_bottom = 732.0
+rotation = 2.35619
+pivot_offset = Vector2(342, 342)
+
+[node name="SpinningCircleCen2" type="ColorRect" parent="SpinningCircles"]
+material = SubResource("ShaderMaterial_6mnng")
+layout_mode = 0
+offset_left = -67.0
+offset_top = 217.0
+offset_right = 369.0
+offset_bottom = 653.0
+rotation = 1.48353
+pivot_offset = Vector2(342, 342)
+
+[node name="SpinningCircleCen3" type="ColorRect" parent="SpinningCircles"]
+material = SubResource("ShaderMaterial_6mnng")
+layout_mode = 0
+offset_left = -61.0
+offset_top = 284.0
+offset_right = 375.0
+offset_bottom = 720.0
+rotation = 0.489815
+scale = Vector2(0.746565, 0.746565)
+pivot_offset = Vector2(342, 342)
+
+[node name="SpinningCircle3" type="ColorRect" parent="SpinningCircles"]
+material = SubResource("ShaderMaterial_6mnng")
+layout_mode = 0
+offset_left = 763.878
+offset_top = 333.585
+offset_right = 1448.88
+offset_bottom = 1018.58
+
+[node name="SpinningCircle5" type="ColorRect" parent="SpinningCircles"]
+material = SubResource("ShaderMaterial_6mnng")
+layout_mode = 0
+offset_left = -191.0
+offset_top = -248.5
+offset_right = 354.0
+offset_bottom = 296.5
+rotation = 3.62156
+pivot_offset = Vector2(272, 272)
+
+[node name="SpinningCircle4" type="ColorRect" parent="SpinningCircles"]
+material = SubResource("ShaderMaterial_6mnng")
+layout_mode = 0
+offset_left = 1300.88
+offset_top = 1039.76
+offset_right = 2113.88
+offset_bottom = 1852.76
+rotation = 3.92699
+pivot_offset = Vector2(406, 406)
+
+[node name="Waves" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ml5d7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpinDisc" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SpinDisc"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SpinDisc/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.05557)
+cull_mask = 1048064
+fov = 30.0
+
+[node name="SpinDisc" parent="SpinDisc/SubViewport" groups=["SpinDisc"] instance=ExtResource("5_5171p")]
+transform = Transform3D(1, 0, 0, 0, 0.590605, 0.80696, 0, -0.806959, 0.590606, -5.052, -0.137, -10.155)
+do_spin = true
+radius = 6.19
+spin = -0.123
+squares = 32
+
+[node name="BottomGradient" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_7vvbk")
+
+[node name="TopGradient" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_mca6i")
+
+[node name="BorderTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Letterboxing" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Letterbox" type="TextureRect" parent="Letterboxing"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+texture = ExtResource("5_udg4q")
+
+[node name="Control" type="Control" parent="Letterboxing"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Letterbox2" type="TextureRect" parent="Letterboxing"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+texture = ExtResource("5_udg4q")
+flip_v = true

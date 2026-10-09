@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyp5fsl5dskpg"]
+
+[ext_resource type="Shader" uid="uid://cg6uswns5oa7d" path="res://graphic/shader/selected_button.gdshader" id="1_55jdl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ah5a"]
+shader = ExtResource("1_55jdl")
+shader_parameter/node_size = Vector2(576, 162)
+shader_parameter/x_margin = 0.2
+shader_parameter/y_margin = 0.2
+shader_parameter/margin_percent = 0.333
+shader_parameter/color = Color(1, 0, 0, 1)
+
+[node name="OutlineCornered" type="ColorRect"]
+material = SubResource("ShaderMaterial_7ah5a")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

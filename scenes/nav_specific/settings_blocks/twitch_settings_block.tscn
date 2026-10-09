@@ -1,0 +1,558 @@
+[gd_scene load_steps=13 format=3 uid="uid://bsbarkrtoybwb"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_fhmjg"]
+[ext_resource type="Script" uid="uid://dciojccj7jk46" path="res://scenes/nav_specific/settings_blocks/twitch_settings_block.gd" id="2_3ubqa"]
+
+[sub_resource type="Gradient" id="Gradient_fp3f3"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_fp3f3")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_lr55t"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_lr55t")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iyit"]
+bg_color = Color(0.190762, 0.190762, 0.190762, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="Theme" id="Theme_k0yo7"]
+CheckButton/fonts/font = ExtResource("1_fhmjg")
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("1_fhmjg")
+TooltipLabel/font_sizes/font_size = 16
+TooltipLabel/fonts/font = ExtResource("1_fhmjg")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_6iyit")
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_1lo43"]
+allow_unpress = true
+
+[node name="TwitchSettingsBlock" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_k0yo7")
+script = ExtResource("2_3ubqa")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="LineEditChannelName" type="LineEdit" parent="VBoxContainer/HBoxContainer8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+placeholder_text = "Channel Name"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer8"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Twitch Channel"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer8"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[The Twitch channel that will be monitored for commands]"
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ChkShowAdvancedOptions" type="CheckButton" parent="VBoxContainer/HBoxContainer9"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer9"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer9"]
+layout_mode = 2
+text = "Show Advanced Options"
+
+[node name="[LIST]_AdvancedOptions" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer10" type="HBoxContainer" parent="VBoxContainer/[LIST]_AdvancedOptions"]
+layout_mode = 2
+
+[node name="ChkAllowMultiVoting" type="CheckButton" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer10"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer10"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer10"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Allow multi-voting"
+
+[node name="Label2" type="Label" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer10"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Individuals can vote more than once on a single performance]"
+
+[node name="HBoxContainer11" type="HBoxContainer" parent="VBoxContainer/[LIST]_AdvancedOptions"]
+layout_mode = 2
+
+[node name="ChkEnableCaseSensitivity" type="CheckButton" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer11"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer11"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer11"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Case-sensitive command"
+
+[node name="Label2" type="Label" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer11"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Commands must match the case in order to count]"
+
+[node name="HBoxContainer12" type="HBoxContainer" parent="VBoxContainer/[LIST]_AdvancedOptions"]
+layout_mode = 2
+
+[node name="SpinBoxVoteEnd" type="SpinBox" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer12"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 1000.0
+value = 1.0
+alignment = 2
+update_on_text_changed = true
+
+[node name="ChkVoteEnd" type="CheckButton" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer12"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer12"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer12"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "End poll after X votes"
+
+[node name="Label2" type="Label" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer12"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[The poll will close early if it hits this amount of votes]"
+
+[node name="HBoxContainer13" type="HBoxContainer" parent="VBoxContainer/[LIST]_AdvancedOptions"]
+layout_mode = 2
+
+[node name="SpinBoxInactivityTime" type="SpinBox" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer13"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 30.0
+step = 0.1
+value = 5.0
+alignment = 2
+update_on_text_changed = true
+suffix = "sec."
+
+[node name="ChkInactivityTime" type="CheckButton" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer13"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer13"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer13"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "End poll after inactivity"
+
+[node name="Label2" type="Label" parent="VBoxContainer/[LIST]_AdvancedOptions/HBoxContainer13"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[The poll will close early if no votes occur in this time span]"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HBoxContainer10" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ChkEnableChatter" type="CheckButton" parent="VBoxContainer/HBoxContainer10"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer10"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer10"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Enable chatter"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer10"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Requires Chatter packs]
+[Chat's messages will trigger audio from your Chatter packs]"
+
+[node name="[LIST]_ChatterOptions" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer12" type="HBoxContainer" parent="VBoxContainer/[LIST]_ChatterOptions"]
+layout_mode = 2
+
+[node name="b" type="Control" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer12"]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+
+[node name="SpinBoxChatterGlobalCooldown" type="SpinBox" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer12"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+max_value = 60.0
+alignment = 2
+update_on_text_changed = true
+suffix = "sec."
+
+[node name="Control" type="Control" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer12"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer12"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Global cooldown"
+
+[node name="Label2" type="Label" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer12"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Time before anyone can trigger chatter again]"
+
+[node name="HBoxContainer13" type="HBoxContainer" parent="VBoxContainer/[LIST]_ChatterOptions"]
+layout_mode = 2
+
+[node name="b" type="Control" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer13"]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+
+[node name="SpinBoxChatterUserCooldown" type="SpinBox" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer13"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+max_value = 60.0
+alignment = 2
+update_on_text_changed = true
+suffix = "sec."
+
+[node name="Control" type="Control" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer13"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer13"]
+custom_minimum_size = Vector2(204, 0)
+layout_mode = 2
+text = "Per-user cooldown"
+
+[node name="Label2" type="Label" parent="VBoxContainer/[LIST]_ChatterOptions/HBoxContainer13"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Time before an individual can trigger chatter again]"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HBoxContainer14" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer14"]
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer14"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="ChkBinaryVote" type="CheckBox" parent="VBoxContainer/HBoxContainer14/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_fhmjg")
+button_pressed = true
+button_group = SubResource("ButtonGroup_1lo43")
+text = "    Use Binary Vote System"
+
+[node name="ChkScoreVote" type="CheckBox" parent="VBoxContainer/HBoxContainer14/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_fhmjg")
+button_group = SubResource("ButtonGroup_1lo43")
+text = "    Use Score Vote System"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer14"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "[Choose how individuals vote on performances]"
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="[LIST]_CommandsText" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/[LIST]_CommandsText"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer"]
+layout_mode = 2
+text = "Binary Vote Commands"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+text = "Binary fail
+(0 points)"
+horizontal_alignment = 2
+
+[node name="LineEditBinaryFail" type="LineEdit" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "!fail"
+placeholder_text = "!fail"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+text = "Binary pass
+(5 points)"
+horizontal_alignment = 2
+
+[node name="LineEditBinaryPass" type="LineEdit" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "!pass"
+placeholder_text = "!pass"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/[LIST]_CommandsText"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2"]
+layout_mode = 2
+text = "Score Vote Commands"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Score 0 points"
+horizontal_alignment = 2
+
+[node name="LineEditVote0" type="LineEdit" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "!vote0"
+placeholder_text = "!vote0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Score 1 point "
+horizontal_alignment = 2
+
+[node name="LineEditVote1" type="LineEdit" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "!vote1"
+placeholder_text = "!vote1"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer3"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Score 2 points"
+horizontal_alignment = 2
+
+[node name="LineEditVote2" type="LineEdit" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "!vote2"
+placeholder_text = "!vote2"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer4"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Score 3 points"
+horizontal_alignment = 2
+
+[node name="LineEditVote3" type="LineEdit" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "!vote3"
+placeholder_text = "!vote3"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer5"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Score 4 points"
+horizontal_alignment = 2
+
+[node name="LineEditVote4" type="LineEdit" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "!vote4"
+placeholder_text = "!vote4"
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer6"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Score 5 points"
+horizontal_alignment = 2
+
+[node name="LineEditVote5" type="LineEdit" parent="VBoxContainer/[LIST]_CommandsText/VBoxContainer2/HBoxContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "!vote5"
+placeholder_text = "!vote5"

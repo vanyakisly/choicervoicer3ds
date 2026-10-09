@@ -1,0 +1,322 @@
+[gd_scene load_steps=14 format=3 uid="uid://cof68gr76y8f5"]
+
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="1_637xw"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="2_h5io6"]
+[ext_resource type="Script" uid="uid://bdqt8q2d33fu3" path="res://scene/menu/play/player_tile.gd" id="2_pjajy"]
+[ext_resource type="Texture2D" uid="uid://bw702swedbncn" path="res://graphic/image/cv_temp_player_icon.png" id="4_p62gq"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="4_wc26a"]
+[ext_resource type="Texture2D" uid="uid://oo7lhrhyhro8" path="res://graphic/image/cv_temp_mic_icon.png" id="5_8whyn"]
+[ext_resource type="Texture2D" uid="uid://cbredouvu4lf5" path="res://graphic/gradient/invis_button.tres" id="5_gee3b"]
+
+[sub_resource type="Gradient" id="Gradient_ad7uu"]
+offsets = PackedFloat32Array(0.0566667, 0.133333, 0.22)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kgil2"]
+gradient = SubResource("Gradient_ad7uu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kgomx"]
+shader = ExtResource("1_637xw")
+shader_parameter/palette = SubResource("GradientTexture1D_kgil2")
+shader_parameter/node_size = Vector2(316, 112)
+shader_parameter/x_corner_margin = 0.25
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.25
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bw6ti"]
+resource_local_to_scene = true
+shader = ExtResource("1_637xw")
+shader_parameter/palette = ExtResource("5_gee3b")
+shader_parameter/node_size = Vector2(2, 1)
+shader_parameter/x_corner_margin = 0.3
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.3
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.968627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.205
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.871
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.11
+shader_parameter/reflection_y_scale = 0.696
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_drs5h"]
+resource_local_to_scene = true
+shader = ExtResource("1_637xw")
+shader_parameter/palette = ExtResource("5_gee3b")
+shader_parameter/node_size = Vector2(2, 1)
+shader_parameter/x_corner_margin = 0.3
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.3
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.968627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.205
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.871
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.11
+shader_parameter/reflection_y_scale = 0.696
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qlx5s"]
+resource_local_to_scene = true
+shader = ExtResource("1_637xw")
+shader_parameter/palette = ExtResource("5_gee3b")
+shader_parameter/node_size = Vector2(2, 1)
+shader_parameter/x_corner_margin = 0.3
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.3
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.968627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.205
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.871
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.11
+shader_parameter/reflection_y_scale = 0.696
+
+[node name="PlayerTile" type="ColorRect"]
+material = SubResource("ShaderMaterial_kgomx")
+custom_minimum_size = Vector2(316, 112)
+offset_bottom = 112.0
+script = ExtResource("2_pjajy")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LblPlayerIdx" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/ColorRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_h5io6")
+theme_override_font_sizes/font_size = 36
+text = "P1"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="BtnKill" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_wc26a")]
+material = SubResource("ShaderMaterial_bw6ti")
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+button_type = 3
+sound_type = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/BtnKill"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.368627, 0.752941, 0.878431, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 10
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnMoveup" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_wc26a")]
+material = SubResource("ShaderMaterial_drs5h")
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+button_type = 3
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/BtnMoveup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.368627, 0.752941, 0.878431, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 10
+text = "▲"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnMovedown" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_wc26a")]
+material = SubResource("ShaderMaterial_qlx5s")
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+button_type = 3
+sound_type = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/BtnMovedown"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.368627, 0.752941, 0.878431, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 10
+text = "▼"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_p62gq")
+expand_mode = 3
+
+[node name="OptionPlayerPacks" type="OptionButton" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = -16
+theme_override_fonts/font = ExtResource("2_h5io6")
+clip_text = true
+fit_to_longest_item = false
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("5_8whyn")
+expand_mode = 3
+
+[node name="OptionInputDevices" type="OptionButton" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = -16
+theme_override_fonts/font = ExtResource("2_h5io6")
+clip_text = true
+fit_to_longest_item = false
+
+[connection signal="button_clicked" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/BtnKill" to="." method="_on_btn_kill_button_clicked"]
+[connection signal="button_clicked" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/BtnMoveup" to="." method="_on_btn_moveup_button_clicked"]
+[connection signal="button_clicked" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/BtnMovedown" to="." method="_on_btn_movedown_button_clicked"]
+[connection signal="item_selected" from="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/OptionPlayerPacks" to="." method="_on_option_player_packs_item_selected"]
+[connection signal="item_selected" from="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/OptionInputDevices" to="." method="_on_option_input_devices_item_selected"]

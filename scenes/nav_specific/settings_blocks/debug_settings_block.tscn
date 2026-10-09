@@ -1,0 +1,186 @@
+[gd_scene load_steps=12 format=3 uid="uid://d4e3weu14db0p"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_rgxjc"]
+[ext_resource type="Script" uid="uid://dgxutvogpa7hh" path="res://scenes/nav_specific/settings_blocks/debug_settings_block.gd" id="2_rgxjc"]
+
+[sub_resource type="Gradient" id="Gradient_fp3f3"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_fp3f3")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_lr55t"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_lr55t")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iyit"]
+bg_color = Color(0.190762, 0.190762, 0.190762, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="Theme" id="Theme_k0yo7"]
+CheckButton/fonts/font = ExtResource("1_rgxjc")
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("1_rgxjc")
+TooltipLabel/font_sizes/font_size = 16
+TooltipLabel/fonts/font = ExtResource("1_rgxjc")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_6iyit")
+
+[node name="DebugSettingsBlock" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_k0yo7")
+script = ExtResource("2_rgxjc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Sampling Buffer"
+horizontal_alignment = 2
+
+[node name="OptionSamplingBuffer" type="OptionButton" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 32)
+layout_mode = 2
+clip_text = true
+item_count = 6
+popup/item_0/text = "Physics Frame"
+popup/item_0/id = 0
+popup/item_1/text = "Process Frame"
+popup/item_1/id = 1
+popup/item_2/text = "Float Timer"
+popup/item_2/id = 2
+popup/item_3/text = "Physics Frame w/ Millisecond Check"
+popup/item_3/id = 3
+popup/item_4/text = "Process Frame w/ Millisecond Check"
+popup/item_4/id = 4
+popup/item_5/text = "(Don't use) Intentional async"
+popup/item_5/id = 5
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 14
+text = "The sampling buffer changes how the game waits between samples from audio that's playing. This only affects Dub Mode, the clip editor preview, and the mic check, because those are the only places that the new setup is being used. I have created multiple options in hopes that at least one will work for all users.
+
+\"Physics Frame\" was the original method, but has an occasional timing issue. I tried fixing this with \"Float Timer\", but at least one user reported sampling happening too quickly with it."
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Countdown Type"
+horizontal_alignment = 2
+
+[node name="OptionCountdownType" type="OptionButton" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 32)
+layout_mode = 2
+clip_text = true
+item_count = 2
+popup/item_0/text = "Timing Lights"
+popup/item_0/id = 0
+popup/item_1/text = "2... 1... GO!"
+popup/item_1/id = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 14
+text = "How the gameshow counts down to recording.
+The default is the \"Timing Lights,\" which make a noise as they tick down, with the final light being silent because it lights up the moment recording actually starts.
+
+It has replaced the \"2-1-GO!\" overlay. That overlay had to wait to disappear before recording began, resulting in a delay between it telling you \"GO!\" and actually recording. It has been included here as a debug option to return to for now."
+autowrap_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ChkDisableVolumetricFog" type="CheckButton" parent="VBoxContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Disable Volumetric Fog in the Studio"
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 14
+text = "Experimental option to see if it affects the \"light of god\" bug, where the gameshow studio is bathed in white light. If turning this option on and disabling volumetric fog fixes or changes the \"light of god\" if you have it, please let me know in its store page community post."
+autowrap_mode = 2

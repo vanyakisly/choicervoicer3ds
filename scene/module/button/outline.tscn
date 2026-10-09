@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://dmwb03lrmo15r"]
+
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="1_30eap"]
+
+[sub_resource type="Gradient" id="Gradient_47we0"]
+offsets = PackedFloat32Array(0, 0.02, 0.163636, 0.487273)
+colors = PackedColorArray(1, 0.121569, 0.121569, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0.121569, 0.121569, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pcwcn"]
+gradient = SubResource("Gradient_47we0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2uc41"]
+shader = ExtResource("1_30eap")
+shader_parameter/palette = SubResource("GradientTexture1D_pcwcn")
+shader_parameter/node_size = Vector2(287, 111)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="Outline" type="ColorRect"]
+material = SubResource("ShaderMaterial_2uc41")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2

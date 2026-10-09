@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpx53a1i5nyq7"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_tg7p1"]
+
+[node name="GameModeDescriptionBox" type="ScrollContainer"]
+custom_minimum_size = Vector2(530, 416)
+offset_right = 530.0
+offset_bottom = 416.0
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(400, 225)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = SubResource("PlaceholderTexture2D_tg7p1")
+expand_mode = 1
+
+[node name="LblTitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Mode Title"
+horizontal_alignment = 1
+
+[node name="LblDescription" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Step on up to The Choicer Voicer game show studio!
+Each round, a voice clip will play for you. You must impersonate 
+the audio as well as you can. The better your performances, the
+more points you will receive from a panel of judges.
+
+End with a percentage of 60% or better to win!"

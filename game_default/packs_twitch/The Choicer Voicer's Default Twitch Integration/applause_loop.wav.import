@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://chw8bdv5p2h34"
+path="res://.godot/imported/applause_loop.wav-2e50ab648dc76b13c6d4238a84ad73e2.sample"
+
+[deps]
+
+source_file="res://game_default/packs_twitch/The Choicer Voicer's Default Twitch Integration/applause_loop.wav"
+dest_files=["res://.godot/imported/applause_loop.wav-2e50ab648dc76b13c6d4238a84ad73e2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=1
+edit/loop_begin=0
+edit/loop_end=604433
+compress/mode=0

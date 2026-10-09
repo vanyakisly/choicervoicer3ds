@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="ButtonProfile" load_steps=8 format=3 uid="uid://di6087sep4s6b"]
+
+[ext_resource type="Script" uid="uid://8evkjpj7w6d4" path="res://graphic/button_profile/button_profile.gd" id="1_lyup3"]
+
+[sub_resource type="Gradient" id="Gradient_vi0ls"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uhmqb"]
+gradient = SubResource("Gradient_vi0ls")
+
+[sub_resource type="Gradient" id="Gradient_h4sxp"]
+offsets = PackedFloat32Array(0.0599251, 0.0747423, 0.128866, 0.149813, 0.222222, 0.235955, 0.265918, 0.280899, 0.39201, 0.556804)
+colors = PackedColorArray(0, 0, 0, 0, 0.00206527, 0.00206527, 0.00206527, 1, 0, 0, 0, 1, 0.662745, 0.8, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.662745, 0.8, 0.839216, 1, 0.521569, 0.631373, 0.658824, 1, 0.521569, 0.631373, 0.658824, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_egfjw"]
+gradient = SubResource("Gradient_h4sxp")
+
+[sub_resource type="Gradient" id="Gradient_4r45a"]
+offsets = PackedFloat32Array(0.0599251, 0.0747423, 0.128866, 0.149813, 0.222222, 0.235955, 0.265918, 0.280899, 0.39201, 0.556804)
+colors = PackedColorArray(0, 0, 0, 0, 0.00206527, 0.00206527, 0.00206527, 1, 0, 0, 0, 1, 0.780392, 0.780392, 0.780392, 1, 0.780392, 0.780392, 0.780392, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.78, 0.78, 0.78, 1, 0.529067, 0.529067, 0.529067, 1, 0.564961, 0.564962, 0.564961, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g1eup"]
+gradient = SubResource("Gradient_4r45a")
+
+[resource]
+script = ExtResource("1_lyup3")
+gradient_standard = SubResource("GradientTexture1D_g1eup")
+gradient_hover = SubResource("GradientTexture1D_egfjw")
+gradient_disabled = SubResource("GradientTexture1D_uhmqb")
+center_detail = Color(1, 1, 1, 0.454902)
+reflection = Color(1, 1, 1, 0.568627)
+font_color = Color(1, 1, 1, 1)
+center_detail_disabled = Color(1, 1, 1, 0.454902)
+reflection_disabled = Color(1, 1, 1, 0.568627)
+font_color_disabled = Color(1, 1, 1, 1)
+enabled_color_allow = Array[bool]([false, false, false, false, false, false, false, false, false, false])
+hover_color_allow = Array[bool]([false, false, false, true, true, false, false, true, true, true])
+disabled_color_allow = Array[bool]([false, false, false, false, false, false, false, false, false, false])
+center_color_allow = false
+reflection_color_allow = false
+font_color_allow = false
+enabled_invert_allow = Array[bool]([true, true, true, true, true, true, true, true, true, true])
+hover_invert_allow = Array[bool]([true, true, true, true, true, true, true, true, true, true])
+disabled_invert_allow = Array[bool]([false, false, false, false, false, false, false, false, false, false])
+center_invert_allow = false
+reflection_invert_allow = false
+font_invert_allow = false

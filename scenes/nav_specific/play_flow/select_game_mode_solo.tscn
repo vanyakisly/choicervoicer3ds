@@ -1,0 +1,626 @@
+[gd_scene load_steps=34 format=3 uid="uid://bf0isj4o33o1b"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_4gsds"]
+[ext_resource type="Script" uid="uid://dxpk0hjkrrlse" path="res://scenes/nav_specific/play_flow/select_game_mode_solo.gd" id="2_6iedd"]
+[ext_resource type="Script" uid="uid://cfvs3uibxguk1" path="res://scene/module/button/button_array.gd" id="3_4n2ap"]
+[ext_resource type="Script" uid="uid://cgbfs5yb7iy60" path="res://resource/menu_data.gd" id="3_61237"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="4_17lxm"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="5_wgvqh"]
+[ext_resource type="Texture2D" uid="uid://r80eo5tmy6wk" path="res://assets/images/screens/preview_image_dub_standard.png" id="8_sqnim"]
+[ext_resource type="Texture2D" uid="uid://cwfmsxvahcn21" path="res://graphic/image/shae_help_performance.png" id="9_5ur1j"]
+[ext_resource type="Texture2D" uid="uid://bl0n6yypo4p6k" path="res://assets/images/screens/preview_image_dub_freestyle.png" id="9_xo7ng"]
+[ext_resource type="Texture2D" uid="uid://pvgxahssr6rj" path="res://assets/images/screens/panelist_example.png" id="10_sqnim"]
+[ext_resource type="Texture2D" uid="uid://dnpjwukb2nqnu" path="res://assets/images/screens/game_example_twitch.png" id="11_sqnim"]
+
+[sub_resource type="Gradient" id="Gradient_y1bd6"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_y1bd6")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_irkhr"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_irkhr")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="Theme" id="Theme_lu5gx"]
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("1_4gsds")
+
+[sub_resource type="Resource" id="Resource_bqu7u"]
+script = ExtResource("3_61237")
+back_path = &"res://scenes/nav_specific/play_flow/select_member_count.tscn"
+slide_hint = PackedStringArray("Main Menu", "Player Count", "Solo")
+type = 0
+assume_path = false
+
+[sub_resource type="Theme" id="Theme_em85n"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_jc3pk"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xo7ng"]
+gradient = SubResource("Gradient_jc3pk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sqnim"]
+resource_local_to_scene = true
+shader = ExtResource("5_wgvqh")
+shader_parameter/palette = SubResource("GradientTexture1D_xo7ng")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_mar4t"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sqnim"]
+gradient = SubResource("Gradient_mar4t")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2y3x2"]
+resource_local_to_scene = true
+shader = ExtResource("5_wgvqh")
+shader_parameter/palette = SubResource("GradientTexture1D_sqnim")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4tt2h"]
+resource_local_to_scene = true
+shader = ExtResource("5_wgvqh")
+shader_parameter/palette = SubResource("GradientTexture1D_xo7ng")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_321eg"]
+resource_local_to_scene = true
+shader = ExtResource("5_wgvqh")
+shader_parameter/palette = SubResource("GradientTexture1D_xo7ng")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5ur1j"]
+resource_local_to_scene = true
+shader = ExtResource("5_wgvqh")
+shader_parameter/palette = SubResource("GradientTexture1D_xo7ng")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_4tt2h"]
+offsets = PackedFloat32Array(0.0733453, 0.248658, 0.341682, 0.604651, 0.676208, 0.772809, 0.860465)
+colors = PackedColorArray(1, 1, 1, 0, 0.854902, 0.854902, 0.854902, 1, 0, 0, 0, 1, 0.0588235, 0.0588235, 0.0588235, 1, 0.490196, 0.490196, 0.490196, 1, 0.0392157, 0.0392157, 0.0392157, 1, 0, 0, 0, 0.823529)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2y3x2"]
+gradient = SubResource("Gradient_4tt2h")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xo7ng"]
+shader = ExtResource("5_wgvqh")
+shader_parameter/palette = SubResource("GradientTexture1D_2y3x2")
+shader_parameter/node_size = Vector2(540, 540)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="SelectGameModeSolo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_lu5gx")
+script = ExtResource("2_6iedd")
+menu_data = SubResource("Resource_bqu7u")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_em85n")
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 58
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 58
+metadata/_edit_lock_ = true
+
+[node name="Next" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Next"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 0
+
+[node name="b2" type="Control" parent="MarginContainer/Next/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButtonArrayNxt" type="GridContainer" parent="MarginContainer/Next/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/v_separation = 6
+script = ExtResource("3_4n2ap")
+metadata/_custom_type_script = "uid://cfvs3uibxguk1"
+
+[node name="BtnStandardGameshow" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt" instance=ExtResource("4_17lxm")]
+material = SubResource("ShaderMaterial_sqnim")
+custom_minimum_size = Vector2(360, 112)
+layout_mode = 2
+size_flags_vertical = 6
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_4gsds")
+theme_override_font_sizes/font_size = 24
+text = "Standard Gameshow"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt"]
+layout_mode = 2
+
+[node name="BtnStandardGameshow2" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt" instance=ExtResource("4_17lxm")]
+material = SubResource("ShaderMaterial_2y3x2")
+custom_minimum_size = Vector2(360, 88)
+layout_mode = 2
+size_flags_vertical = 6
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_4gsds")
+theme_override_font_sizes/font_size = 24
+text = "Dub Mode"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnStandardGameshow5" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt" instance=ExtResource("4_17lxm")]
+material = SubResource("ShaderMaterial_4tt2h")
+custom_minimum_size = Vector2(360, 64)
+layout_mode = 2
+size_flags_vertical = 6
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_4gsds")
+theme_override_font_sizes/font_size = 22
+text = "Freestyle Dub Mode"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt"]
+layout_mode = 2
+
+[node name="BtnStandardGameshow3" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt" instance=ExtResource("4_17lxm")]
+material = SubResource("ShaderMaterial_321eg")
+custom_minimum_size = Vector2(360, 88)
+layout_mode = 2
+size_flags_vertical = 6
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_4gsds")
+theme_override_font_sizes/font_size = 24
+text = "Twitch Audience"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnStandardGameshow4" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt" instance=ExtResource("4_17lxm")]
+material = SubResource("ShaderMaterial_5ur1j")
+custom_minimum_size = Vector2(360, 64)
+layout_mode = 2
+size_flags_vertical = 6
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_4gsds")
+theme_override_font_sizes/font_size = 22
+text = "Twitch Panelists"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="b" type="Control" parent="MarginContainer/Next/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/Next/HBoxContainer"]
+material = SubResource("ShaderMaterial_xo7ng")
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="[Info]StandardGameshow" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]StandardGameshow"]
+layout_mode = 2
+texture = ExtResource("9_5ur1j")
+expand_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]StandardGameshow"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]StandardGameshow"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Step on up to The Choicer Voicer game show studio!
+Each round, a voice clip will play for you. Impersonate the
+audio as well as you can. The better your performances,
+the more points you will receive from a panel of judges.
+
+End with an average of 60% or higher to win!"
+autowrap_mode = 2
+
+[node name="[Info]DubModeMinigame" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeMinigame"]
+layout_mode = 2
+texture = ExtResource("8_sqnim")
+expand_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeMinigame"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeMinigame"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Impersonate voice clips and hear your dub as a video!
+
+You can re-record as many times as you wish in
+this mode, but you cannot hear your recordings until
+the dub is complete.
+
+This mode uses special \"Dub Voice Packs\" and is
+not compatible with non-dub voice packs."
+
+[node name="[Info]DubModeFreestyle" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeFreestyle"]
+layout_mode = 2
+texture = ExtResource("9_xo7ng")
+expand_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeFreestyle"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeFreestyle"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "If you want dubbing without turns, scoring, and previews, then Freestyle is what you need!
+
+In Freestyle Dub Mode, the video will play in its entirety and you dub it live. It's one continuous take.
+
+This mode uses special \"Dub Voice Packs\" and is
+not compatible with non-dub voice packs."
+autowrap_mode = 2
+
+[node name="[Info]TwitchGameshow" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchGameshow"]
+layout_mode = 2
+texture = ExtResource("11_sqnim")
+expand_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchGameshow"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchGameshow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Step on up to The Choicer Voicer game show studio!
+Each round, a voice clip will play for you. Impersonate the
+audio as well as you can.
+
+Your impressions will be judged by Twitch chat, who
+votes via chat commands.
+
+End with an average of 60% or higher to win!"
+
+[node name="[Info]TwitchPanelists" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchPanelists"]
+layout_mode = 2
+texture = ExtResource("10_sqnim")
+expand_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchPanelists"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchPanelists"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Step on up to The Choicer Voicer game show studio!
+Each round, a voice clip will play for you. Impersonate the
+audio as well as you can.
+
+Assign up to five Twitch usernames to your judge panel.
+They determine your fate by voting in chat.
+
+End with an average of 60% or higher to win!"
+
+[connection signal="button_clicked" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow" to="." method="_mode_selected_standard_gameshow"]
+[connection signal="hover_with_info" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow" to="." method="_show_standard"]
+[connection signal="button_clicked" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow2" to="." method="_mode_selected_dub"]
+[connection signal="hover_with_info" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow2" to="." method="_show_dub_mode"]
+[connection signal="button_clicked" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow5" to="." method="_mode_selected_dub_free"]
+[connection signal="hover_with_info" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow5" to="." method="_show_dub_freestyle"]
+[connection signal="button_clicked" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow3" to="." method="_mode_selected_twitch_standard"]
+[connection signal="hover_with_info" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow3" to="." method="_show_twitch"]
+[connection signal="button_clicked" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow4" to="." method="_mode_selected_twitch_panelist"]
+[connection signal="hover_with_info" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow4" to="." method="_show_twitch_panelists"]

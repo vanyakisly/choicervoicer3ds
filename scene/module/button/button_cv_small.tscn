@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://crdfmdg5fnvkq"]
+
+[ext_resource type="Shader" uid="uid://4ga3dmidbqgy" path="res://graphic/shader/small_button.gdshader" id="1_y42bs"]
+[ext_resource type="Script" uid="uid://m6lf2t1bua3t" path="res://scene/module/button/button_cv.gd" id="2_1bvci"]
+
+[sub_resource type="Gradient" id="Gradient_kmako"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g251t"]
+gradient = SubResource("Gradient_kmako")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vcigb"]
+resource_local_to_scene = true
+shader = ExtResource("1_y42bs")
+shader_parameter/palette = SubResource("GradientTexture1D_g251t")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[node name="ButtonCVSmall" type="ColorRect" groups=["ButtonBase"]]
+material = SubResource("ShaderMaterial_vcigb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_1bvci")
+button_type = 2

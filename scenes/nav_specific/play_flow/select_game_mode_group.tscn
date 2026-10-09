@@ -1,0 +1,967 @@
+[gd_scene load_steps=40 format=3 uid="uid://b2e6wa07kv80i"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_1e6jw"]
+[ext_resource type="Script" uid="uid://bulubli0efv3x" path="res://scenes/nav_specific/play_flow/select_game_mode_group.gd" id="2_23fi8"]
+[ext_resource type="Script" uid="uid://cgbfs5yb7iy60" path="res://resource/menu_data.gd" id="3_7fwku"]
+[ext_resource type="Shader" uid="uid://b7d6wgq1kiwmr" path="res://assets_gd/shaders/cv_primary.gdshader" id="4_pej5e"]
+[ext_resource type="Script" uid="uid://cfvs3uibxguk1" path="res://scene/module/button/button_array.gd" id="5_lgkan"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="6_v1vel"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="7_68def"]
+[ext_resource type="PackedScene" uid="uid://dpx53a1i5nyq7" path="res://scenes/nav_specific/play_flow/game_mode_description_box.tscn" id="8_x27jl"]
+[ext_resource type="Texture2D" uid="uid://cwfmsxvahcn21" path="res://graphic/image/shae_help_performance.png" id="9_oipxd"]
+[ext_resource type="Texture2D" uid="uid://dnpjwukb2nqnu" path="res://assets/images/screens/game_example_twitch.png" id="11_qwu7t"]
+
+[sub_resource type="Gradient" id="Gradient_y1bd6"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x65ju"]
+gradient = SubResource("Gradient_y1bd6")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_irkhr"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_28anm"]
+gradient = SubResource("Gradient_irkhr")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq5be"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhdi"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlj87"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="Theme" id="Theme_lu5gx"]
+HSlider/icons/grabber = SubResource("GradientTexture2D_x65ju")
+HSlider/icons/tick = SubResource("GradientTexture2D_28anm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_pq5be")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ayhdi")
+HSlider/styles/slider = SubResource("StyleBoxFlat_nlj87")
+Label/fonts/font = ExtResource("1_1e6jw")
+
+[sub_resource type="Resource" id="Resource_hlors"]
+script = ExtResource("3_7fwku")
+back_path = &"res://scenes/nav_specific/play_flow/select_member_count.tscn"
+slide_hint = PackedStringArray("Main Menu", "Player Count", "Group")
+type = 0
+assume_path = false
+
+[sub_resource type="Theme" id="Theme_em85n"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_8p5f6"]
+offsets = PackedFloat32Array(0, 0.0206186, 0.419244, 0.769759)
+colors = PackedColorArray(1, 1, 1, 0, 0.942823, 0.942823, 0.942823, 1, 0.817521, 0.817521, 0.817521, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_orsw3"]
+gradient = SubResource("Gradient_8p5f6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o8cac"]
+shader = ExtResource("4_pej5e")
+shader_parameter/node_size = Vector2(2, 1)
+shader_parameter/edge = SubResource("GradientTexture1D_orsw3")
+shader_parameter/color = Color(0.75, 0.958333, 1, 1)
+shader_parameter/invert = false
+shader_parameter/x_roundness = 0.05
+shader_parameter/y_roundness = 0.05
+shader_parameter/use_primary = false
+shader_parameter/primary_alter_hsv_value = true
+shader_parameter/primary_color = Color(1, 1, 1, 0.8)
+shader_parameter/primary_falloff = 1.0
+shader_parameter/primary_x_roundness = 0.25
+shader_parameter/primary_y_roundness = 0.25
+shader_parameter/primary_border_distance_cutoff = 0.0
+shader_parameter/primary_border_softness = 0.0
+shader_parameter/primary_use_own_border = false
+shader_parameter/primary_shift_x = 0.0
+shader_parameter/primary_shift_y = 0.0
+shader_parameter/primary_scale_x = 1.0
+shader_parameter/primary_scale_y = 1.0
+shader_parameter/use_secondary = false
+shader_parameter/secondary_alter_hsv_value = true
+shader_parameter/secondary_color = Color(1, 1, 1, 0.8)
+shader_parameter/secondary_falloff = 1.0
+shader_parameter/secondary_x_roundness = 0.25
+shader_parameter/secondary_y_roundness = 0.25
+shader_parameter/secondary_border_distance_cutoff = 0.0
+shader_parameter/secondary_border_softness = 0.0
+shader_parameter/secondary_use_own_border = false
+shader_parameter/secondary_shift_x = 0.0
+shader_parameter/secondary_shift_y = 0.0
+shader_parameter/secondary_scale_x = 1.0
+shader_parameter/secondary_scale_y = 1.0
+shader_parameter/use_tertiary = false
+shader_parameter/tertiary_alter_hsv_value = true
+shader_parameter/tertiary_color = Color(1, 1, 1, 0.8)
+shader_parameter/tertiary_falloff = 1.0
+shader_parameter/tertiary_x_roundness = 0.25
+shader_parameter/tertiary_y_roundness = 0.25
+shader_parameter/tertiary_border_distance_cutoff = 0.0
+shader_parameter/tertiary_border_softness = 0.0
+shader_parameter/tertiary_use_own_border = false
+shader_parameter/tertiary_shift_x = 0.0
+shader_parameter/tertiary_shift_y = 0.0
+shader_parameter/tertiary_scale_x = 1.0
+shader_parameter/tertiary_scale_y = 1.0
+
+[sub_resource type="Gradient" id="Gradient_mar4t"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uedjl"]
+gradient = SubResource("Gradient_mar4t")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pmydh"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fjt68"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cuqhy"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7hb4d"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4fye1"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1rery"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_uedjl")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_sqnim"]
+offsets = PackedFloat32Array(0, 0.0747423, 0.128866, 0.155298, 0.238026, 0.355588)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.0283505, 0.0283505, 0.0283505, 1, 0.6636, 0.8106, 0.84, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tit2g"]
+gradient = SubResource("Gradient_sqnim")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i0pcg"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_tit2g")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_trxsj"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_tit2g")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5nju5"]
+resource_local_to_scene = true
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_tit2g")
+shader_parameter/node_size = Vector2(400, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_umm8y"]
+offsets = PackedFloat32Array(0.0733453, 0.248658, 0.341682, 0.604651, 0.676208, 0.772809, 0.860465)
+colors = PackedColorArray(1, 1, 1, 0, 0.854902, 0.854902, 0.854902, 1, 0, 0, 0, 1, 0.0588235, 0.0588235, 0.0588235, 1, 0.490196, 0.490196, 0.490196, 1, 0.0392157, 0.0392157, 0.0392157, 1, 0, 0, 0, 0.823529)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sqnim"]
+gradient = SubResource("Gradient_umm8y")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rtsya"]
+shader = ExtResource("7_68def")
+shader_parameter/palette = SubResource("GradientTexture1D_sqnim")
+shader_parameter/node_size = Vector2(540, 540)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="SelectGameModeGroup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_lu5gx")
+script = ExtResource("2_23fi8")
+menu_data = SubResource("Resource_hlors")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_em85n")
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 58
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 58
+metadata/_edit_lock_ = true
+
+[node name="Original" type="ColorRect" parent="MarginContainer"]
+visible = false
+material = SubResource("ShaderMaterial_o8cac")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Original"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Original/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Original/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Game Modes"
+horizontal_alignment = 1
+
+[node name="GameTypesBar" type="GridContainer" parent="MarginContainer/Original/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 32
+columns = 3
+script = ExtResource("5_lgkan")
+
+[node name="BtnTypeStandard" parent="MarginContainer/Original/MarginContainer/VBoxContainer/GameTypesBar" instance=ExtResource("6_v1vel")]
+material = SubResource("ShaderMaterial_pmydh")
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Original/MarginContainer/VBoxContainer/GameTypesBar/BtnTypeStandard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+theme_override_font_sizes/font_size = 24
+text = "Standard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnTypeMinigame" parent="MarginContainer/Original/MarginContainer/VBoxContainer/GameTypesBar" instance=ExtResource("6_v1vel")]
+material = SubResource("ShaderMaterial_fjt68")
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+enabled = false
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Original/MarginContainer/VBoxContainer/GameTypesBar/BtnTypeMinigame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+theme_override_font_sizes/font_size = 24
+text = "Minigames"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnTypeTwitch" parent="MarginContainer/Original/MarginContainer/VBoxContainer/GameTypesBar" instance=ExtResource("6_v1vel")]
+material = SubResource("ShaderMaterial_cuqhy")
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+enabled = false
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Original/MarginContainer/VBoxContainer/GameTypesBar/BtnTypeTwitch"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+theme_override_font_sizes/font_size = 24
+text = "Twitch"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/Original/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Original/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="[ModeList] STANDARD" type="VBoxContainer" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnStandardGameshow" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] STANDARD" instance=ExtResource("6_v1vel")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_7hb4d")
+custom_minimum_size = Vector2(160, 64)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] STANDARD/BtnStandardGameshow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+text = "Gameshow"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="[ModeList] MINIGAMES" type="VBoxContainer" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnMinigameDub" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] MINIGAMES" instance=ExtResource("6_v1vel")]
+material = SubResource("ShaderMaterial_4fye1")
+custom_minimum_size = Vector2(160, 64)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] MINIGAMES/BtnMinigameDub"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+text = "Dub Mode"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="[ModeList] TWITCH" type="VBoxContainer" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnStandardTwitch" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] TWITCH" instance=ExtResource("6_v1vel")]
+material = SubResource("ShaderMaterial_1rery")
+custom_minimum_size = Vector2(160, 64)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] TWITCH/BtnStandardTwitch"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+text = "Standard with Twitch Voting"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="GameModeInfo" type="Control" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InfoStandardGameshow" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo" instance=ExtResource("8_x27jl")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LblTitle" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoStandardGameshow/VBoxContainer" index="1"]
+text = "⭕ Gameshow ⭕"
+
+[node name="LblDescription" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoStandardGameshow/VBoxContainer" index="2"]
+text = "Step on up to The Choicer Voicer game show studio!
+Each round, a voice clip will play for you. Impersonate the
+audio as well as you can. The better your performances,
+the more points you will receive from a panel of judges.
+
+The contestant with the highest percentage is the winner!"
+
+[node name="InfoDubMode" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo" instance=ExtResource("8_x27jl")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LblTitle" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoDubMode/VBoxContainer" index="1"]
+text = "⭕ Dub Mode ⭕"
+
+[node name="LblDescription" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoDubMode/VBoxContainer" index="2"]
+text = "Impersonate a series of voice clips at your leisure,
+and then hear your dub over a video!
+
+You can re-record as many times as you wish in
+this mode, but you cannot hear your recordings until
+the dub is complete.
+
+This mode uses special \"Dub Voice Packs\" and is
+not compatible with normal voice packs."
+
+[node name="InfoTwitchStandard" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo" instance=ExtResource("8_x27jl")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LblTitle" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoTwitchStandard/VBoxContainer" index="1"]
+text = "⭕ Gameshow ⭕"
+
+[node name="LblDescription" parent="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoTwitchStandard/VBoxContainer" index="2"]
+text = "Step on up to The Choicer Voicer game show studio!
+Each round, a voice clip will play for you. Impersonate the
+audio as well as you can.
+
+Your impressions will be judged by Twitch chat, who
+votes via chat commands.
+
+End with a percentage of 60% or better to win!"
+
+[node name="Next" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Next"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 0
+
+[node name="b2" type="Control" parent="MarginContainer/Next/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButtonArrayNxt" type="GridContainer" parent="MarginContainer/Next/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/v_separation = 16
+script = ExtResource("5_lgkan")
+metadata/_custom_type_script = "uid://cfvs3uibxguk1"
+
+[node name="BtnStandardGameshow" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt" instance=ExtResource("6_v1vel")]
+material = SubResource("ShaderMaterial_i0pcg")
+custom_minimum_size = Vector2(360, 96)
+layout_mode = 2
+size_flags_vertical = 6
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+theme_override_font_sizes/font_size = 24
+text = "Standard Gameshow"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnStandardGameshow2" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt" instance=ExtResource("6_v1vel")]
+visible = false
+material = SubResource("ShaderMaterial_trxsj")
+custom_minimum_size = Vector2(360, 96)
+layout_mode = 2
+size_flags_vertical = 6
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+theme_override_font_sizes/font_size = 24
+text = "Dub Mode Minigame"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnStandardGameshow3" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt" instance=ExtResource("6_v1vel")]
+visible = false
+material = SubResource("ShaderMaterial_5nju5")
+custom_minimum_size = Vector2(360, 96)
+layout_mode = 2
+size_flags_vertical = 6
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_1e6jw")
+theme_override_font_sizes/font_size = 24
+text = "Twitch Gameshow"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="b" type="Control" parent="MarginContainer/Next/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/Next/HBoxContainer"]
+material = SubResource("ShaderMaterial_rtsya")
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="[Info]StandardGameshow" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]StandardGameshow"]
+layout_mode = 2
+texture = ExtResource("9_oipxd")
+expand_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]StandardGameshow"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]StandardGameshow"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Step on up to The Choicer Voicer game show studio!
+Each round, a voice clip will play for you and your friends. Impersonate the audio as well as you can. The better your performances, the more points you will receive from a panel of judges.
+
+Whoever has the highest average score at the end wins!"
+autowrap_mode = 2
+
+[node name="[Info]DubModeMinigame" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeMinigame"]
+layout_mode = 2
+expand_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeMinigame"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]DubModeMinigame"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Impersonate voice clips and hear your dub as a video!
+
+You can re-record as many times as you wish in
+this mode, but you cannot hear your recordings until
+the dub is complete.
+
+This mode uses special \"Dub Voice Packs\" and is
+not compatible with normal voice packs."
+autowrap_mode = 2
+
+[node name="[Info]TwitchGameshow" type="VBoxContainer" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchGameshow"]
+layout_mode = 2
+texture = ExtResource("11_qwu7t")
+expand_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchGameshow"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Next/HBoxContainer/ColorRect/MarginContainer/[Info]TwitchGameshow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Step on up to The Choicer Voicer game show studio!
+Each round, a voice clip will play for you. Impersonate the
+audio as well as you can.
+
+Your impressions will be judged by Twitch chat, who
+votes via chat commands.
+
+End with an average of 60% or higher to win!"
+
+[connection signal="selection" from="MarginContainer/Original/MarginContainer/VBoxContainer/GameTypesBar" to="." method="_on_game_types_bar_selection"]
+[connection signal="button_clicked" from="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] STANDARD/BtnStandardGameshow" to="." method="_mode_selected_standard_gameshow"]
+[connection signal="hover_with_info" from="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] STANDARD/BtnStandardGameshow" to="." method="_show_page_standard_gameshow"]
+[connection signal="hover_with_info" from="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] MINIGAMES/BtnMinigameDub" to="." method="_show_page_dub_mode"]
+[connection signal="button_clicked" from="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] TWITCH/BtnStandardTwitch" to="." method="_mode_selected_twitch_standard"]
+[connection signal="hover_with_info" from="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/[ModeList] TWITCH/BtnStandardTwitch" to="." method="_show_page_twitch_standard"]
+[connection signal="button_clicked" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow" to="." method="_mode_selected_standard_gameshow"]
+[connection signal="hover_with_info" from="MarginContainer/Next/HBoxContainer/VBoxContainer/ButtonArrayNxt/BtnStandardGameshow" to="." method="_show_standard"]
+
+[editable path="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoStandardGameshow"]
+[editable path="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoDubMode"]
+[editable path="MarginContainer/Original/MarginContainer/VBoxContainer/HBoxContainer/GameModeInfo/InfoTwitchStandard"]

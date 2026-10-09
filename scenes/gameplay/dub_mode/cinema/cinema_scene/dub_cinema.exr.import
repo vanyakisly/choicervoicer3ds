@@ -1,0 +1,27 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://co6d1ej66ktn2"
+path.bptc="res://.godot/imported/dub_cinema.exr-8621fefa2e1f8118626cd235c80fe070.bptc.ctexarray"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://scenes/gameplay/dub_mode/cinema/cinema_scene/dub_cinema.exr"
+dest_files=["res://.godot/imported/dub_cinema.exr-8621fefa2e1f8118626cd235c80fe070.bptc.ctexarray"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=true
+compress/lossy_quality=1.0
+compress/hdr_compression=1
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=2
+slices/vertical=2

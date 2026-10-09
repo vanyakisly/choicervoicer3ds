@@ -1,0 +1,568 @@
+[gd_scene load_steps=20 format=3 uid="uid://cq7t68fmivaxk"]
+
+[ext_resource type="Script" uid="uid://hur4arr5cl8a" path="res://scene/menu/extras/menu_credits.gd" id="1_dp7by"]
+[ext_resource type="Script" uid="uid://cgbfs5yb7iy60" path="res://resource/menu_data.gd" id="2_l6f17"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="3_ivluo"]
+[ext_resource type="Texture2D" uid="uid://brshc1xninagf" path="res://graphic/gradient/black_double_border.tres" id="4_vp0ba"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="5_pjy21"]
+[ext_resource type="Texture2D" uid="uid://dk78ccqf3vm0v" path="res://graphic/image/yeahmaybe_logo.png" id="6_aw3ld"]
+[ext_resource type="Texture2D" uid="uid://b7y3i1pgywl7e" path="res://graphic/image/credit_pierce2.png" id="6_l0a2t"]
+[ext_resource type="Texture2D" uid="uid://dwjw4kp86buac" path="res://graphic/image/credit_jimmy.png" id="7_csajw"]
+[ext_resource type="Texture2D" uid="uid://8myvss4s3mx3" path="res://graphic/image/credit_kiophen.png" id="8_0vtjb"]
+[ext_resource type="Texture2D" uid="uid://vuq0gmcish6v" path="res://graphic/image/credit_vinny.png" id="9_m40de"]
+[ext_resource type="Texture2D" uid="uid://byktcgu8pt1ek" path="res://graphic/image/credit_alizarin.png" id="9_ukkb6"]
+[ext_resource type="Texture2D" uid="uid://cc0e5prik1wmk" path="res://graphic/image/credit_azureotsu.png" id="10_2luj8"]
+[ext_resource type="Texture2D" uid="uid://x4eb7mluc4bv" path="res://graphic/image/credit_madclown2.png" id="10_ahgpj"]
+
+[sub_resource type="Resource" id="Resource_s4a3v"]
+script = ExtResource("2_l6f17")
+back_path = &"home/menu_home"
+slide_hint = PackedStringArray("Main Menu", "Credits")
+type = 0
+assume_path = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jpnem"]
+shader = ExtResource("3_ivluo")
+shader_parameter/palette = ExtResource("4_vp0ba")
+shader_parameter/node_size = Vector2(1120, 532)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_iv0ic"]
+offsets = PackedFloat32Array(0.0373444, 0.0539419, 0.174274, 0.526971)
+colors = PackedColorArray(0.497474, 0.497474, 0.497474, 0, 0.314316, 0.314316, 0.314316, 1, 0.716296, 0.716296, 0.716296, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qn3y5"]
+gradient = SubResource("Gradient_iv0ic")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vykp7"]
+shader = ExtResource("3_ivluo")
+shader_parameter/palette = SubResource("GradientTexture1D_qn3y5")
+shader_parameter/node_size = Vector2(300, 100)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s6ttx"]
+shader = ExtResource("3_ivluo")
+shader_parameter/palette = ExtResource("4_vp0ba")
+shader_parameter/node_size = Vector2(416, 544)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="MenuCredits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dp7by")
+menu_data = SubResource("Resource_s4a3v")
+
+[node name="Border" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="ColorRect" type="ColorRect" parent="Border"]
+visible = false
+material = SubResource("ShaderMaterial_jpnem")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Border/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelMain" type="RichTextLabel" parent="Border/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("5_pjy21")
+bbcode_enabled = true
+text = "
+The Choicer Voicer
+by YeahMaybe, © 2024
+Made with Godot 4.2.2  [url=https://godotengine.org/license/]License[/url]
+
+
+Coding, 3D Modeling, Design:
+• Pierce Fairweather
+
+Music & Sound:			Character Art:
+• AzureOtsu				• kiophen
+
+Alpha Playtesting and Feedback:
+• BungleBLAST			• smaldoggo
+• Vinny Vinesauce		• AlizarinRed 	• Madclown55
+
+Special Thanks:
+• Vinny Vinesauce for the inspiration and support"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Border/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelResources" type="RichTextLabel" parent="Border/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "
+Made with Godot 4.2.2
+    [url]https://godotengine.org/license/[/url]
+
+[font_size=12]Resources used:
+• \"Drum Roll, Please!\" sound effect from pixabay.com
+	https://pixabay.com/sound-effects/drum-roll-please-6386/
+• Waukegan LDO font by Luke Owens
+	https://www.fontspace.com/waukegan-ldo-font-f1682
+• Duru Sans font by Onur Yazıcıgil
+	https://fontmeme.com/fonts/duru-sans-font/
+•  Rounded Elegance Font by Douglas Charles Cunha
+    https://fontmeme.com/fonts/rounded-elegance-font/
+• Gears Icons font by Woodcutter
+	https://www.dafont.com/gears-icons.font
+• Monofonto font by Typodermic Fonts
+	https://typodermicfonts.com/monofonto/
+
+
+
+Godot Engine license:
+  Copyright (c) 2014-present Godot Engine contributors.
+  Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the \"Software\"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+[font_size=11]
+  THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+  -- Godot Engine <https://godotengine.org>"
+
+[node name="Control" type="Control" parent="Border"]
+custom_minimum_size = Vector2(0, 648)
+layout_mode = 2
+
+[node name="CreditMe" type="VBoxContainer" parent="Border/Control"]
+layout_mode = 0
+offset_top = 204.0
+offset_right = 323.0
+offset_bottom = 465.0
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Border/Control/CreditMe"]
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("6_l0a2t")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Border/Control/CreditMe"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_pjy21")
+theme_override_font_sizes/font_size = 18
+text = "YeahMaybe
+Coding & Creation"
+horizontal_alignment = 1
+
+[node name="CreditJimmy" type="VBoxContainer" parent="Border/Control"]
+layout_mode = 0
+offset_left = 323.0
+offset_top = 236.0
+offset_right = 513.0
+offset_bottom = 412.0
+theme_override_constants/separation = 0
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Border/Control/CreditJimmy"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("7_csajw")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Border/Control/CreditJimmy"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_pjy21")
+text = "Studio Jimbly
+Modeling & Code"
+horizontal_alignment = 1
+
+[node name="CreditKiophen" type="VBoxContainer" parent="Border/Control"]
+layout_mode = 0
+offset_left = 517.0
+offset_top = 60.0
+offset_right = 707.0
+offset_bottom = 236.0
+theme_override_constants/separation = 0
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Border/Control/CreditKiophen"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("8_0vtjb")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Border/Control/CreditKiophen"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_pjy21")
+text = "Kiophen
+Character Art"
+horizontal_alignment = 1
+
+[node name="CreditAlizarinRed" type="VBoxContainer" parent="Border/Control"]
+layout_mode = 0
+offset_left = 323.0
+offset_top = 408.0
+offset_right = 513.0
+offset_bottom = 584.0
+theme_override_constants/separation = 0
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Border/Control/CreditAlizarinRed"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("9_ukkb6")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Border/Control/CreditAlizarinRed"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_pjy21")
+text = "AlizarinRed
+Testing & Feedback"
+horizontal_alignment = 1
+
+[node name="CreditMadClown" type="VBoxContainer" parent="Border/Control"]
+layout_mode = 0
+offset_left = 517.0
+offset_top = 408.0
+offset_right = 707.0
+offset_bottom = 584.0
+theme_override_constants/separation = 0
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Border/Control/CreditMadClown"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("10_ahgpj")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Border/Control/CreditMadClown"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_pjy21")
+text = "MadClown
+Testing & Feedback
+"
+horizontal_alignment = 1
+
+[node name="CreditVinny" type="VBoxContainer" parent="Border/Control"]
+layout_mode = 0
+offset_left = 517.0
+offset_top = 236.0
+offset_right = 707.0
+offset_bottom = 412.0
+theme_override_constants/separation = 0
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Border/Control/CreditVinny"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("9_m40de")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Border/Control/CreditVinny"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_pjy21")
+text = "Vinny Vinesauce
+Inspiration & Support"
+horizontal_alignment = 1
+
+[node name="CreditAzureOtsu" type="VBoxContainer" parent="Border/Control"]
+layout_mode = 0
+offset_left = 323.0
+offset_top = 60.0
+offset_right = 513.0
+offset_bottom = 236.0
+theme_override_constants/separation = 0
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Border/Control/CreditAzureOtsu"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("10_2luj8")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Border/Control/CreditAzureOtsu"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_pjy21")
+text = "AzureOtsu
+Music & Sound"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="Border/Control"]
+material = SubResource("ShaderMaterial_vykp7")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 74.0
+offset_right = 303.0
+offset_bottom = 187.0
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Border/Control/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/Control/ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+text = "[center]The Choicer Voicer
+YeahMaybe © 2024-2026
+Made with Godot 4.4.1
+[font_size=12]https://godotengine.org/license/"
+scroll_active = false
+
+[node name="CreditsBox" type="ColorRect" parent="Border"]
+material = SubResource("ShaderMaterial_s6ttx")
+custom_minimum_size = Vector2(416, 544)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Border/CreditsBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/CreditsBox/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/CreditsBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/CreditsBox/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelMain" type="RichTextLabel" parent="Border/CreditsBox/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("5_pjy21")
+bbcode_enabled = true
+text = "
+The Choicer Voicer
+by YeahMaybe, © 2024
+Made with Godot 4.2.2  [url=https://godotengine.org/license/]License[/url]
+
+
+Coding, 3D Modeling, Design:
+• Pierce Fairweather
+
+Music & Sound:			Character Art:
+• AzureOtsu				• kiophen
+
+Alpha Playtesting and Feedback:
+• BungleBLAST			• smaldoggo
+• Vinny Vinesauce		• AlizarinRed 	• Madclown55
+
+Special Thanks:
+• Vinny Vinesauce for the inspiration and support"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Border/CreditsBox/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelResources" type="RichTextLabel" parent="Border/CreditsBox/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[font_size=16]Resources used:[font_size=11]
+• Twitch integration thanks to Rothio Tome's \"Godot Very Simple Twitch\"
+    https://github.com/rothiotome/godot-very-simple-twitch
+
+• \"Drum Roll, Please!\" sound effect from pixabay.com
+	https://pixabay.com/sound-effects/drum-roll-please-6386/
+• Clapping sound from @eccentricsoundfx on YouTube
+    https://www.youtube.com/watch?v=jHzA8IXtoWs
+
+• Waukegan LDO font by Luke Owens
+	https://www.fontspace.com/waukegan-ldo-font-f1682
+• Duru Sans font by Onur Yazıcıgil
+	https://fontmeme.com/fonts/duru-sans-font/
+•  Rounded Elegance Font by Douglas Charles Cunha
+    https://fontmeme.com/fonts/rounded-elegance-font/
+• Gears Icons font by Woodcutter
+	https://www.dafont.com/gears-icons.font
+• Monofonto font by Typodermic Fonts
+	https://typodermicfonts.com/monofonto/
+
+[font_size=16]Additional thanks to
+    BungleBLAST, smalldoggo
+        - Pre-alpha playtests.
+    PlatinumMeg, Zarithya, Boon 
+        - Live Twitch playtests.
+    Crescere_, Roybutty
+        - Dev build playtests."
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Border"]
+visible = false
+clip_contents = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="YeahmaybeLogo" type="Sprite2D" parent="."]
+position = Vector2(120, 523)
+texture = ExtResource("6_aw3ld")

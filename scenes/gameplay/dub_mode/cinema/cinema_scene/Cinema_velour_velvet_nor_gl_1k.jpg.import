@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://c4gqngeg7hxdg"
+path.s3tc="res://.godot/imported/Cinema_velour_velvet_nor_gl_1k.jpg-7bbdd15d8204a781729c91aa70b11c8c.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "04854d202b71fcfdc38b98fdc45a9712"
+}
+
+[deps]
+
+source_file="res://scenes/gameplay/dub_mode/cinema/cinema_scene/Cinema_velour_velvet_nor_gl_1k.jpg"
+dest_files=["res://.godot/imported/Cinema_velour_velvet_nor_gl_1k.jpg-7bbdd15d8204a781729c91aa70b11c8c.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=1.0
+compress/hdr_compression=0
+compress/normal_map=2
+compress/channel_pack=1
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal=""
+process/fix_alpha_border=false
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

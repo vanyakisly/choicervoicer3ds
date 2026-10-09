@@ -1,0 +1,51 @@
+{
+	"audio" : {
+		"use_video":true,
+		"music_menu_loop_start" : 0,
+		"music_menu_loop_start_README" : "For WAV, the start must be the SAMPLE. For MP3 and OGG, it must be the TIME, in seconds."
+	},
+	"background" : {
+		"image" : {
+			"use_type" : 0,
+			"scroll" : {
+				"x" : 0.3,
+				"y" : 0.5
+			}
+		},
+		"overlay" : {
+			"on" : false
+		},
+		"clip_disc" : {
+			"state" : 1,
+			"color" : "cff7ff"
+		},
+		"top_gradient" : {
+			"on" : false,
+			"color" : "ffffff"
+		},
+		"bottom_gradient" : {
+			"on" : true,
+			"color" : "ffffff"
+		},
+		"circles" : {
+			"on" : true,
+			"color" : "abe5f5cc"
+		},
+		"waves" : {
+			"on" : false,
+			"color" : "ffffff"
+		},
+		"letterbox" : {
+			"on" : true,
+			"color" : "909090",
+			"accent" : "6abcd4"
+		}
+	},
+	"ui" : {
+		"button" : {
+			"invert" : false,
+			"color1" : "accbd1",
+			"color2" : "accbd1"
+		}
+	}
+}

@@ -1,0 +1,124 @@
+[gd_scene load_steps=9 format=3 uid="uid://hfcqv4o48eoc"]
+
+[ext_resource type="Script" uid="uid://5u0ewmigobg5" path="res://scene/overlay/screen_active_hint.gd" id="1_llsbc"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="2_d72mx"]
+[ext_resource type="FontFile" uid="uid://dhl33r7hfv4bn" path="res://graphic/font/Rounded Elegance.ttf" id="3_5fi7y"]
+[ext_resource type="Script" uid="uid://cind6tm1cqm4p" path="res://scene/overlay/LoadingScreenBar.gd" id="3_yrfn0"]
+[ext_resource type="Script" uid="uid://bpfplxgmpycg1" path="res://scene/overlay/LoadingLabel.gd" id="4_awqxl"]
+
+[sub_resource type="Gradient" id="Gradient_g6wyp"]
+offsets = PackedFloat32Array(0.222591, 0.38206, 0.613372)
+colors = PackedColorArray(0.266667, 0.266667, 0.266667, 0, 0.267442, 0.267442, 0.267442, 1, 0.141176, 0.141176, 0.141176, 0.952941)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_u3dpm"]
+gradient = SubResource("Gradient_g6wyp")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e6wwh"]
+shader = ExtResource("2_d72mx")
+shader_parameter/palette = SubResource("GradientTexture1D_u3dpm")
+shader_parameter/node_size = Vector2(256, 48)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="ScreenActiveHint" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_llsbc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_e6wwh")
+custom_minimum_size = Vector2(256, 48)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(236, 48)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -222.0
+offset_top = -48.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="ColorRect0" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(18, 10)
+layout_mode = 2
+size_flags_vertical = 8
+script = ExtResource("3_yrfn0")
+
+[node name="ColorRect1" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(18, 10)
+layout_mode = 2
+size_flags_vertical = 8
+script = ExtResource("3_yrfn0")
+order = 1
+
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(18, 10)
+layout_mode = 2
+size_flags_vertical = 8
+script = ExtResource("3_yrfn0")
+order = 2
+
+[node name="b" type="Control" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_5fi7y")
+theme_override_font_sizes/font_size = 24
+text = " Loading..."
+vertical_alignment = 2
+script = ExtResource("4_awqxl")

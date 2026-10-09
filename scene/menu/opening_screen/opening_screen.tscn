@@ -1,0 +1,274 @@
+[gd_scene load_steps=14 format=3 uid="uid://cjfnl7w8yjijg"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_cvq1y"]
+[ext_resource type="Script" uid="uid://wflad1165exv" path="res://scene/menu/opening_screen/opening_screen.gd" id="1_kw8sj"]
+[ext_resource type="Texture2D" uid="uid://8e84f66wnclo" path="res://graphic/image/tcv_advisory.png" id="2_q77r3"]
+[ext_resource type="Texture2D" uid="uid://dsvuhjcg6ppkf" path="res://graphic/image/tcv_advisory2.png" id="3_fg3ub"]
+[ext_resource type="Shader" uid="uid://cg3gsbs5y3p3i" path="res://assets_gd/shaders/background_texture_scroll.gdshader" id="5_574w3"]
+[ext_resource type="Texture2D" uid="uid://ch8206f6oi2la" path="res://game_default/packs_menu/The Choicer Voicer's Default Menu/background.png" id="6_uxwv4"]
+[ext_resource type="Texture2D" uid="uid://dk78ccqf3vm0v" path="res://graphic/image/yeahmaybe_logo.png" id="7_xa476"]
+[ext_resource type="Texture2D" uid="uid://d1u7xkeioqvtn" path="res://graphic/image/vinnyDarkshroom.png" id="8_m886s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xa476"]
+shader = ExtResource("5_574w3")
+shader_parameter/enabled = true
+shader_parameter/direction = Vector2(1, 0.2)
+shader_parameter/speed = 1.0
+shader_parameter/color = Color(0.165656, 0.165656, 0.165656, 1)
+shader_parameter/warp = true
+shader_parameter/warp_intensity = 0.015
+shader_parameter/texture_dimensions = Vector2(32, 32)
+
+[sub_resource type="Animation" id="Animation_esjv2"]
+resource_name = "Fadein"
+length = 0.4
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3996, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_47y6f"]
+resource_name = "Fadeout"
+length = 0.6
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3996, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_ee6o5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n5pph"]
+_data = {
+&"Fadein": SubResource("Animation_esjv2"),
+&"Fadeout": SubResource("Animation_47y6f"),
+&"RESET": SubResource("Animation_ee6o5")
+}
+
+[node name="OpeningScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kw8sj")
+
+[node name="First" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="First"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.95158, 0.95158, 0.95158, 1)
+
+[node name="Label" type="Label" parent="First"]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 514.0
+offset_right = 1090.0
+offset_bottom = 622.0
+theme_override_colors/font_color = Color(0, 0.766667, 1, 1)
+theme_override_colors/font_shadow_color = Color(2.88785e-06, 0.465648, 0.611907, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("1_cvq1y")
+theme_override_font_sizes/font_size = 24
+text = "This version 0.5 is a playable alpha with many unsolved issues.
+One individual is currently responsible for all coding.
+I apologize for the bugs and crashes, and appreciate your continued patience."
+
+[node name="TcvAdvisory" type="Sprite2D" parent="First"]
+position = Vector2(849, 188)
+texture = ExtResource("2_q77r3")
+
+[node name="Label2" type="Label" parent="First"]
+layout_mode = 0
+offset_left = 699.0
+offset_top = 280.0
+offset_right = 1687.0
+offset_bottom = 388.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.490196)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("1_cvq1y")
+theme_override_font_sizes/font_size = 24
+text = "Do not shoot anger lasers
+at the developer."
+
+[node name="TcvAdvisory2" type="Sprite2D" parent="First"]
+position = Vector2(333, 324)
+scale = Vector2(1.59279, 1.59279)
+texture = ExtResource("3_fg3ub")
+
+[node name="Second" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="Scanlines" type="TextureRect" parent="Second"]
+material = SubResource("ShaderMaterial_xa476")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_uxwv4")
+stretch_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Second"]
+layout_mode = 0
+offset_left = 490.0
+offset_top = 108.0
+offset_right = 1024.0
+offset_bottom = 361.0
+theme_override_fonts/normal_font = ExtResource("1_cvq1y")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "This game was made possible thanks to
+[font_size=24]Vinny Vinesauce[/font_size].
+
+But he is not producing this game.
+Do check him out.
+Do not contact him about The Choicer Voicer.
+
+[url]https://twitch.tv/vinesauce[/url]"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Second"]
+layout_mode = 0
+offset_left = 83.0
+offset_top = 476.0
+offset_right = 617.0
+offset_bottom = 729.0
+theme_override_fonts/normal_font = ExtResource("1_cvq1y")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "Created by YeahMaybe
+Send inquiries or bugs to
+
+feedback.yeahmaybe@gmail.com"
+
+[node name="TextureRect" type="TextureRect" parent="Second"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 493.0
+offset_top = 483.0
+offset_right = 754.0
+offset_bottom = 630.0
+texture = ExtResource("7_xa476")
+
+[node name="TextureRect2" type="TextureRect" parent="Second"]
+layout_mode = 0
+offset_left = 251.0
+offset_top = 121.0
+offset_right = 429.0
+offset_bottom = 299.0
+texture = ExtResource("8_m886s")
+expand_mode = 1
+
+[node name="Blackout" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Blackout"]
+libraries = {
+&"": SubResource("AnimationLibrary_n5pph")
+}
+autoplay = "Fadein"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.9
+one_shot = true
+autostart = true

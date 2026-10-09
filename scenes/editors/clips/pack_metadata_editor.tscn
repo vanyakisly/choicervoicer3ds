@@ -1,0 +1,390 @@
+[gd_scene load_steps=17 format=3 uid="uid://bmyj2wi2g7qs1"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_4u8gx"]
+[ext_resource type="Script" uid="uid://urff5lm4dx41" path="res://scenes/editors/clips/metadata_editor_pack.gd" id="2_7a4rt"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="3_llc2y"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="4_k5uqu"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="5_8hy8h"]
+[ext_resource type="PackedScene" uid="uid://cdx0jainvjuh1" path="res://scenes/editors/clips/metadata_array_editor_instance.tscn" id="14_ejn07"]
+
+[sub_resource type="Theme" id="Theme_jq2he"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/fonts/font = ExtResource("1_4u8gx")
+
+[sub_resource type="Gradient" id="Gradient_unpm6"]
+offsets = PackedFloat32Array(0, 0.035, 0.216)
+colors = PackedColorArray(0.32549, 0.32549, 0.32549, 0, 0.368627, 0.368627, 0.368627, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x7vva"]
+gradient = SubResource("Gradient_unpm6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hi6kn"]
+shader = ExtResource("3_llc2y")
+shader_parameter/palette = SubResource("GradientTexture1D_x7vva")
+shader_parameter/node_size = Vector2(288, 480)
+shader_parameter/x_corner_margin = 0.05
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.05
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_s3rb5"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5u4c8"]
+gradient = SubResource("Gradient_s3rb5")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kk1id"]
+resource_local_to_scene = true
+shader = ExtResource("3_llc2y")
+shader_parameter/palette = SubResource("GradientTexture1D_5u4c8")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_hi6kn"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7a4rt"]
+gradient = SubResource("Gradient_hi6kn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_137qd"]
+resource_local_to_scene = true
+shader = ExtResource("3_llc2y")
+shader_parameter/palette = SubResource("GradientTexture1D_7a4rt")
+shader_parameter/node_size = Vector2(800, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="PackMetadataEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -762.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jq2he")
+script = ExtResource("2_7a4rt")
+
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png,*.jpg,*.jpeg;Image Files;image/png,image/jpeg")
+use_native_dialog = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Block" type="ColorRect" parent="VBoxContainer"]
+material = SubResource("ShaderMaterial_hi6kn")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Block"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer"]
+layout_mode = 2
+
+[node name="LblPackFolderName" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(348, 0)
+layout_mode = 2
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 20
+text = "example_clip_name_with_very_long_name.wav"
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="SECTION_Image" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image"]
+visible = false
+layout_mode = 2
+text = "Icon"
+horizontal_alignment = 1
+
+[node name="LblPackIconName" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(348, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Icon: example_clip_name_with_very_long_name.png"
+autowrap_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PackIcon" type="TextureRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+expand_mode = 1
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer/PackIcon"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.947199, 0.947199, 0.947199, 1)
+
+[node name="BtnChangeClipImage" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer" instance=ExtResource("4_k5uqu")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_kk1id")
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+size_flags_vertical = 4
+sound_type = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer/BtnChangeClipImage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_8hy8h")
+theme_override_font_sizes/font_size = 20
+text = "Pick Icon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SECTION_AlternateTitle" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_AlternateTitle"]
+visible = false
+layout_mode = 2
+text = "Title Override"
+horizontal_alignment = 1
+
+[node name="LineTitleText" type="LineEdit" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_AlternateTitle"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+placeholder_text = "[optional] Title override text"
+
+[node name="HSeparator6" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SECTION_Subtitle" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Subtitle"]
+visible = false
+layout_mode = 2
+text = "Subtitle"
+horizontal_alignment = 1
+
+[node name="LineSubtitleText" type="LineEdit" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Subtitle"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+placeholder_text = "[optional] Subtitle text"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HSeparator7" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SECTION_Readme" type="VBoxContainer" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Readme"]
+visible = false
+layout_mode = 2
+text = "Readme"
+horizontal_alignment = 1
+
+[node name="TextReadmeText" type="TextEdit" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Readme"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+placeholder_text = "[optional] Additional info (readme, credits, ect.)"
+wrap_mode = 1
+
+[node name="SECTION_Tags" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" instance=ExtResource("14_ejn07")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HSeparator5" type="HSeparator" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SECTION_DubCharacters" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" instance=ExtResource("14_ejn07")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+title = "Dub Character"
+
+[node name="SECTION_Authors" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" instance=ExtResource("14_ejn07")]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Author"
+
+[node name="SECTION_PreselectedVoiceTags" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" instance=ExtResource("14_ejn07")]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Preselected Voice Tag"
+
+[node name="SECTION_DefaultCharacters" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" instance=ExtResource("14_ejn07")]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Preselected Dub Character"
+
+[node name="b" type="Control" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnSave" parent="VBoxContainer" instance=ExtResource("4_k5uqu")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_137qd")
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="VBoxContainer/BtnSave"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_8hy8h")
+theme_override_font_sizes/font_size = 24
+text = "Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="file_selected" from="FileDialog" to="." method="_file_image_chosen"]
+[connection signal="button_clicked" from="VBoxContainer/Block/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SECTION_Image/HBoxContainer/BtnChangeClipImage" to="." method="_open_file_dialog"]
+[connection signal="button_clicked" from="VBoxContainer/BtnSave" to="." method="save_current"]

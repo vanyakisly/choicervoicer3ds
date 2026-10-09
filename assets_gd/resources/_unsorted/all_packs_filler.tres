@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="PackInfo" load_steps=2 format=3 uid="uid://b0we86iqlxu43"]
+
+[ext_resource type="Script" uid="uid://6ffviiavdkec" path="res://common/data/pack_info.gd" id="1_78thx"]
+
+[resource]
+script = ExtResource("1_78thx")
+pack_use = 1
+ingame_asset = true
+flag_config_loaded = false
+global_folder_path = ""
+folder_name = "All Voice Packs"
+path_from_pack = ""
+path_to_files = ""
+audio_files_unnested = PackedStringArray()
+audio_files_nested = PackedStringArray()
+audio_files = PackedStringArray()
+is_ignored = false
+display_name = "All Voice Packs"
+subtitle = ""
+tags = PackedStringArray()
+authors = PackedStringArray()
+found_audio_count = 0
+readme = ""
+icon_file_name = ""
+has_dub_video_file = false
+unique_all_voice_packs = true
+metadata/_custom_type_script = "uid://6ffviiavdkec"

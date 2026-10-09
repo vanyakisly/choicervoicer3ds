@@ -1,0 +1,323 @@
+[gd_scene load_steps=12 format=3 uid="uid://dfgd0kqs47357"]
+
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="1_4ucnd"]
+[ext_resource type="Script" uid="uid://ca47325jvdpmd" path="res://scenes/nav_specific/settings_blocks/volume_settings_block.gd" id="2_0ab18"]
+
+[sub_resource type="Gradient" id="Gradient_fp3f3"]
+offsets = PackedFloat32Array(0.657459, 0.701657)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_l4uyx"]
+gradient = SubResource("Gradient_fp3f3")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_lr55t"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_aagy3"]
+gradient = SubResource("Gradient_lr55t")
+width = 2
+height = 8
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0e4s"]
+bg_color = Color(0.894118, 0.894118, 0.894118, 0.552941)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5xom"]
+bg_color = Color(1, 1, 1, 0.87451)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j3r3a"]
+bg_color = Color(0.344076, 0.344076, 0.344076, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlam4"]
+bg_color = Color(0.190762, 0.190762, 0.190762, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="Theme" id="Theme_k0yo7"]
+HSlider/icons/grabber = SubResource("GradientTexture2D_l4uyx")
+HSlider/icons/tick = SubResource("GradientTexture2D_aagy3")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_w0e4s")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_i5xom")
+HSlider/styles/slider = SubResource("StyleBoxFlat_j3r3a")
+Label/fonts/font = ExtResource("1_4ucnd")
+TooltipLabel/font_sizes/font_size = 16
+TooltipLabel/fonts/font = ExtResource("1_4ucnd")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_nlam4")
+
+[node name="VolumeSettingsBlock" type="GridContainer"]
+size_flags_horizontal = 6
+size_flags_vertical = 2
+theme = SubResource("Theme_k0yo7")
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 14
+columns = 4
+script = ExtResource("2_0ab18")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Master"
+horizontal_alignment = 2
+
+[node name="LblVolumeMaster" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderMaster" type="HSlider" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.5
+step = 0.01
+value = 1.0
+scrollable = false
+tick_count = 7
+ticks_on_borders = true
+
+[node name="Label15" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = "Music"
+horizontal_alignment = 2
+
+[node name="LblVolumeMusic" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderMusic" type="HSlider" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.5
+step = 0.01
+scrollable = false
+tick_count = 7
+ticks_on_borders = true
+
+[node name="Label9" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "    Menu & studio music, and menu videos"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 2
+tooltip_text = "The volume of voice clips, and the playback
+volume of your recorded impressions."
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "Voices"
+horizontal_alignment = 2
+
+[node name="LblVolumeVoice" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderVoice" type="HSlider" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.5
+step = 0.01
+scrollable = false
+tick_count = 7
+ticks_on_borders = true
+
+[node name="Label12" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "    Audio clips and your recordings"
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 2
+tooltip_text = "Applies to all sound effects, including ones
+that have their own slider."
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "Sound Effects"
+horizontal_alignment = 2
+
+[node name="LblAllSoundEffects" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderAllSoundEffects" type="HSlider" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.5
+step = 0.01
+scrollable = false
+tick_count = 7
+ticks_on_borders = true
+
+[node name="Label10" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "    All sound effects (buttons, judges, ect.)"
+
+[node name="Label5" type="Label" parent="."]
+layout_mode = 2
+text = "Button SFX"
+horizontal_alignment = 2
+
+[node name="LblButtonSfx" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderButtonSfx" type="HSlider" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.5
+step = 0.01
+scrollable = false
+tick_count = 7
+ticks_on_borders = true
+
+[node name="Label6" type="Label" parent="."]
+visible = false
+layout_mode = 2
+text = "Judges SFX"
+horizontal_alignment = 2
+
+[node name="LblJudgesSfx" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderJudgesSfx" type="HSlider" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Label11" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "    Button sound effects"
+
+[node name="Label7" type="Label" parent="."]
+layout_mode = 2
+tooltip_text = "Voice clip volume during your recordings.
+If you don't want to hear the clip during recording, set this to 0."
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "Clip Playback"
+horizontal_alignment = 2
+
+[node name="LblClipPlayback" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderClipPlayback" type="HSlider" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.5
+step = 0.01
+scrollable = false
+tick_count = 7
+ticks_on_borders = true
+
+[node name="Label13" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "    Audio clip volume when you're recording"
+
+[node name="Label8" type="Label" parent="."]
+layout_mode = 2
+tooltip_text = "Voice clip volume during your recordings.
+If you don't want to hear the clip during recording, set this to 0."
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "Chatter"
+horizontal_alignment = 2
+
+[node name="LblChatter" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderChatter" type="HSlider" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.5
+step = 0.01
+scrollable = false
+tick_count = 7
+ticks_on_borders = true
+
+[node name="Label14" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "    Applies to the Twitch audience chatter"

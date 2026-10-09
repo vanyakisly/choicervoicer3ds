@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://dktgqcs5qww6c"]
+
+[ext_resource type="Script" uid="uid://dm12du0x0516o" path="res://scenes/editors/clips/metadata_array_editor_cell.gd" id="1_5h47k"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="1_26bn0"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="2_5h47k"]
+[ext_resource type="Texture2D" uid="uid://cbredouvu4lf5" path="res://graphic/gradient/invis_button.tres" id="3_c8mxo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_emhwg"]
+resource_local_to_scene = true
+shader = ExtResource("2_5h47k")
+shader_parameter/palette = ExtResource("3_c8mxo")
+shader_parameter/node_size = Vector2(60, 60)
+shader_parameter/x_corner_margin = 0.3
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.3
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(1, 1, 1, 0.968627)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.205
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.871
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.11
+shader_parameter/reflection_y_scale = 0.696
+
+[node name="MetadataArrayEditorCell" type="HBoxContainer" node_paths=PackedStringArray("line_edit")]
+script = ExtResource("1_5h47k")
+line_edit = NodePath("LineEdit")
+
+[node name="BtnRemoveInstance" parent="." instance=ExtResource("1_26bn0")]
+material = SubResource("ShaderMaterial_emhwg")
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+button_type = 3
+sound_type = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="BtnRemoveInstance"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -8.0
+offset_right = 26.5
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.368627, 0.752941, 0.878431, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 12
+text = "X"
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+placeholder_text = "Tag name"
+
+[connection signal="button_clicked" from="BtnRemoveInstance" to="." method="kill"]

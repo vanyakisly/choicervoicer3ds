@@ -1,0 +1,407 @@
+[gd_scene load_steps=24 format=3 uid="uid://cwcj42efmq2hq"]
+
+[ext_resource type="Script" uid="uid://bchc8p8u28vh" path="res://scene/menu/customize/interface_custom_voice.gd" id="1_ws1am"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="3_nkmbh"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="4_cfsij"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="5_dl24j"]
+[ext_resource type="Texture2D" uid="uid://brshc1xninagf" path="res://graphic/gradient/black_double_border.tres" id="7_885un"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="8_2ymik"]
+[ext_resource type="PackedScene" uid="uid://ce6q8ropmbfnl" path="res://scene/module/button/button_array.tscn" id="9_0dnwu"]
+[ext_resource type="PackedScene" uid="uid://crdfmdg5fnvkq" path="res://scene/module/button/button_cv_small.tscn" id="10_0a3h5"]
+[ext_resource type="Shader" uid="uid://4ga3dmidbqgy" path="res://graphic/shader/small_button.gdshader" id="11_2adks"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sipco"]
+shader = ExtResource("4_cfsij")
+shader_parameter/palette = ExtResource("7_885un")
+shader_parameter/node_size = Vector2(528, 472)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_nqkga"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f1ved"]
+gradient = SubResource("Gradient_nqkga")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vf485"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfsij")
+shader_parameter/palette = SubResource("GradientTexture1D_f1ved")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hieqi"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfsij")
+shader_parameter/palette = SubResource("GradientTexture1D_f1ved")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[sub_resource type="Gradient" id="Gradient_kmako"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ooam7"]
+gradient = SubResource("Gradient_kmako")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4etim"]
+resource_local_to_scene = true
+shader = ExtResource("11_2adks")
+shader_parameter/palette = SubResource("GradientTexture1D_ooam7")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="Gradient" id="Gradient_w3cb6"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_n7uur"]
+gradient = SubResource("Gradient_w3cb6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u6t4e"]
+resource_local_to_scene = true
+shader = ExtResource("11_2adks")
+shader_parameter/palette = SubResource("GradientTexture1D_n7uur")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="Gradient" id="Gradient_xoxaq"]
+offsets = PackedFloat32Array(0, 0.075, 0.129, 0.155, 0.238, 0.356)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.027451, 0.027451, 0.027451, 1, 0.662745, 0.811765, 0.839216, 1, 0.662745, 0.8, 0.839216, 1, 0.690196, 0.815686, 0.839216, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2juu1"]
+gradient = SubResource("Gradient_xoxaq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bfck4"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfsij")
+shader_parameter/palette = SubResource("GradientTexture1D_2juu1")
+shader_parameter/node_size = Vector2(400, 200)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(0.843137, 0.968627, 0.968627, 0.580392)
+shader_parameter/center_falloff = 0.415
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.97
+shader_parameter/center_y_corner_margin = 0.224
+shader_parameter/center_y_shift = -0.01
+shader_parameter/center_y_scale = 0.86
+shader_parameter/use_reflection = true
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = -0.425
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="InterfaceCustomVoice" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+script = ExtResource("1_ws1am")
+
+[node name="EditWindow" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PagesAndBottomRow" type="VBoxContainer" parent="EditWindow"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PackInfoPage" type="ColorRect" parent="EditWindow/PagesAndBottomRow"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_sipco")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="EditWindow/PagesAndBottomRow/PackInfoPage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditWindow/PagesAndBottomRow/PackInfoPage/MarginContainer"]
+layout_mode = 2
+
+[node name="LblPackName2" type="Label" parent="EditWindow/PagesAndBottomRow/PackInfoPage/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_dl24j")
+text = "<under construction>"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="LblPackName" type="Label" parent="EditWindow/PagesAndBottomRow/PackInfoPage/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_dl24j")
+theme_override_font_sizes/font_size = 24
+text = "pack_title"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextEditPackSubtitle" type="TextEdit" parent="EditWindow/PagesAndBottomRow/PackInfoPage/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+placeholder_text = "Optional pack subtitle"
+editable = false
+wrap_mode = 1
+autowrap_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="EditWindow/PagesAndBottomRow/PackInfoPage/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LinesHolder" type="VBoxContainer" parent="EditWindow/PagesAndBottomRow/PackInfoPage/MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButtonRow" type="HBoxContainer" parent="EditWindow/PagesAndBottomRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditWindow/PagesAndBottomRow/ButtonRow"]
+visible = false
+layout_mode = 2
+
+[node name="BtnSaveChanges" parent="EditWindow/PagesAndBottomRow/ButtonRow/HBoxContainer" instance=ExtResource("3_nkmbh")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_vf485")
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="EditWindow/PagesAndBottomRow/ButtonRow/HBoxContainer/BtnSaveChanges"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_2ymik")
+theme_override_font_sizes/font_size = 23
+text = "Save
+changes"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnRevertChanges" parent="EditWindow/PagesAndBottomRow/ButtonRow/HBoxContainer" instance=ExtResource("3_nkmbh")]
+material = SubResource("ShaderMaterial_hieqi")
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_vertical = 3
+sound_type = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="EditWindow/PagesAndBottomRow/ButtonRow/HBoxContainer/BtnRevertChanges"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_2ymik")
+theme_override_font_sizes/font_size = 23
+text = "Revert
+changes"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HostTabs" parent="EditWindow/PagesAndBottomRow/ButtonRow" instance=ExtResource("9_0dnwu")]
+visible = false
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/h_separation = 12
+columns = 4
+large_buttons = false
+
+[node name="ButtonCVSmall" parent="EditWindow/PagesAndBottomRow/ButtonRow/HostTabs" instance=ExtResource("10_0a3h5")]
+material = SubResource("ShaderMaterial_4etim")
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="EditWindow/PagesAndBottomRow/ButtonRow/HostTabs/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_2ymik")
+theme_override_font_sizes/font_size = 20
+text = "Preview"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="EditWindow/PagesAndBottomRow/ButtonRow/HostTabs" instance=ExtResource("10_0a3h5")]
+material = SubResource("ShaderMaterial_u6t4e")
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="EditWindow/PagesAndBottomRow/ButtonRow/HostTabs/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_2ymik")
+theme_override_font_sizes/font_size = 20
+text = "Options"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SimpleWindow" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BtnEnableEditing" parent="SimpleWindow" instance=ExtResource("3_nkmbh")]
+material = SubResource("ShaderMaterial_bfck4")
+custom_minimum_size = Vector2(192, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="SimpleWindow/BtnEnableEditing"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("8_2ymik")
+theme_override_font_sizes/font_size = 23
+text = "Preview Voice Pack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="selection" from="EditWindow/PagesAndBottomRow/ButtonRow/HostTabs" to="." method="_on_host_tabs_selection"]
+[connection signal="button_clicked" from="SimpleWindow/BtnEnableEditing" to="." method="_on_btn_enable_editing_button_clicked"]

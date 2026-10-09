@@ -1,0 +1,117 @@
+[gd_scene load_steps=7 format=3 uid="uid://qbf21wqtvbs4"]
+
+[ext_resource type="Script" uid="uid://dq64ynar61lp5" path="res://scene/dialogue/dialogue_master.gd" id="1_a62ad"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="2_arw8r"]
+[ext_resource type="Texture2D" uid="uid://dr222eglkiwyx" path="res://graphic/image/cv_textboxblip.png" id="3_6prp8"]
+
+[sub_resource type="Gradient" id="Gradient_0w2ca"]
+offsets = PackedFloat32Array(0, 0.063, 0.248, 0.427, 0.579, 0.686)
+colors = PackedColorArray(0.6, 0.6, 0.6, 0, 0.858824, 0.858824, 0.858824, 1, 1, 1, 1, 1, 0.843137, 0.843137, 0.843137, 1, 0.929412, 0.929412, 0.929412, 1, 0.972549, 0.972549, 0.972549, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_htanx"]
+gradient = SubResource("Gradient_0w2ca")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i17yr"]
+shader = ExtResource("2_arw8r")
+shader_parameter/palette = SubResource("GradientTexture1D_htanx")
+shader_parameter/node_size = Vector2(640, 168)
+shader_parameter/x_corner_margin = 0.15
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.15
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[node name="DialogueMaster" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a62ad")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 256
+theme_override_constants/margin_top = 448
+theme_override_constants/margin_right = 256
+theme_override_constants/margin_bottom = 32
+
+[node name="DialogueBox" type="ColorRect" parent="MarginContainer"]
+material = SubResource("ShaderMaterial_i17yr")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DialogueBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DialogueBox/MarginContainer"]
+layout_mode = 2
+
+[node name="LblDialogue" type="Label" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(544, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 26
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 4
+visible_characters_behavior = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="b" type="Control" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+
+[node name="Dot" type="TextureRect" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+texture = ExtResource("3_6prp8")
+expand_mode = 1
+
+[node name="b2" type="Control" parent="MarginContainer/DialogueBox/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.44

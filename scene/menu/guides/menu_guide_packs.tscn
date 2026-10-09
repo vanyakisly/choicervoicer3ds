@@ -1,0 +1,2661 @@
+[gd_scene load_steps=35 format=3 uid="uid://bfsk27x5g0snm"]
+
+[ext_resource type="Script" uid="uid://bh6kc3e56tbm4" path="res://scene/menu/guides/menu_guide_packs.gd" id="1_q4rps"]
+[ext_resource type="PackedScene" uid="uid://ce6q8ropmbfnl" path="res://scene/module/button/button_array.tscn" id="1_qbles"]
+[ext_resource type="Script" uid="uid://cgbfs5yb7iy60" path="res://resource/menu_data.gd" id="2_gwxkj"]
+[ext_resource type="PackedScene" uid="uid://duytfakxgl2hx" path="res://scene/module/button/button_cv.tscn" id="2_ksfxe"]
+[ext_resource type="Shader" uid="uid://djd3lf6pxe0yy" path="res://graphic/shader/glossy_solid.gdshader" id="3_vxuc5"]
+[ext_resource type="FontFile" uid="uid://cntue2fs2dixc" path="res://graphic/font/DuruSans-Regular.ttf" id="4_4t6lw"]
+[ext_resource type="PackedScene" uid="uid://crdfmdg5fnvkq" path="res://scene/module/button/button_cv_small.tscn" id="4_xvoar"]
+[ext_resource type="Shader" uid="uid://4ga3dmidbqgy" path="res://graphic/shader/small_button.gdshader" id="5_7eso2"]
+[ext_resource type="Texture2D" uid="uid://b1lxyg1aqswel" path="res://graphic/image/cv_temp_icon_file_image.png" id="6_71jkw"]
+[ext_resource type="Texture2D" uid="uid://cg1krvorsigj3" path="res://graphic/image/cv_temp_icon_file_text.png" id="7_cnebd"]
+[ext_resource type="Texture2D" uid="uid://qu3trlqda8bk" path="res://graphic/image/cv_temp_icon_file_audio.png" id="7_tb2hj"]
+[ext_resource type="Texture2D" uid="uid://vf8ju8k5pndj" path="res://graphic/image/cv_temp_icon_file_json.png" id="8_udwwo"]
+[ext_resource type="Texture2D" uid="uid://dbv3hn0wgxord" path="res://graphic/image/cv_temp_icon_file_config.png" id="11_er8mq"]
+[ext_resource type="Texture2D" uid="uid://dmnhvfpkjmqh4" path="res://graphic/image/cv_temp_icon_file_video.png" id="11_wekv2"]
+[ext_resource type="Texture2D" uid="uid://c416ina8j2s13" path="res://graphic/image/cv_temp_icon_file_model.png" id="12_818yd"]
+[ext_resource type="FontFile" uid="uid://bbvh18cor442j" path="res://graphic/font/Waukegan LDO.ttf" id="15_ib5l8"]
+
+[sub_resource type="Resource" id="Resource_r7h7r"]
+script = ExtResource("2_gwxkj")
+back_path = &"home/menu_home"
+slide_hint = PackedStringArray("Main Menu", "Modpack Guides")
+type = 0
+assume_path = true
+
+[sub_resource type="Gradient" id="Gradient_8gnrw"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_er8mq"]
+gradient = SubResource("Gradient_8gnrw")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iggxt"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_er8mq"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s133k"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ra27"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e5mpt"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_86ifx"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_75dlh"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_002ue"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crbcc"]
+resource_local_to_scene = true
+shader = ExtResource("5_7eso2")
+shader_parameter/palette = SubResource("GradientTexture1D_er8mq")
+shader_parameter/node_size = Vector2(1152, 648)
+shader_parameter/shade_symmetry = 5.0
+shader_parameter/center_size_x = 0.086
+shader_parameter/center_size_y = 0.159
+shader_parameter/center_falloff = 1.857
+shader_parameter/center_strength = 0.704
+
+[sub_resource type="Gradient" id="Gradient_qwim7"]
+offsets = PackedFloat32Array(0.0733453, 0.248658, 0.341682, 0.604651, 0.676208, 0.772809, 0.860465)
+colors = PackedColorArray(1, 1, 1, 0, 0.854902, 0.854902, 0.854902, 1, 0, 0, 0, 1, 0.0588235, 0.0588235, 0.0588235, 1, 0.490196, 0.490196, 0.490196, 1, 0.0392157, 0.0392157, 0.0392157, 1, 0, 0, 0, 0.92549)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bsm4i"]
+gradient = SubResource("Gradient_qwim7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o6lcv"]
+shader = ExtResource("3_vxuc5")
+shader_parameter/palette = SubResource("GradientTexture1D_bsm4i")
+shader_parameter/node_size = Vector2(828, 532)
+shader_parameter/x_corner_margin = 0.025
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.025
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = false
+shader_parameter/center_color = Color(1, 1, 1, 1)
+shader_parameter/center_falloff = 1.0
+shader_parameter/center_x_corner_margin = 0.25
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 1.0
+shader_parameter/center_y_corner_margin = 0.25
+shader_parameter/center_y_shift = 0.0
+shader_parameter/center_y_scale = 1.0
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(1, 1, 1, 1)
+shader_parameter/reflection_falloff = 1.0
+shader_parameter/reflection_x_corner_margin = 0.25
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 1.0
+shader_parameter/reflection_y_corner_margin = 0.25
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_8xrng"]
+offsets = PackedFloat32Array(0.05, 0.075, 0.129, 0.155, 0.203738, 0.508411)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0.353183, 0.518186, 0.548031, 1, 0.662745, 0.8, 0.839216, 1, 0.389737, 0.58006, 0.633, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cxxqs"]
+gradient = SubResource("Gradient_8xrng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pa16s"]
+resource_local_to_scene = true
+shader = ExtResource("3_vxuc5")
+shader_parameter/palette = SubResource("GradientTexture1D_cxxqs")
+shader_parameter/node_size = Vector2(192, 46)
+shader_parameter/x_corner_margin = 0.5
+shader_parameter/x_shift = 0.0
+shader_parameter/x_scale = 1.0
+shader_parameter/y_corner_margin = 0.5
+shader_parameter/y_shift = 0.0
+shader_parameter/y_scale = 1.0
+shader_parameter/dont_merge_black = true
+shader_parameter/alpha_value = 1.0
+shader_parameter/use_center_detail = true
+shader_parameter/center_color = Color(1, 1, 1, 0.486275)
+shader_parameter/center_falloff = 0.457
+shader_parameter/center_x_corner_margin = 0.5
+shader_parameter/center_x_shift = 0.0
+shader_parameter/center_x_scale = 0.925
+shader_parameter/center_y_corner_margin = 0.5
+shader_parameter/center_y_shift = -0.34
+shader_parameter/center_y_scale = 0.57
+shader_parameter/use_reflection = false
+shader_parameter/reflection_color = Color(0.909804, 0.992157, 1, 0.839216)
+shader_parameter/reflection_falloff = 0.506
+shader_parameter/reflection_x_corner_margin = 0.055
+shader_parameter/reflection_x_shift = 0.0
+shader_parameter/reflection_x_scale = 0.926
+shader_parameter/reflection_y_corner_margin = 0.5
+shader_parameter/reflection_y_shift = 0.0
+shader_parameter/reflection_y_scale = 0.076
+
+[node name="MenuHelp" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q4rps")
+menu_data = SubResource("Resource_r7h7r")
+
+[node name="Border" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 58
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 58
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border"]
+layout_mode = 2
+
+[node name="ArrayPageSelection" parent="Border/HBoxContainer" instance=ExtResource("1_qbles")]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+large_buttons = false
+
+[node name="ButtonCVSmall8" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_iggxt")
+custom_minimum_size = Vector2(224, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall8"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Clips"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_er8mq")
+custom_minimum_size = Vector2(224, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Voice Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall4" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_s133k")
+custom_minimum_size = Vector2(224, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Dub Mode Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall2" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_8ra27")
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Menu Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall3" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_e5mpt")
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Player Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall5" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_86ifx")
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Studio Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall6" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_75dlh")
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Judge Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall7" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_002ue")
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall7"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Host Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCVSmall9" parent="Border/HBoxContainer/ArrayPageSelection" instance=ExtResource("4_xvoar")]
+material = SubResource("ShaderMaterial_crbcc")
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/ArrayPageSelection/ButtonCVSmall9"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Chatter Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sidebar" type="Control" parent="Border/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect" type="ColorRect" parent="Border/HBoxContainer/Sidebar"]
+material = SubResource("ShaderMaterial_o6lcv")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Pages" type="MarginContainer" parent="Border/HBoxContainer/Sidebar/ColorRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="PageClips" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Voice Clips"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Clips are the core concept of The Choicer Voicer.
+They're how game the is played, and have customizable features."
+fit_content = true
+
+[node name="ExplainBox_voice" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_voice"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_voice"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "<clip name>"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_voice"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "The game will load any WAV, MP3, and OGG file as a voice clip.
+
+BEST PRACTICES:
+* Too loud is better than too quiet. Voice clips are judged via WAVEFORM OVERLAP.
+    Quiet clips have very small waveforms in-game, and will always score poorly, resulting
+    in an unfun experience for players.
+* Clips should not include BACKGROUND MUSIC or NOISE. All sound in the clip will be
+   sampled by the game. Because performances are judged via waveform overlap, a player
+   will fail if their waveforms do not match noisy clips. Consider using a noise remover."
+autowrap_mode = 2
+
+[node name="ExplainBox_image" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_image"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_image"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_image/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_image/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "<clip name>"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_image/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_image"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_image/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_image/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "You can assign an image to a voice clip by giving the image the same name as the voice clip. This image will be used in pack previewing as well as the main clip screen during sessions.
+
+Example:
+* The clip \"my clip.wav\" would need an image \"my clip.png\" or \"my clip.jpg\"
+* The clip \"EXAMPLE01.wav\" would need an image \"EXAMPLE01.png\" or \"EXAMPLE01.jpg\"
+"
+autowrap_mode = 2
+
+[node name="ExplainBox_clipconfig" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("11_er8mq")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "<clip name>"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      INI | CFG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "For more options, include an INI or CFG config file.
+
+You can easily create and edit clip metadata under \"Extras\"
+and then \"Edit Voice Packs & Clip Metadata.\"
+"
+autowrap_mode = 2
+
+[node name="ExplainBox_subtitleclip" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_subtitleclip"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_subtitleclip"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_subtitleclip/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_cnebd")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_subtitleclip/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "<clip name>"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_subtitleclip/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      TXT"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_subtitleclip"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_subtitleclip/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer/ExplainBox_subtitleclip/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "You can assign a caption to a voice clip without using a config file.
+If you include a TXT file with the same name as the clip, the text file will be prioritized."
+autowrap_mode = 2
+
+[node name="b" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageClips/PageContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="PageVoicePacks" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Voice Packs"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Voice Packs are collections of voice clips that The Choicer Voicer uses to play game modes."
+fit_content = true
+
+[node name="ExplainBox_clipconfig" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("11_er8mq")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "_pack_info"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      INI | CFG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "For more pack information, include an INI or CFG config file.
+Pack config files allow you to specify ingame titles (intead of using the name of the folder), subtitles, readmes, authors, and the icon.
+
+You can easily create and edit voice pack metadata under \"Extras\"
+and then \"Edit Voice Packs & Clip Metadata.\""
+autowrap_mode = 2
+
+[node name="ExplainBox_filler" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_filler"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_filler"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_filler/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_filler/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "_pack_filler_image"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_filler/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_filler"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_filler/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_filler/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Optional image for the pack's clips. Any voice clip that doesn't have its own assigned image will use this image instead. Good for large batches of clips that don't warrant unique images. If the voice pack has no icon specified, it will also use this image if it exists.
+
+Note that a filler image only applies to clips in the immediate pack folder. It does not apply to child folders of a voice pack--each folder requires its own filler image, if desired."
+autowrap_mode = 2
+
+[node name="ExplainBox_icon" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_icon"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_icon"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_icon/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_icon/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "_icon"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_icon/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_icon"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_icon/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_icon/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Optional image, specifically for the voice pack. It shows when the pack is selected."
+autowrap_mode = 2
+
+[node name="ExplainBox_author" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_author"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_author"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_author/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_cnebd")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_author/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "_author"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_author/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      TXT"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_author"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_author/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_author/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "This is a special text file name reserved for displaying the creator(s) of the voice pack. In order to credit yourself, add a text file to your pack named \"_author\" and type your name(s) in the file's text field. This file is not required, but is recommended.
+
+It is also recommended that you include _author files to other packs you create, not just voice packs. But currently, only voice packs have their author displayed."
+autowrap_mode = 2
+
+[node name="ExplainBox_subtitle" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_subtitle"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_subtitle"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_subtitle/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_cnebd")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_subtitle/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "_subtitle"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_subtitle/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      TXT"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_subtitle"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_subtitle/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer/ExplainBox_subtitle/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "This is a special text file name reserved for displaying information about the pack, as a subtitle beneath its name, when being previewed in-game."
+autowrap_mode = 2
+
+[node name="b" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageVoicePacks/PageContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="PageDubPacks" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Dub Mode Packs"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Dub Mode Packs are a specialized type of voice pack. They are used for Dub Mode, but can also be used as a normal voice pack.
+
+All Voice Pack data also applies to Dub Mode Packs.
+Dub More Packs require additional files."
+fit_content = true
+
+[node name="ExplainBox_video" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("11_wekv2")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "dub_video"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      OGV"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "The video that you will be dubbing. Without this, the dub pack will not be recognized and cannot be played. The video will be muted in-game."
+autowrap_mode = 2
+
+[node name="ExplainBox_backing" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_backing"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_backing"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_backing/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_backing/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "_backing_track"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_backing/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_backing"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_backing/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageDubPacks/PageContainer/VBoxContainer/ExplainBox_backing/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Optional audio that plays alongside the dub video. If you include this, it should only use background noise or background music from the dub video, and none of the voice audio."
+autowrap_mode = 2
+
+[node name="PageMenuPacks" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Menu Packs"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Menu Packs allow you to customize the menu background
+and button presentation."
+fit_content = true
+
+[node name="ExplainBox_background" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_background"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_background"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_background/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_background/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "background"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_background/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_background"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_background/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_background/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the default menu background image. This image appears beneath all other menu elements.
+
+You can specify whether this image should tile based on its size, or stretch to fit the game window. This is done with the config file, or in the pack selection menu."
+autowrap_mode = 2
+
+[node name="ExplainBox_overlay" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_overlay"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_overlay"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_overlay/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_overlay/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "overlay"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_overlay/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_overlay"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_overlay/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_overlay/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will appear as an additional menu element, overlapping all other elements except for the letterbox. This image is always stretched to fit the game window. This is an optional file; the default menu has no overlay."
+autowrap_mode = 2
+
+[node name="ExplainBox_unseen" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_unseen"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_unseen"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_unseen/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_unseen/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "unseen_image"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_unseen/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_unseen"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_unseen/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_unseen/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the image for unseen voice clips. When previewing a pack, this image is used for any unseen voice clips."
+autowrap_mode = 2
+
+[node name="ExplainBox_no" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_no"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_no"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_no/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_no/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "no_image"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_no/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_no"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_no/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_no/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the default backup image that is used when a voice clip has no image assigned to it."
+autowrap_mode = 2
+
+[node name="ExplainBox_music" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_music"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_music"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_music/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_music/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "music_menu"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_music/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_music"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_music/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_music/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the default music that plays in the menu.
+
+The music will loop when it finishes playing.
+You can specify a loop point in the config file, but this is an experimental feature and may be unreliable or unstable."
+autowrap_mode = 2
+
+[node name="ExplainBox_btnselect" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnselect"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnselect"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnselect/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnselect/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "button_sfx_select"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnselect/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnselect"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnselect/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnselect/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the audio that plays when a standard button is pressed."
+autowrap_mode = 2
+
+[node name="ExplainBox_btnback" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnback"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnback"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnback/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnback/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "button_sfx_select"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnback/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnback"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnback/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnback/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the audio that plays when back buttons are pressed."
+autowrap_mode = 2
+
+[node name="ExplainBox_btnhover" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnhover"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnhover"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnhover/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnhover/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "button_sfx_hover"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnhover/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnhover"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnhover/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btnhover/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the audio that plays when the cursor hovers over a button."
+autowrap_mode = 2
+
+[node name="ExplainBox_btndecrease" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btndecrease"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btndecrease"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btndecrease/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btndecrease/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "button_sfx_decrease"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btndecrease/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btndecrease"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btndecrease/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_btndecrease/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the audio that plays when certain buttons are pressed. \"Decrease\" has become a misnomer."
+autowrap_mode = 2
+
+[node name="ExplainBox_video" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("11_wekv2")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "video"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      OGV"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, the video will replace the background image and play on loop.
+By default, the music file will be replaced with this file's audio.
+
+Be aware that the video can desync from its audio, especially if lag or stuttering occurs.
+
+[Advanced]: To mute the video and play a music file instead, edit the config_menu file and change `audio.use_video` to false."
+autowrap_mode = 2
+
+[node name="ExplainBox_config" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("8_udwwo")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "config_player"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      JSON"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageMenuPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+autowrap_mode = 2
+
+[node name="PagePlayerPacks" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Player Packs"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Player Packs let you create your own game contestant."
+fit_content = true
+
+[node name="ExplainBox_player" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_player"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_player"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_player/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_player/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "player"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_player/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_player"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_player/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_player/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "An image to use for a player. This image does NOT get scaled or shifted. This means that small images will be small, and large images will be large. For a standard person, the recommended image height is 1000 pixels.
+
+Short players will be blocked by their podium unless you increase the height and leave empty space at the bottom of the image.
+
+If an image fails to load, the default cardboard cutout will be used instead."
+autowrap_mode = 2
+
+[node name="ExplainBox_audio_variant" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_audio_variant"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_audio_variant"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_audio_variant/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_audio_variant/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "<variant>"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_audio_variant/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_audio_variant"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_audio_variant/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_audio_variant/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "In a feature specific to player packs (since Version 0.4.13),
+audio files that can be spoken by the player do not have set names.
+
+A player has a maximum of nine \"reaction\" audio files:
+    score_0: plays when earning a score of 0
+    score_1: plays when earning a score of 1
+    score_2: plays when earning a score of 2
+    score_3: plays when earning a score of 3
+    score_4: plays when earning a score of 4
+    score_5: plays when earning a score of 5
+    intro_greet: plays when the host introduces the player
+    game_loser: plays when the player loses the session
+    game_winner: plays when the player wins the session
+
+By default:
+    An audio file named \"talk_cheer\" is assigned to \"score_4\", \"score_5\", and \"game_winner\".
+    An audio file named \"talk_upset\" is assigned to \"score_0\", \"score_1\", and \"game_loser\".
+    An audio file named \"talk_greet\" is assigned to \"intro_greet\".
+    No audio is assigned to \"score_2\" and \"score_3\"."
+autowrap_mode = 2
+
+[node name="ExplainBox_config" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("8_udwwo")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "config_player"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      JSON"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PagePlayerPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Lets you specify information about the player. The player's name does NOT use the name of the pack, and will default to \"Player\" if not changed. There are also two color options, which are used for the player's podium and accent colors for their score tracker. Finally, you can customize what phrase the host says when they introduce the player.
+
+You can also assign variant audio files to the player's reactions. If you don't want audio to play for a certain reaction, leave the field blank. You may also use one audio file for multiple reactions.
+
+The name of the file must be typed WITHOUT its file extension.
+For example, if a pack has \"talk_cheer.wav\", then it must be assigned as \"talk_cheer\"."
+autowrap_mode = 2
+
+[node name="PageStudioPacks" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Studio Packs"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Studio Packs allow you to customize the presentation of the studio environment that sessions take place in."
+fit_content = true
+
+[node name="ExplainBox_music_studio" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_music_studio"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_music_studio"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_music_studio/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_music_studio/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "music_studio"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_music_studio/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_music_studio"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_music_studio/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_music_studio/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will override the default music that plays during sessions.
+The music will loop when it finishes playing.
+You can specify a loop point in the config file, but this is an experimental feature and may be unreliable or unstable."
+autowrap_mode = 2
+
+[node name="ExplainBox_video" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("11_wekv2")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "screen"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      OGV"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_video"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_video/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will be used as the background for the
+player's progress screen (the rightmost screen). The video's audio will be muted."
+autowrap_mode = 2
+
+[node name="ExplainBox_model" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_model"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_model"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_model/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("12_818yd")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_model/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "model"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_model/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      GLB | GLTF"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_model"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_model/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_model/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will replace the default studio environment.
+Please note that the larger your file is, the longer it will take to load when a session starts.
+There currently exists some environmental effects that might tint your studio blue when active."
+autowrap_mode = 2
+
+[node name="ExplainBox_absolute" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_absolute"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_absolute"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_absolute/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_absolute/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "absolute_image"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_absolute/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_absolute"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_absolute/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageStudioPacks/PageContainer/VBoxContainer/ExplainBox_absolute/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will show on the screen above the judges when a player gets a very rare score result."
+autowrap_mode = 2
+
+[node name="PageJudgePacks" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Judge Packs"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Judge Packs let you choose the characters that score the player's performances. There are five total, labeled left to right, from 1 to 5."
+fit_content = true
+
+[node name="ExplainBox_judge" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_judge"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_judge"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_judge/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_judge/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "judge1, judge2..."
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_judge/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_judge"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_judge/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_judge/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "An image to use for a judge. There is judge1, judge2, judge3, judge4, and judge5.
+
+This image does NOT get scaled or shifted. This means that small images will be small, and large images will be large. For a standard person, the recommended image height is 1000 pixels.
+
+Short judges will be blocked by their podium unless you increase the height and leave empty space at the bottom of the image.
+
+If an image fails to load, the default cardboard cutout will be used instead."
+autowrap_mode = 2
+
+[node name="ExplainBox_scoreblip" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_scoreblip"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_scoreblip"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_scoreblip/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_scoreblip/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "scoreblip1, scoreblip2..."
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_scoreblip/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_scoreblip"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_scoreblip/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_scoreblip/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Audio to use when receiving points from the judges. There is scoreblip1, scoreblip2, scoreblip3, scoreblip4, and scoreblip5.
+
+These are NOT assigned to each judge. They play in sequence for however many points are earned. For example, if a player earns three points during a round, scoreblips 1, 2, and 3 will play in that order."
+autowrap_mode = 2
+
+[node name="ExplainBox_success" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "success"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "If your pack has this file, it will replace the default image that appears on a judge's podium when they grant a point."
+autowrap_mode = 2
+
+[node name="ExplainBox_success_indiv" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success_indiv"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success_indiv"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success_indiv/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success_indiv/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "judgeN_success"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success_indiv/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success_indiv"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success_indiv/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_success_indiv/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Use this optional file to assign a unique panel to a judge when they grant a point, ignoring the main success panel chosen. Does not support transparency.
+
+Choose a judge by replacing \"N\" with the judge number. For example, \"judge2_success\" to assign a panel to Judge 2."
+autowrap_mode = 2
+
+[node name="ExplainBox_voice" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_voice"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_voice"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "judgeN_voice"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_voice"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_voice/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Use this optional file to assign audio to a specific judge when they grant a point. This will be played alongside the score blips.
+
+Choose a judge by replacing \"N\" with the judge number. For example, \"judge2_voice\" to assign an audio file to Judge 2.
+
+[Advanced]: To disable score blips for judges with custom audio, edit the config_judges file and change `play_voices_with_blips` to false."
+autowrap_mode = 2
+
+[node name="ExplainBox_config" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("8_udwwo")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "config_judges"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      JSON"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageJudgePacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Lets you change the names of the judges. This can also be done in the pack selection menu.
+
+Each judge key in the config contains a name value.
+
+There is also a `play_voices_with_blips` value; this determines whether score blips will play for judges that have custom audio assigned to them. True for yes, false for no."
+autowrap_mode = 2
+
+[node name="PageHostPacks" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Host Packs"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Host Packs allow you to change the character that delivers dialog, explanations, and commentary during a session."
+fit_content = true
+
+[node name="ExplainBox_host" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_host"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_host"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_host/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_71jkw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_host/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "host"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_host/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      PNG | JPG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_host"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_host/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_host/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "The host's image. Regardless of the image's size, it will be rescaled to the height of the game window (while preserving aspect ratio).
+
+Include empty space in the image if you want to prevent the host image from touching the window borders.
+
+If this image fails to load, Shae will be used instead."
+autowrap_mode = 2
+
+[node name="ExplainBox_config" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("8_udwwo")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "config_host"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      JSON"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_config"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageHostPacks/PageContainer/VBoxContainer/ExplainBox_config/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Lets you change the host's dialog. This can also be done in the pack selection menu.
+
+Make sure to change the host's default name. The host does NOT use the pack's name as their name, and the default name is \"Shae\" if you do not change it.
+
+There are a few special strings that will be replaced with variable data during a session:
+    <host_name> dynamically uses the name specified in the config file, if desired.
+    <player> uses the name of the active player.
+    <round> uses the current or upcoming round during the session.
+    <points> uses the points earned this round by the active player.
+
+If you are customizing dialog in the pack selection menu:
+    </next> will split the dialog into more than one text box.
+    You can specify a new line by simply pressing Enter.
+
+If you are customizing dialog in the config file:
+    Each dialog event is a string array in the config file. Each string in the array is one text box. Do not use \"</next>\"
+    You must specify a new line via \"\\n\""
+autowrap_mode = 2
+
+[node name="PageChatterPacks" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 32
+text = "Chatter Packs"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks"]
+layout_mode = 2
+
+[node name="PageContainer" type="ScrollContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_4t6lw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Chatter Packs are collections of audio samples to be triggered by a Twitch chat. When playing a mode that uses the game show studio, the first word of a Twitch message will be checked for a keyword match."
+fit_content = true
+
+[node name="ExplainBox_audio" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_audio"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_audio"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_audio/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_tb2hj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_audio/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "<any audio>"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_audio/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      WAV | MP3 | OGG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_audio"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_audio/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_audio/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "Include any audio you want to play as chatter. There are no naming requirements, since the config identifies each file by name."
+autowrap_mode = 2
+
+[node name="ExplainBox_clipconfig" type="VBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("11_er8mq")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 20
+text = "config_chatter"
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+theme_override_font_sizes/font_size = 12
+text = "      INI | CFG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_clipconfig"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer/ExplainBox_clipconfig/HBoxContainer2"]
+custom_minimum_size = Vector2(764, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4t6lw")
+text = "The config file is required for the game to know what keywords every audio sample should have. The same keywords can be assigned to multiple samples, and a sample will be chosen at random. The config also specifies data about the pack. A dedicated editor will be available at a later date.
+
+There are three sections for a chatter config file. None are required for the pack to work.
+
+Example of a chatter config:
+-------------------------------------------------------------------------
+[data]
+title = \"My Chatter Pack\"
+icon = \"my_icon\"
+authors = [\"Me\", \"My friend\"]
+volume = 0.70
+
+[exact_keywords]
+lets_go.wav = [\"twitchEmoteLetsGo\"]
+huh.mp3 = [\"HUH\", \"HUHH\"]
+
+[broad_keywords]
+clap.ogg = [\"clap\", \"👏\"]
+yes1.wav = [\"yes\"]
+yes2.wav = [\"yes\"]
+yes3.wav = [\"yes\"]
+-------------------------------------------------------------------------
+
+The \"data\" section lets you specify:
+  * A display name (if you don't want it to use the folder name).
+  * The image to use as an icon (can also name an image \"_icon\" to use it automatically).
+  * The author or authors.
+  * Volume adjustment for the pack's samples. Default is 1.0 (100%).
+
+The \"exact_keywords\" section dictates the samples that play for an exact keyword match. They must be the same word and the same capitalization. Useful for the names of Twitch emotes. For example, the exact keyword \"Clap\" will ONLY trigger for \"Clap\".
+
+The \"broad_keywords\" section dictates the samples that play when the keyword is found in the checked word. It is case-insensitive. For example, the broad keyword \"clap\" will trigger for ALL of the following: \"clap\", \"CLAP\", \"clapping\", \"Clap2\", \"LeftClap\", \"xXx_cclapp_xXx\".
+"
+autowrap_mode = 2
+
+[node name="b" type="Control" parent="Border/HBoxContainer/Sidebar/ColorRect/Pages/PageChatterPacks/PageContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="BtnFolder" parent="Border/HBoxContainer/Sidebar/ColorRect" instance=ExtResource("2_ksfxe")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_pa16s")
+custom_minimum_size = Vector2(192, 46)
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 672.0
+offset_top = 13.0
+offset_right = 864.0
+offset_bottom = 59.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+button_type = 4
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="Border/HBoxContainer/Sidebar/ColorRect/BtnFolder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("15_ib5l8")
+theme_override_font_sizes/font_size = 25
+text = "Open Folder ↗"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="selection" from="Border/HBoxContainer/ArrayPageSelection" to="." method="_on_array_page_selection_selection"]
+[connection signal="button_clicked" from="Border/HBoxContainer/Sidebar/ColorRect/BtnFolder" to="." method="_on_btn_folder_button_clicked"]
