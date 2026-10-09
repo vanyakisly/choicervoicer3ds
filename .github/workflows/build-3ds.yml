@@ -10,9 +10,9 @@ permissions:
 
 jobs:
   build-old-3ds:
-    name: Build 3DSX with official devkitPro toolchain
+    name: Build native 3DSX and SD install bundle
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
 
     steps:
       - name: Check out source
@@ -25,7 +25,47 @@ jobs:
           test -f 3ds_port/Makefile
           test -f 3ds_port/source/main.c
           test -f 3ds_port/icon.png
-          echo "Native 3DS project files found at repository root."
+          test -f tools/prepare_3ds_assets.py
+          test -f tools/prepare_3ds_dub_packs.py
+          test -f tools/test_3ds_dub_packs.py
+          test -f tools/test_native_pack_loader.py
+          test -f tools/test_pack_loader.c
+          test -f packs_voice/README.txt
+          echo "Native source, pack converter, and custom pack input folder found."
+
+      - name: Install original-asset conversion tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg python3-pil zip build-essential zlib1g-dev
+
+      - name: Test dub video/audio/image preprocessing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/test_3ds_dub_packs.py
+
+      - name: Test the native C pack loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/test_native_pack_loader.py
+
+      - name: Stage all original assets, sounds, music and default packs for SD
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "3ds_port/dist/SD/luma/3ds/The Choicer Voicer"
+          python3 tools/prepare_3ds_assets.py \
+            --source "$GITHUB_WORKSPACE" \
+            --output "$GITHUB_WORKSPACE/3ds_port/dist/SD/luma/3ds/The Choicer Voicer"
+          test -s "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/assets_native/logo_banner.rgba"
+          test -s "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/assets_native/font_small.rgba"
+          test -s "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/audio/music/maintheme.wav"
+          test -d "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/packs_voice"
+          test -d "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/packs_menu"
+          test -f "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/INSTALL-ASSETS.txt"
 
       - name: Pull official devkitPro ARM image
         run: docker pull devkitpro/devkitarm:latest
@@ -42,10 +82,15 @@ jobs:
               test -f "$DEVKITARM/3ds_rules"; \
               echo "Using DEVKITPRO=$DEVKITPRO"; \
               echo "Using DEVKITARM=$DEVKITARM"; \
+              if command -v dkp-pacman >/dev/null 2>&1; then dkp-pacman -Sy --noconfirm 3ds-zlib; \
+              elif command -v pacman >/dev/null 2>&1; then pacman -Sy --noconfirm 3ds-zlib; \
+              else echo No-devkitPro-package-manager-found-in-the-build-image >&2; exit 1; fi; \
+              test -f "$DEVKITPRO/portlibs/3ds/include/zlib.h"; \
+              test -f "$DEVKITPRO/portlibs/3ds/lib/libz.a"; \
               make clean; \
               make -j2'
 
-      - name: Verify build outputs
+      - name: Verify binary and prepare install bundle
         shell: bash
         run: |
           set -euo pipefail
@@ -60,9 +105,32 @@ jobs:
               raise SystemExit(f"Invalid 3DSX header: {magic!r}")
           print(f"Verified 3DSX header: {binary} ({binary.stat().st_size} bytes)")
           PY
-          ls -lh 3ds_port/TheChoicerVoicer3DS.3dsx 3ds_port/TheChoicerVoicer3DS.smdh
+          mkdir -p 3ds_port/dist/SD/3ds
+          cp 3ds_port/TheChoicerVoicer3DS.3dsx 3ds_port/dist/SD/3ds/
+          cp 3ds_port/TheChoicerVoicer3DS.smdh 3ds_port/dist/SD/3ds/
+          cat > 3ds_port/dist/SD/README-INSTALL.txt <<'EOF'
+          The Choicer Voicer — Old 3DS native conversion
 
-      - name: Upload Old 3DS build artifact
+          Copy the contents of this SD folder to the root of your 3DS SD card.
+          Keep the directory structure exactly as provided.
+
+          App:   /3ds/TheChoicerVoicer3DS.3dsx
+          Data:  /luma/3ds/The Choicer Voicer/
+
+          This is a native compatibility port, not the original Godot 4 desktop
+          executable. The original graphic/assets/model trees, project audio,
+          converted PCM companions, default packs, and any custom packs placed in
+          the source repository root's packs_voice/ folder are included. Dub packs
+          are preprocessed into 160x90 RGB565 TCV video at 10 fps while preserving
+          the source dub_video.ogv and the original per-line timestamps.
+          Make a backup of your SD card before copying files.
+          EOF
+          cd 3ds_port/dist/SD
+          zip -q -r -1 ../../TheChoicerVoicer-Old3DS-SD-Install.zip .
+          cd ../..
+          ls -lh TheChoicerVoicer3DS.3dsx TheChoicerVoicer3DS.smdh TheChoicerVoicer-Old3DS-SD-Install.zip
+
+      - name: Upload Old 3DS build and SD installation package
         uses: actions/upload-artifact@v4
         with:
           name: TheChoicerVoicer-Old3DS
@@ -70,3 +138,4 @@ jobs:
           path: |
             3ds_port/TheChoicerVoicer3DS.3dsx
             3ds_port/TheChoicerVoicer3DS.smdh
+            3ds_port/TheChoicerVoicer-Old3DS-SD-Install.zip

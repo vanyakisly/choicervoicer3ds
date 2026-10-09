@@ -31,6 +31,10 @@ This folder is the hardware-adapted native target placed alongside the original 
 - Bounded WAV parsing (4 MiB audio-data cap) to avoid excessive memory allocation on Old 3DS.
 - Save-value validation, checked file writes, and clearer SD/microphone error messages.
 - Native persistent data and recording storage.
+- Original Waukegan LDO font rendered into compact native glyph atlases.
+- Original logo, Shae/host art, player/judge art, tutorial thumbnails, game examples, help slides, credits portraits, and waveform/microphone artwork.
+- Original menu hover/back/select/decrease sounds, judge score blips, tutorial-pack clips, and the project's music tracks.
+- During microphone recording, a low-cost live level trace overlays the supplied waveform art.
 
 ## Requested data location
 
@@ -64,7 +68,7 @@ Tap the visible bottom-screen button.
 
 The original project is a Godot 4.4 Forward+ desktop project. This native target intentionally does not try to run Godot's desktop renderer. The 3DS implementation supplies native equivalents for the UI/state/storage/audio-recording portions. Desktop-only features such as the Forward+ 3D renderer, Twitch/WebSocket services, and some desktop media codecs still require separate native implementations.
 
-The original Godot source remains intact in the parent directory. This target is a compatibility implementation of the UI/state/storage/audio flow; it is not a direct execution of the Godot project, and native hardware testing is still required for final confirmation.
+The original Godot source remains intact in the parent directory. This is a native, source-asset-based recreation of the main UI and a partial gameplay/audio/storage conversion, not a direct execution of Godot scenes. Some desktop-only systems remain unavailable in this conversion, including Twitch/WebSocket features and full desktop video playback. The Github Actions cross-build and physical Old 3DS test are still required before it can be considered fully verified.
 
 ## Build
 
@@ -80,7 +84,7 @@ The Makefile follows the current devkitPro 3DS toolchain architecture (`armv6k`,
 
 ## Automatic GitHub build
 
-A GitHub Actions workflow is included at `.github/workflows/build-3ds.yml` in the project root. It uses the official `devkitpro/devkitarm` container to build the native target and uploads the `.3dsx` and `.smdh` files as an Actions artifact.
+A GitHub Actions workflow is included at `.github/workflows/build-3ds.yml` in the project root. It uses the official `devkitpro/devkitarm` container to build the native target, converts MP3/OGG audio to PCM WAV companions, creates the SD data directory containing the original graphic/assets/model trees, original audio and default packs, and uploads `TheChoicerVoicer-Old3DS-SD-Install.zip` alongside the raw `.3dsx` and `.smdh` files. Extract the install ZIP directly to the SD card root so it creates `/3ds/` and `/luma/3ds/The Choicer Voicer/`.
 
 ## Windows build
 

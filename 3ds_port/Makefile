@@ -22,8 +22,8 @@ CFLAGS += -D__3DS__ -DOLD_3DS_PORT -I$(TOPDIR)/include -I$(CTRULIB)/include
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS := -g $(ARCH)
 LDFLAGS := -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(TARGET).map
-LIBS := -lctru -lm
-LIBDIRS := $(CTRULIB)
+LIBS := -lctru -lz -lm
+LIBDIRS := $(CTRULIB) $(DEVKITPRO)/portlibs/3ds
 
 APP_TITLE := The Choicer Voicer
 APP_DESCRIPTION := Native Old 3DS port

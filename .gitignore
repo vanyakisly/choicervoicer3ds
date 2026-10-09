@@ -8,3 +8,11 @@
 3ds_port/TheChoicerVoicer3DS.elf
 3ds_port/TheChoicerVoicer3DS.map
 3ds_port/TheChoicerVoicer3DS.lst
+
+# GitHub-generated native 3DS install bundle
+3ds_port/dist/
+3ds_port/TheChoicerVoicer-Old3DS-SD-Install.zip
+
+# Python conversion / regression-test caches
+__pycache__/
+*.py[cod]
