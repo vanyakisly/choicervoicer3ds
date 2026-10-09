@@ -51,6 +51,15 @@ jobs:
           set -euo pipefail
           test -s 3ds_port/TheChoicerVoicer3DS.3dsx
           test -s 3ds_port/TheChoicerVoicer3DS.smdh
+          python3 - <<'PY'
+          from pathlib import Path
+          binary = Path("3ds_port/TheChoicerVoicer3DS.3dsx")
+          with binary.open("rb") as f:
+              magic = f.read(4)
+          if magic != b"3DSX":
+              raise SystemExit(f"Invalid 3DSX header: {magic!r}")
+          print(f"Verified 3DSX header: {binary} ({binary.stat().st_size} bytes)")
+          PY
           ls -lh 3ds_port/TheChoicerVoicer3DS.3dsx 3ds_port/TheChoicerVoicer3DS.smdh
 
       - name: Upload Old 3DS build artifact

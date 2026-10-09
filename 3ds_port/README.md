@@ -26,8 +26,10 @@ This folder is the hardware-adapted native target placed alongside the original 
   - `WATCH DUB`
   - `SAVE DUB`
   - an animated audio waveform area.
-- Native Old 3DS microphone capture through the 3DS MIC service.
-- Native PCM WAV recording and playback through NDSP.
+- Native Old 3DS microphone capture through the 3DS MIC service, using a 0x1000-aligned shared-memory allocation and an eight-second recording cap.
+- Native PCM WAV recording and playback through NDSP, with graceful fallback if audio initialization fails.
+- Bounded WAV parsing (4 MiB audio-data cap) to avoid excessive memory allocation on Old 3DS.
+- Save-value validation, checked file writes, and clearer SD/microphone error messages.
 - Native persistent data and recording storage.
 
 ## Requested data location
@@ -62,7 +64,7 @@ Tap the visible bottom-screen button.
 
 The original project is a Godot 4.4 Forward+ desktop project. This native target intentionally does not try to run Godot's desktop renderer. The 3DS implementation supplies native equivalents for the UI/state/storage/audio-recording portions. Desktop-only features such as the Forward+ 3D renderer, Twitch/WebSocket services, and some desktop media codecs still require separate native implementations.
 
-The original Godot source remains intact in the parent directory.
+The original Godot source remains intact in the parent directory. This target is a compatibility implementation of the UI/state/storage/audio flow; it is not a direct execution of the Godot project, and native hardware testing is still required for final confirmation.
 
 ## Build
 
@@ -74,7 +76,7 @@ Output:
 
 `TheChoicerVoicer3DS.3dsx`
 
-The Makefile follows the current devkitPro 3DS toolchain architecture (`armv6k`, `3dsx.specs`, libctru).
+The Makefile follows the current devkitPro 3DS toolchain architecture (`armv6k`, `3dsx.specs`, libctru). It treats implicit-function declarations and missing returns as build errors. libctru's startup code initializes HID/FS and mounts `sdmc:`; the native entry point does not initialize or unmount those services a second time.
 
 ## Automatic GitHub build
 

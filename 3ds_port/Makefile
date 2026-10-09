@@ -17,7 +17,7 @@ DATA := data
 INCLUDES := include
 
 ARCH := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
-CFLAGS := -g -Wall -O2 -mword-relocations -ffunction-sections $(ARCH)
+CFLAGS := -g -Wall -Werror=implicit-function-declaration -Werror=return-type -O2 -mword-relocations -ffunction-sections $(ARCH)
 CFLAGS += -D__3DS__ -DOLD_3DS_PORT -I$(TOPDIR)/include -I$(CTRULIB)/include
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS := -g $(ARCH)

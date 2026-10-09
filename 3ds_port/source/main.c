@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <errno.h>
+#include <limits.h>
 #include <malloc.h>
 
 #define ROOT "sdmc:/luma/3ds/The Choicer Voicer"
@@ -35,17 +36,21 @@
 #define TOUCH_H 240
 
 #define MIC_RATE 16364
-#define MIC_BUFFER_SIZE (0x1000 + (MIC_RATE * 2 * 12))
 #define MAX_RECORD_SECONDS 8
 #define MAX_RECORD_SAMPLES (MIC_RATE * MAX_RECORD_SECONDS)
+/* MIC uses a shared-memory block: its address and size must be 0x1000-aligned. */
+#define MIC_BUFFER_SIZE ((0x1000u + (MAX_RECORD_SAMPLES * 2u) + 0xFFFu) & ~0xFFFu)
+/* Keep imported WAVs within a conservative Old 3DS memory budget. */
+#define MAX_WAV_BYTES (4u * 1024u * 1024u)
+#define MAX_RIFF_CHUNK_BYTES (8u * 1024u * 1024u)
 
 #define BTN_W 148
-#define BTN_H 34
+#define BTN_H 24
 #define BTN_GAP 8
 #define BTN_X0 8
 #define BTN_X1 (BTN_X0 + BTN_W + BTN_GAP)
-#define BTN_Y0 196
-#define BTN_Y1 (BTN_Y0 + BTN_H + 4)
+#define BTN_Y0 176
+#define BTN_Y1 (BTN_Y0 + BTN_H)
 
 typedef enum {
     PAGE_HOME,
@@ -124,6 +129,7 @@ static size_t playback_size = 0;
 static ndspWaveBuf playback_wave;
 static int playback_channel = 0;
 static bool playback_active = false;
+static bool ndsp_ready = false;
 
 static const char *pack_folders[] = {
     "packs_voice", "packs_player", "packs_host", "packs_judges", "packs_studio", "packs_menu"
@@ -138,23 +144,28 @@ static void set_message(const char *text) {
 }
 
 static int mk_dir(const char *path) {
-    if (mkdir(path, 0777) == 0 || errno == EEXIST) return 0;
+    struct stat st;
+    if (stat(path, &st) == 0) return S_ISDIR(st.st_mode) ? 0 : -1;
+    if (mkdir(path, 0777) == 0) return 0;
+    if (errno == EEXIST && stat(path, &st) == 0 && S_ISDIR(st.st_mode)) return 0;
     return -1;
 }
 
-static void setup_storage(void) {
+static bool setup_storage(void) {
     const char *dirs[] = {
         "sdmc:/luma", "sdmc:/luma/3ds", ROOT, SAVE_DIR, REC_DIR,
         ROOT "/packs_host", ROOT "/packs_judges", ROOT "/packs_menu",
         ROOT "/packs_studio", ROOT "/packs_voice", ROOT "/packs_player"
     };
-    for (size_t i = 0; i < sizeof(dirs)/sizeof(dirs[0]); ++i) mk_dir(dirs[i]);
+    for (size_t i = 0; i < sizeof(dirs)/sizeof(dirs[0]); ++i) {
+        if (mk_dir(dirs[i]) != 0) return false;
+    }
 
     FILE *f = fopen(SAVE_FILE, "rb");
-    if (f) { fclose(f); return; }
+    if (f) { fclose(f); return true; }
     f = fopen(SAVE_FILE, "wb");
-    if (!f) return;
-    fprintf(f,
+    if (!f) return false;
+    bool ok = fprintf(f,
         "{\n"
         "  \"version\": 4,\n"
         "  \"mode\": 0,\n"
@@ -166,8 +177,29 @@ static void setup_storage(void) {
         "  \"studio\": 0,\n"
         "  \"round\": 0,\n"
         "  \"total_rounds\": 3\n"
-        "}\n");
-    fclose(f);
+        "}\n") > 0;
+    if (fclose(f) != 0) ok = false;
+    return ok;
+}
+
+static int clamp_int(int value, int minimum, int maximum) {
+    if (value < minimum) return minimum;
+    if (value > maximum) return maximum;
+    return value;
+}
+
+static void normalize_state(void) {
+    game.mode = clamp_int(game.mode, 0, 1);
+    game.member_count = clamp_int(game.member_count, 1, MAX_PLAYERS);
+    game.player = clamp_int(game.player, 0, MAX_ITEMS - 1);
+    game.voice = clamp_int(game.voice, 0, MAX_ITEMS - 1);
+    game.host = clamp_int(game.host, 0, MAX_ITEMS - 1);
+    game.judge = clamp_int(game.judge, 0, MAX_ITEMS - 1);
+    game.studio = clamp_int(game.studio, 0, MAX_ITEMS - 1);
+    game.total_rounds = clamp_int(game.total_rounds, 1, 9);
+    game.round = clamp_int(game.round, 0, game.total_rounds - 1);
+    game.clip_index = clamp_int(game.clip_index, 0, MAX_ITEMS - 1);
+    game.selected_member = clamp_int(game.selected_member, 0, game.member_count - 1);
 }
 
 static int json_int(FILE *f, const char *key, int def) {
@@ -176,10 +208,16 @@ static int json_int(FILE *f, const char *key, int def) {
     rewind(f);
     while (fgets(line, sizeof(line), f)) {
         char *p = strstr(line, needle);
-        if (p) {
-            p = strchr(p, ':');
-            if (p) return atoi(p + 1);
-        }
+        if (!p) continue;
+        p = strchr(p, ':');
+        if (!p) continue;
+        errno = 0;
+        char *end = NULL;
+        long value = strtol(p + 1, &end, 10);
+        if (end == p + 1 || errno == ERANGE) return def;
+        if (value > INT_MAX) return INT_MAX;
+        if (value < INT_MIN) return INT_MIN;
+        return (int)value;
     }
     return def;
 }
@@ -189,32 +227,35 @@ static void load_state(void) {
     game.member_count = 1;
     game.total_rounds = 3;
     FILE *f = fopen(SAVE_FILE, "rb");
-    if (!f) return;
-    game.mode = json_int(f, "mode", 0);
-    game.member_count = json_int(f, "member_count", 1);
-    game.player = json_int(f, "player", 0);
-    game.voice = json_int(f, "voice", 0);
-    game.host = json_int(f, "host", 0);
-    game.judge = json_int(f, "judge", 0);
-    game.studio = json_int(f, "studio", 0);
-    game.round = json_int(f, "round", 0);
-    game.total_rounds = json_int(f, "total_rounds", 3);
-    fclose(f);
-    if (game.member_count < 1) game.member_count = 1;
-    if (game.member_count > MAX_PLAYERS) game.member_count = MAX_PLAYERS;
+    if (f) {
+        game.mode = json_int(f, "mode", 0);
+        game.member_count = json_int(f, "member_count", 1);
+        game.player = json_int(f, "player", 0);
+        game.voice = json_int(f, "voice", 0);
+        game.host = json_int(f, "host", 0);
+        game.judge = json_int(f, "judge", 0);
+        game.studio = json_int(f, "studio", 0);
+        game.round = json_int(f, "round", 0);
+        game.total_rounds = json_int(f, "total_rounds", 3);
+        fclose(f);
+    }
+    normalize_state();
 }
 
 static void save_state(void) {
+    normalize_state();
     FILE *f = fopen(SAVE_FILE, "wb");
-    if (!f) return;
-    fprintf(f,
+    if (!f) { set_message("Cannot open save file for writing"); return; }
+    bool ok = fprintf(f,
         "{\n  \"version\": 4,\n  \"mode\": %d,\n  \"member_count\": %d,\n"
         "  \"player\": %d,\n  \"voice\": %d,\n  \"host\": %d,\n"
         "  \"judge\": %d,\n  \"studio\": %d,\n  \"round\": %d,\n"
         "  \"total_rounds\": %d\n}\n",
         game.mode, game.member_count, game.player, game.voice, game.host,
-        game.judge, game.studio, game.round, game.total_rounds);
-    fclose(f);
+        game.judge, game.studio, game.round, game.total_rounds) > 0;
+    if (fflush(f) != 0) ok = false;
+    if (fclose(f) != 0) ok = false;
+    if (!ok) set_message("Save write failed");
 }
 
 static void list_dir(const char *path, ItemList *out) {
@@ -224,7 +265,7 @@ static void list_dir(const char *path, ItemList *out) {
     struct dirent *e;
     while ((e = readdir(d)) && out->count < MAX_ITEMS) {
         if (e->d_name[0] == '.') continue;
-        snprintf(out->items[out->count].name, MAX_NAME, "%s", e->d_name);
+        snprintf(out->items[out->count].name, MAX_NAME, "%.95s", e->d_name);
         out->count++;
     }
     closedir(d);
@@ -246,47 +287,77 @@ static bool has_ext(const char *s, const char *ext) {
 }
 
 static bool read_wav(const char *path, WavInfo *info) {
+    if (!path || !info) return false;
     memset(info, 0, sizeof(*info));
     FILE *f = fopen(path, "rb");
     if (!f) return false;
-    uint8_t h[12];
-    if (fread(h, 1, 12, f) != 12 || memcmp(h, "RIFF", 4) || memcmp(h + 8, "WAVE", 4)) {
-        fclose(f); return false;
+
+    uint8_t riff[12];
+    if (fread(riff, 1, sizeof(riff), f) != sizeof(riff) ||
+        memcmp(riff, "RIFF", 4) != 0 || memcmp(riff + 8, "WAVE", 4) != 0) {
+        fclose(f);
+        return false;
     }
-    bool fmt_ok = false, data_ok = false;
+
+    bool fmt_ok = false, data_ok = false, malformed = false;
     while (!feof(f)) {
-        uint8_t hdr[8];
-        if (fread(hdr, 1, 8, f) != 8) break;
-        uint32_t chunk = (uint32_t)hdr[4] | ((uint32_t)hdr[5] << 8) | ((uint32_t)hdr[6] << 16) | ((uint32_t)hdr[7] << 24);
-        if (!memcmp(hdr, "fmt ", 4)) {
-            uint8_t fmt[40];
-            if (chunk > sizeof(fmt) || fread(fmt, 1, chunk, f) != chunk) break;
-            uint16_t codec = fmt[0] | ((uint16_t)fmt[1] << 8);
-            info->channels = fmt[2] | ((uint16_t)fmt[3] << 8);
-            info->sampleRate = fmt[4] | ((uint32_t)fmt[5] << 8) | ((uint32_t)fmt[6] << 16) | ((uint32_t)fmt[7] << 24);
-            info->bits = fmt[14] | ((uint16_t)fmt[15] << 8);
-            fmt_ok = codec == 1 && (info->channels == 1 || info->channels == 2) && info->bits == 16;
-        } else if (!memcmp(hdr, "data", 4)) {
-            info->dataBytes = chunk;
-            info->data = malloc(chunk);
-            if (!info->data || fread(info->data, 1, chunk, f) != chunk) {
-                free(info->data); info->data = NULL; fclose(f); return false;
+        uint8_t header[8];
+        if (fread(header, 1, sizeof(header), f) != sizeof(header)) break;
+        uint32_t chunk = (uint32_t)header[4] |
+                         ((uint32_t)header[5] << 8) |
+                         ((uint32_t)header[6] << 16) |
+                         ((uint32_t)header[7] << 24);
+        bool is_fmt = memcmp(header, "fmt ", 4) == 0;
+        bool is_data = memcmp(header, "data", 4) == 0;
+
+        /* Reject pathological metadata lengths rather than seeking arbitrary offsets. */
+        if (chunk > MAX_RIFF_CHUNK_BYTES) { malformed = true; break; }
+
+        if (is_fmt && !fmt_ok) {
+            if (chunk < 16) { malformed = true; break; }
+            uint8_t fmt[16];
+            if (fread(fmt, 1, sizeof(fmt), f) != sizeof(fmt)) { malformed = true; break; }
+            uint16_t codec = (uint16_t)fmt[0] | ((uint16_t)fmt[1] << 8);
+            info->channels = (uint16_t)fmt[2] | ((uint16_t)fmt[3] << 8);
+            info->sampleRate = (uint32_t)fmt[4] | ((uint32_t)fmt[5] << 8) |
+                               ((uint32_t)fmt[6] << 16) | ((uint32_t)fmt[7] << 24);
+            info->bits = (uint16_t)fmt[14] | ((uint16_t)fmt[15] << 8);
+            fmt_ok = codec == 1 && (info->channels == 1 || info->channels == 2) &&
+                     info->bits == 16 && info->sampleRate >= 8000 && info->sampleRate <= 48000;
+            long remain = (long)(chunk - sizeof(fmt)) + (long)(chunk & 1u);
+            if (fseek(f, remain, SEEK_CUR) != 0) { malformed = true; break; }
+        } else if (is_data && !data_ok) {
+            if (chunk == 0 || chunk > MAX_WAV_BYTES) { malformed = true; break; }
+            info->data = (uint8_t *)malloc((size_t)chunk);
+            if (!info->data) { malformed = true; break; }
+            if (fread(info->data, 1, (size_t)chunk, f) != (size_t)chunk) {
+                malformed = true;
+                break;
             }
+            info->dataBytes = (size_t)chunk;
             data_ok = true;
-            break;
+            if (chunk & 1u) {
+                if (fseek(f, 1, SEEK_CUR) != 0) { malformed = true; break; }
+            }
         } else {
-            if (fseek(f, chunk + (chunk & 1), SEEK_CUR) != 0) break;
+            long skip = (long)chunk + (long)(chunk & 1u);
+            if (fseek(f, skip, SEEK_CUR) != 0) break;
         }
+        if (fmt_ok && data_ok) break;
     }
     fclose(f);
-    if (!fmt_ok || !data_ok) {
-        free(info->data); info->data = NULL; return false;
+
+    if (malformed || !fmt_ok || !data_ok || !info->dataBytes ||
+        info->dataBytes % (2u * info->channels) != 0) {
+        free(info->data);
+        memset(info, 0, sizeof(*info));
+        return false;
     }
     return true;
 }
 
 static void stop_playback(void) {
-    ndspChnWaveBufClear(playback_channel);
+    if (ndsp_ready) ndspChnWaveBufClear(playback_channel);
     playback_active = false;
     if (playback_data) {
         linearFree(playback_data);
@@ -296,8 +367,9 @@ static void stop_playback(void) {
 }
 
 static bool play_wav_file(const char *path) {
+    if (!ndsp_ready) { set_message("Audio output is unavailable"); return false; }
     WavInfo w;
-    if (!read_wav(path, &w)) return false;
+    if (!read_wav(path, &w)) { set_message("Unsupported or invalid WAV file"); return false; }
     stop_playback();
     playback_data = (uint8_t*)linearAlloc(w.dataBytes);
     if (!playback_data) { free(w.data); return false; }
@@ -319,68 +391,98 @@ static bool play_wav_file(const char *path) {
     return true;
 }
 
-static bool save_wav(const char *path, const uint8_t *data, uint32_t bytes, uint32_t sample_rate, uint16_t channels, uint16_t bits) {
+static bool save_wav(const char *path, const uint8_t *data, uint32_t bytes,
+                     uint32_t sample_rate, uint16_t channels, uint16_t bits) {
+    if (!path || !data || bytes < 2 || bytes > MAX_WAV_BYTES ||
+        (channels != 1 && channels != 2) || bits != 16 ||
+        sample_rate < 8000 || sample_rate > 48000 ||
+        bytes % (2u * channels) != 0) return false;
+
     FILE *f = fopen(path, "wb");
     if (!f) return false;
     uint32_t fmt_size = 16;
-    uint32_t riff_size = 4 + 8 + fmt_size + 8 + bytes;
+    uint32_t riff_size = 36 + bytes;
     uint16_t format = 1;
     uint32_t byte_rate = sample_rate * channels * bits / 8;
     uint16_t block = channels * bits / 8;
-    fwrite("RIFF", 1, 4, f); fwrite(&riff_size, 4, 1, f); fwrite("WAVE", 1, 4, f);
-    fwrite("fmt ", 1, 4, f); fwrite(&fmt_size, 4, 1, f); fwrite(&format, 2, 1, f); fwrite(&channels, 2, 1, f);
-    fwrite(&sample_rate, 4, 1, f); fwrite(&byte_rate, 4, 1, f); fwrite(&block, 2, 1, f); fwrite(&bits, 2, 1, f);
-    fwrite("data", 1, 4, f); fwrite(&bytes, 4, 1, f); fwrite(data, 1, bytes, f);
-    fclose(f);
-    return true;
+    bool ok = true;
+    ok = ok && fwrite("RIFF", 1, 4, f) == 4;
+    ok = ok && fwrite(&riff_size, sizeof(riff_size), 1, f) == 1;
+    ok = ok && fwrite("WAVE", 1, 4, f) == 4;
+    ok = ok && fwrite("fmt ", 1, 4, f) == 4;
+    ok = ok && fwrite(&fmt_size, sizeof(fmt_size), 1, f) == 1;
+    ok = ok && fwrite(&format, sizeof(format), 1, f) == 1;
+    ok = ok && fwrite(&channels, sizeof(channels), 1, f) == 1;
+    ok = ok && fwrite(&sample_rate, sizeof(sample_rate), 1, f) == 1;
+    ok = ok && fwrite(&byte_rate, sizeof(byte_rate), 1, f) == 1;
+    ok = ok && fwrite(&block, sizeof(block), 1, f) == 1;
+    ok = ok && fwrite(&bits, sizeof(bits), 1, f) == 1;
+    ok = ok && fwrite("data", 1, 4, f) == 4;
+    ok = ok && fwrite(&bytes, sizeof(bytes), 1, f) == 1;
+    ok = ok && fwrite(data, 1, bytes, f) == bytes;
+    if (fflush(f) != 0) ok = false;
+    if (fclose(f) != 0) ok = false;
+    if (!ok) remove(path); /* Do not leave a truncated file presented as valid. */
+    return ok;
 }
 
 static bool init_mic(void) {
     if (mic_ready) return true;
-    mic_buffer = (u8*)memalign(0x1000, MIC_BUFFER_SIZE);
-    if (!mic_buffer) return false;
+    mic_buffer = (u8 *)memalign(0x1000, MIC_BUFFER_SIZE);
+    if (!mic_buffer) { set_message("Not enough memory for microphone"); return false; }
     memset(mic_buffer, 0, MIC_BUFFER_SIZE);
     Result r = micInit(mic_buffer, MIC_BUFFER_SIZE);
-    if (R_FAILED(r)) { free(mic_buffer); mic_buffer = NULL; return false; }
-    MICU_SetPower(true);
-    MICU_SetClamp(false);
-    MICU_SetGain(64);
+    if (R_FAILED(r)) {
+        free(mic_buffer);
+        mic_buffer = NULL;
+        set_message("Microphone service unavailable");
+        return false;
+    }
+    if (R_FAILED(MICU_SetClamp(false)) || R_FAILED(MICU_SetGain(64))) {
+        micExit();
+        free(mic_buffer);
+        mic_buffer = NULL;
+        set_message("Could not configure microphone");
+        return false;
+    }
     mic_ready = true;
     return true;
 }
 
 static void stop_recording(bool save_now) {
     if (!recording) return;
-    MICU_StopSampling();
-    bool sampling = false;
-    MICU_IsSampling(&sampling);
+    if (mic_ready) MICU_StopSampling();
     recording = false;
-    uint32_t bytes = micGetLastSampleOffset();
+    uint32_t bytes = mic_ready ? micGetLastSampleOffset() : 0;
     if (bytes > MIC_BUFFER_SIZE - 0x1000) bytes = MIC_BUFFER_SIZE - 0x1000;
     if (bytes > MAX_RECORD_SAMPLES * 2) bytes = MAX_RECORD_SAMPLES * 2;
+    bytes &= ~1u; /* PCM16 must end on a complete sample. */
     recording_bytes = bytes;
     if (save_now && bytes > 2048) {
         char path[256];
-        int index = 1;
-        for (;;) {
-            snprintf(path, sizeof(path), "%s/dub_%03d.wav", REC_DIR, index++);
-            FILE *f = fopen(path, "rb");
-            if (!f) break;
-            fclose(f);
+        bool found_slot = false;
+        for (int index = 1; index < 100000; ++index) {
+            snprintf(path, sizeof(path), "%s/dub_%03d.wav", REC_DIR, index);
+            FILE *existing = fopen(path, "rb");
+            if (!existing) { found_slot = true; break; }
+            fclose(existing);
         }
+        if (!found_slot) { set_message("Recording limit reached"); return; }
         if (save_wav(path, mic_buffer, bytes, MIC_RATE, 1, 16)) {
             snprintf(game.last_recording, sizeof(game.last_recording), "%s", path);
             set_message("Recording saved");
+        } else {
+            set_message("Could not write recording to SD card");
         }
     }
 }
 
 static void start_recording(void) {
-    if (!init_mic()) { set_message("Microphone unavailable"); return; }
     if (recording) return;
+    if (!init_mic()) { set_message("Microphone unavailable"); return; }
     memset(mic_buffer, 0, MIC_BUFFER_SIZE);
     recording_bytes = 0;
-    Result r = MICU_StartSampling(MICU_ENCODING_PCM16_SIGNED, MICU_SAMPLE_RATE_16360, 0, MIC_BUFFER_SIZE - 0x1000, false);
+    Result r = MICU_StartSampling(MICU_ENCODING_PCM16_SIGNED, MICU_SAMPLE_RATE_16360, 0, MAX_RECORD_SAMPLES * 2, false);
     if (R_FAILED(r)) { set_message("Microphone start failed"); return; }
     recording = true;
     set_message("Recording...");
@@ -389,9 +491,14 @@ static void start_recording(void) {
 static void finish_recording(void) {
     if (!recording) return;
     stop_recording(true);
-    if (recording_bytes > 2048) {
-        snprintf(game.last_recording, sizeof(game.last_recording), "%s/dub_latest.wav", REC_DIR);
-        save_wav(game.last_recording, mic_buffer, recording_bytes, MIC_RATE, 1, 16);
+    if (recording_bytes > 2048 && mic_buffer) {
+        char latest[256];
+        snprintf(latest, sizeof(latest), "%s/dub_latest.wav", REC_DIR);
+        if (save_wav(latest, mic_buffer, recording_bytes, MIC_RATE, 1, 16)) {
+            snprintf(game.last_recording, sizeof(game.last_recording), "%s", latest);
+        } else {
+            set_message("Could not save latest dub");
+        }
     }
 }
 
@@ -415,15 +522,6 @@ static void bottom_clear(void) {
     consoleClear();
 }
 
-static void draw_bottom_footer(const char *text) {
-    printf("\x1b[28;2H%s", text ? text : "Touch a button or use A/B/D-pad");
-}
-
-static void draw_button_text(int xcol, int row, const char *label, bool active) {
-    consoleSelect(&bottomConsole);
-    printf("\x1b[%d;%dH%s[%s]", row, xcol, active ? ">" : " ", label);
-}
-
 static bool point_in(const TouchButton *b, int x, int y) {
     return x >= b->x && x < b->x + b->w && y >= b->y && y < b->y + b->h;
 }
@@ -442,7 +540,7 @@ static void draw_touch_grid(const char **labels, int count, int active) {
         int col = i % 2;
         int row = i / 2;
         int x = col ? 22 : 1;
-        int y = 3 + row * 4;
+        int y = 3 + row * 3;
         consoleSelect(&bottomConsole);
         printf("\x1b[%d;%dH+----------------+", y, x);
         printf("\x1b[%d;%dH|%c %-14.14s|", y + 1, x, i == active ? '>' : ' ', labels[i]);
@@ -724,7 +822,7 @@ static void next_round(void) {
         for (int i = 0; i < game.member_count; ++i) game.score[i] += base;
     }
     game.round++;
-    game.clip_index++;
+    game.clip_index = (game.clip_index + 1) % MAX_ITEMS;
     if (game.round >= game.total_rounds) {
         game.round = game.total_rounds - 1;
         save_state();
@@ -738,7 +836,7 @@ static void next_round(void) {
 
 static void save_latest_dub(void) {
     if (recording) finish_recording();
-    if (recording_bytes > 2048) {
+    if (recording_bytes > 2048 && mic_buffer) {
         char path[256];
         snprintf(path, sizeof(path), "%s/dub_latest.wav", REC_DIR);
         if (save_wav(path, mic_buffer, recording_bytes, MIC_RATE, 1, 16)) {
@@ -805,7 +903,7 @@ static void activate_menu(int id) {
                 int row = id / 2; int *v = setup_value_ptr(row);
                 if (v) {
                     if ((id & 1) == 0 && *v > 0) --*v;
-                    if ((id & 1) == 1) ++*v;
+                    if ((id & 1) == 1 && *v < MAX_ITEMS - 1) ++*v;
                 }
             } else if (id == 10) begin_match();
             else if (id == 11) page = PAGE_MEMBERS;
@@ -818,7 +916,7 @@ static void activate_menu(int id) {
             break;
         case PAGE_RESULTS:
             if (id == 0) {
-                if (game.round + 1 < game.total_rounds) { game.round++; game.clip_index++; page = PAGE_GAME; }
+                if (game.round + 1 < game.total_rounds) { game.round++; game.clip_index = (game.clip_index + 1) % MAX_ITEMS; page = PAGE_GAME; }
                 else { game.round = 0; game.clip_index = 0; page = PAGE_GAME; }
                 selected = 0; save_state();
             } else if (id == 1) watch_latest_dub();
@@ -829,7 +927,7 @@ static void activate_menu(int id) {
             break;
         case PAGE_DUB:
             if (id == 0) { if (!recording) start_recording(); else finish_recording(); }
-            else if (id == 1) { game.clip_index++; page = PAGE_DUB; }
+            else if (id == 1) { game.clip_index = (game.clip_index + 1) % MAX_ITEMS; page = PAGE_DUB; }
             else if (id == 2) watch_latest_dub();
             else if (id == 3) save_latest_dub();
             break;
@@ -845,7 +943,7 @@ static void activate_menu(int id) {
             break;
         case PAGE_DATA:
             if (id == 0) { save_state(); set_message("Save written"); }
-            else if (id == 1) { remove(SAVE_FILE); load_state(); setup_storage(); set_message("Native state reset"); }
+            else if (id == 1) { remove(SAVE_FILE); load_state(); if (setup_storage()) set_message("Native state reset"); else set_message("Could not reset state: SD write failed"); }
             else if (id == 2) { ItemList l; list_dir(REC_DIR, &l); if (l.count) set_message("Recordings found"); else set_message("No recordings"); }
             else if (id == 3) go_home();
             break;
@@ -902,32 +1000,32 @@ static int keyboard_activate(void) {
 static void handle_touch(void) {
     TouchButton buttons[16];
     int n = 0;
-    const int counts[] = {8,3,6,6,12,4,6,4,8,3,4,4,3,1};
     int count = keyboard_activate();
     if (page == PAGE_HOME || page == PAGE_PLAY || page == PAGE_MODE || page == PAGE_MEMBERS || page == PAGE_SETUP || page == PAGE_GAME || page == PAGE_RESULTS || page == PAGE_DUB || page == PAGE_PACKS || page == PAGE_SETTINGS || page == PAGE_DATA || page == PAGE_EXTRAS || page == PAGE_GUIDE || page == PAGE_CREDITS) {
         n = count;
         for (int i = 0; i < n; ++i) {
             int row = i / 2, col = i % 2;
-            buttons[i].x = col ? 164 : 8;
-            buttons[i].y = 8 + row * 38;
+            int first_console_row = 3 + row * 3;
+            buttons[i].x = col ? 164 : 4;
+            /* Console cells are 8x8 pixels; align the hitbox to the drawn 3-row button. */
+            buttons[i].y = (first_console_row - 1) * 8;
             buttons[i].w = 148;
-            buttons[i].h = 32;
+            buttons[i].h = 24;
             buttons[i].label = "";
             buttons[i].id = i;
         }
         int id = touch_hit(buttons, n);
         if (id >= 0) activate_menu(id);
     }
-    (void)counts;
 }
 
 static void handle_game_touch_exact(void) {
     if (page != PAGE_GAME && page != PAGE_DUB) return;
     TouchButton b[4] = {
-        {8, 190, BTN_W, 25, "START", 0},
-        {164, 190, BTN_W, 25, "NEXT", 1},
-        {8, 216, BTN_W, 24, "WATCH DUB", 2},
-        {164, 216, BTN_W, 24, "SAVE DUB", 3}
+        {BTN_X0, BTN_Y0, BTN_W, BTN_H, "START", 0},
+        {BTN_X1, BTN_Y0, BTN_W, BTN_H, "NEXT", 1},
+        {BTN_X0, BTN_Y1, BTN_W, BTN_H, "WATCH DUB", 2},
+        {BTN_X1, BTN_Y1, BTN_W, BTN_H, "SAVE DUB", 3}
     };
     int id = touch_hit(b, 4);
     if (id >= 0) activate_menu(id);
@@ -959,11 +1057,14 @@ int main(int argc, char **argv) {
     gfxInitDefault();
     consoleInit(GFX_TOP, &topConsole);
     consoleInit(GFX_BOTTOM, &bottomConsole);
-    hidInit();
-    fsInit();
-    archiveMountSdmc();
-    ndspInit();
-    setup_storage();
+    /* libctru's startup code already initializes HID/FS and mounts sdmc:. */
+    if (R_SUCCEEDED(ndspInit())) {
+        ndsp_ready = true;
+        ndspSetMasterVol(1.0f);
+    } else {
+        set_message("Audio output unavailable; menus still work");
+    }
+    if (!setup_storage()) set_message("SD storage unavailable or read-only");
     load_state();
     game.last_recording[0] = '\0';
 
@@ -981,7 +1082,9 @@ int main(int argc, char **argv) {
             int row = selected / 2; int *v = setup_value_ptr(row); if (v && *v > 0) --*v; save_state();
         }
         if ((k & KEY_RIGHT) && page == PAGE_SETUP) {
-            int row = selected / 2; int *v = setup_value_ptr(row); if (v) ++*v; save_state();
+            int row = selected / 2; int *v = setup_value_ptr(row);
+            if (v && *v < MAX_ITEMS - 1) ++*v;
+            save_state();
         }
         if (k & KEY_A) activate_menu(selected);
 
@@ -989,8 +1092,7 @@ int main(int argc, char **argv) {
         handle_game_touch_exact();
         if (recording) {
             bool sampling = true;
-            MICU_IsSampling(&sampling);
-            if (!sampling) finish_recording();
+            if (R_SUCCEEDED(MICU_IsSampling(&sampling)) && !sampling) finish_recording();
         }
         if (playback_active && playback_wave.status == NDSP_WBUF_DONE) {
             stop_playback();
@@ -1005,12 +1107,16 @@ int main(int argc, char **argv) {
     if (recording) finish_recording();
     stop_playback();
     save_state();
-    if (mic_ready) { MICU_StopSampling(); micExit(); }
+    if (mic_ready) {
+        micExit();
+        mic_ready = false;
+    }
     if (mic_buffer) { free(mic_buffer); mic_buffer = NULL; }
-    ndspExit();
-    archiveUnmountSdmc();
-    fsExit();
-    hidExit();
+    if (ndsp_ready) {
+        ndspExit();
+        ndsp_ready = false;
+    }
+    /* libctru's startup/exit hooks own HID, FS and the sdmc archive lifecycle. */
     gfxExit();
     return 0;
 }
