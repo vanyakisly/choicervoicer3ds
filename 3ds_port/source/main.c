@@ -30,6 +30,7 @@
 #define MAX_ITEMS 64
 #define MAX_NAME 96
 #define MAX_VOICE_CLIPS 256
+#define MAX_CLIP_TIMESTAMPS 16
 #define TCV_MAX_FRAMES 5400u
 #define TCV_FRAME_BYTES (160u * 90u * 2u)
 #define MAX_PLAYERS 4
@@ -50,6 +51,7 @@
 #define DUB_OVERLAY_SLOTS 4
 #define DUB_OVERLAY_CHANNEL_BASE 4
 #define DUB_OVERLAY_MAX_WAV_BYTES (1536u * 1024u)
+#define RENDER_VBLANK_DIVISOR 2u /* 60 Hz VBlank / 2 = a 30 FPS render cap. */
 
 #define BTN_W 148
 #define BTN_H 24
@@ -78,7 +80,8 @@ typedef enum {
     PAGE_PACK_LIST,
     PAGE_SETTING_DETAIL,
     PAGE_FOLDER,
-    PAGE_CINEMA
+    PAGE_CINEMA,
+    PAGE_DUB_PACK_LIST
 } Page;
 
 typedef struct {
@@ -133,9 +136,20 @@ typedef struct {
     char characters[80];
     char image_name[160];
     float timestamp;
+    float timestamps[MAX_CLIP_TIMESTAMPS];
+    uint8_t timestamp_count;
+    uint8_t timestamp_ordinal;
     bool has_timestamp;
     bool dub_only;
 } NativeVoiceClip;
+
+typedef struct {
+    char name[MAX_NAME];
+    int voice_index;             /* index in the normal, alphabetically sorted packs_voice list */
+    int clip_count;              /* timestamp occurrences, not unique audio files */
+    bool has_ogv;
+    bool has_tcv;
+} DubPackItem;
 
 typedef struct {
     FILE *file;
@@ -179,11 +193,15 @@ static const char *sprite_files[SPR_COUNT] = {
 static Page page = PAGE_HOME;
 static GameState game;
 static ItemList last_packs;
-static uint64_t frames = 0;
 static int selected = 0;
 static int pack_type = 0;
 static int pack_selected = 0;
 static int pack_scroll_offset = 0;
+static DubPackItem dub_pack_items[MAX_ITEMS];
+static int dub_pack_count = 0;
+static int dub_pack_selected = 0;
+static int dub_pack_scroll_offset = 0;
+static Page dub_pack_return_page = PAGE_PLAY;
 static int settings_group = 0;
 static int guide_page = 0;
 static int credits_page = 0;
@@ -210,7 +228,8 @@ static int show_help_overlays = 1;
 static int game_speedups = 0;
 static int tshirt_mode = 0;
 static Page pack_return_page = PAGE_PACKS;
-static uint64_t recording_started_frame = 0;
+static uint64_t recording_started_ms = 0;
+static unsigned render_divider = 0;
 
 static u8 *mic_buffer = NULL;
 static bool mic_ready = false;
@@ -219,6 +238,7 @@ static u32 recording_bytes = 0;
 
 static uint8_t *playback_data = NULL;
 static size_t playback_size = 0;
+static uint16_t playback_channels = 1;
 static ndspWaveBuf playback_wave;
 static int playback_channel = 0;
 static bool playback_active = false;
@@ -267,6 +287,13 @@ static const char *pack_labels[] = {
 
 static bool get_pack_dir(int type, int index, char *out, size_t out_size);
 static int pack_count_for_type(int type);
+static int load_voice_clips(const char *pack_dir, bool require_timestamps);
+static int scan_dub_pack_root(const char *voice_root, DubPackItem *out, int out_cap);
+static void open_dub_pack_browser(Page return_page);
+static void begin_selected_dub_pack(void);
+static bool write_dub_session_manifest(void);
+static bool ensure_dub_record_directories(void);
+static void begin_match(void);
 static void normalize_pack_indices(void);
 static bool make_active_dub_record_path(int clip_index, char *out, size_t out_size, bool create_dirs);
 static void tcv_close(TcvVideo *v);
@@ -573,6 +600,7 @@ static bool play_wav_file(const char *path) {
     memcpy(playback_data, w.data, w.dataBytes);
     free(w.data);
     playback_size = w.dataBytes;
+    playback_channels = w.channels;
     memset(&playback_wave, 0, sizeof(playback_wave));
     playback_wave.data_pcm16 = (s16*)playback_data;
     playback_wave.nsamples = w.dataBytes / (2 * w.channels);
@@ -759,13 +787,31 @@ static void music_stream_stop(void) {
     memset(&music_stream, 0, sizeof(music_stream));
 }
 
-static bool music_stream_start_path(const char *path) {
+static bool music_stream_start_path_at(const char *path, bool loop, float offset_seconds) {
     music_stream_stop();
-    if (!ndsp_ready || !stream_open_wav(&music_stream, path, true)) return false;
-    if (!stream_queue_next(&music_stream, 0) || !stream_queue_next(&music_stream, 1)) {
+    if (!ndsp_ready || !stream_open_wav(&music_stream, path, loop)) return false;
+    if (offset_seconds < 0.0f) offset_seconds = 0.0f;
+    uint64_t frame_bytes = (uint64_t)music_stream.channels * 2u;
+    uint64_t offset = (uint64_t)(offset_seconds * (double)music_stream.rate * (double)frame_bytes);
+    offset -= offset % frame_bytes;
+    if (offset >= music_stream.data_bytes) {
+        if (!loop) { music_stream_stop(); return false; }
+        offset = 0;
+    }
+    if (fseek(music_stream.file, music_stream.data_start + (long)offset, SEEK_SET) != 0) {
+        music_stream_stop(); return false;
+    }
+    music_stream.data_left = music_stream.data_bytes - (uint32_t)offset;
+    if (!stream_queue_next(&music_stream, 0)) { music_stream_stop(); return false; }
+    /* Queue a second chunk when possible. A short one-shot track is still valid. */
+    if (music_stream.data_left > 0 && !stream_queue_next(&music_stream, 1)) {
         music_stream_stop(); return false;
     }
     return true;
+}
+
+static bool music_stream_start_path(const char *path) {
+    return music_stream_start_path_at(path, true, 0.0f);
 }
 
 static void music_stream_pump(void) {
@@ -867,6 +913,11 @@ static void stop_recording(bool save_now) {
     if (!recording) return;
     if (mic_ready) MICU_StopSampling();
     recording = false;
+    if (active_dub_pack) {
+        dub_video.playing = false;
+        stop_playback();
+        music_stream_stop();
+    }
     uint32_t bytes = mic_ready ? micGetLastSampleOffset() : 0;
     /* micGetLastSampleOffset() is the byte offset in the sample area; samples start at buffer[0]. */
     uint32_t cap = (uint32_t)configured_record_seconds * MIC_RATE * 2u;
@@ -902,13 +953,15 @@ static void stop_recording(bool save_now) {
 static void start_recording(void) {
     if (recording) return;
     if (active_dub_pack) {
-        bool was_replaying = dub_replay_active;
         dub_replay_active = false;
         stop_dub_overlay_audio();
-        if (was_replaying) { music_stream_stop(); start_selected_music(); }
+        music_stream_stop();
         dub_video.playing = false;
-        if (game.clip_index >= 0 && game.clip_index < voice_clip_count)
-            (void)tcv_seek(&dub_video, voice_clips[game.clip_index].timestamp);
+        if (game.clip_index < 0 || game.clip_index >= voice_clip_count ||
+            !tcv_seek(&dub_video, voice_clips[game.clip_index].timestamp)) {
+            set_message("Could not seek to this dub line; try rebuilding the pack");
+            return;
+        }
     }
     stop_playback();
     if (!init_mic()) { set_message("Microphone unavailable"); return; }
@@ -919,8 +972,20 @@ static void start_recording(void) {
     Result r = MICU_StartSampling(MICU_ENCODING_PCM16_SIGNED, MICU_SAMPLE_RATE_16360, 0, sample_bytes, false);
     if (R_FAILED(r)) { set_message("Microphone start failed"); return; }
     recording = true;
-    recording_started_frame = frames;
-    set_message("Recording...");
+    recording_started_ms = osGetTime();
+    if (active_dub_pack) {
+        /* Record while the picture and source line play; the TCV movie is video-only. */
+        dub_video.playing = true;
+        dub_video.start_time_ms = osGetTime() - ((uint64_t)dub_video.current_frame * 1000u) / (dub_video.fps ? dub_video.fps : 10u);
+        (void)play_wav_file(voice_clips[game.clip_index].path);
+        char backing[512];
+        snprintf(backing, sizeof(backing), "%s/_backing_track.3ds.wav", active_pack_dir);
+        if (!music_stream_start_path_at(backing, false, voice_clips[game.clip_index].timestamp)) {
+            snprintf(backing, sizeof(backing), "%s/_backing_track.wav", active_pack_dir);
+            (void)music_stream_start_path_at(backing, false, voice_clips[game.clip_index].timestamp);
+        }
+        set_message("Recording with video and source line playing");
+    } else set_message("Recording...");
 }
 
 static void finish_recording(void) {
@@ -934,6 +999,7 @@ static void finish_recording(void) {
             set_message("Dub saved as latest");
         } else set_message("Could not save latest dub");
     }
+    if (active_dub_pack && recording_bytes > 2048) (void)write_dub_session_manifest();
 }
 
 /* -------------------------------------------------------------------------
@@ -1415,7 +1481,7 @@ static void game_top(void) {
 }
 
 static void draw_game_touch_ui(void) {
-    const char *a = recording ? "STOP & SAVE" : (active_dub_pack ? "RECORD LINE" : "START");
+    const char *a = recording ? "STOP & SAVE" : (active_dub_pack ? "START + RECORD" : "START");
     ui_button(&bottom_canvas, 8, 145, 148, 30, a, 0, selected==0);
     ui_button(&bottom_canvas, 164, 145, 148, 30, "NEXT", 1, selected==1);
     ui_button(&bottom_canvas, 8, 181, 148, 30, "WATCH DUB", 2, selected==2);
@@ -1428,41 +1494,60 @@ static void draw_waveform(bool live) {
     c_sprite(&bottom_canvas, sprite, 9, 38, 302, 99);
     if (live) {
         c_sprite(&bottom_canvas, SPR_MIC, 13, 44, 25, 45);
-        c_rect_alpha(&bottom_canvas, 43, 43, 86, 17, 0xFF0B202A, 215);
-        c_text(&bottom_canvas, 48, 43, recording ? "RECORDING" : "PLAYING DUB", 0xFFFFD6DE, false, 78);
+        c_rect_alpha(&bottom_canvas, 43, 43, 145, 17, 0xFF0B202A, 215);
+        const char *state = recording ? "LIVE MIC WAVEFORM" : (dub_replay_active ? "WATCHING DUB" : "YOUR VOICE WAVEFORM");
+        c_text(&bottom_canvas, 48, 43, state, 0xFFFFD6DE, false, 140);
     }
-    /* During recording overlay a real low-cost level trace on the original waveform art. */
-    if (recording && mic_ready && mic_buffer) {
-        uint32_t byte_count = micGetLastSampleOffset();
-        uint32_t byte_cap = micGetSampleDataSize();
+    /* Draw actual signed PCM samples (not an average-volume bar meter). Keep
+       the trace window bounded so rendering remains inexpensive on Old 3DS. */
+    const int16_t *samples = NULL;
+    size_t sample_count = 0;
+    if (mic_buffer && (recording || recording_bytes > 0)) {
+        uint32_t byte_count = recording ? micGetLastSampleOffset() : recording_bytes;
+        uint32_t byte_cap = recording ? micGetSampleDataSize() : (uint32_t)MIC_BUFFER_SIZE;
         if (byte_count > byte_cap) byte_count = byte_cap;
-        size_t samples = (size_t)(byte_count / 2u);
-        if (samples > 0) {
-            size_t window = samples < 4096u ? samples : 4096u;
-            size_t base = samples - window;
-            for (int i = 0; i < 34; ++i) {
-                size_t begin = base + (window * (size_t)i) / 34u;
-                size_t end = base + (window * (size_t)(i+1)) / 34u;
-                if (end <= begin) end = begin + 1;
-                if (end > samples) end = samples;
-                uint64_t sum = 0; size_t n = 0;
-                for (size_t j = begin; j < end; ++j) {
-                    int32_t v = ((const int16_t *)mic_buffer)[j];
-                    sum += (uint32_t)(v < 0 ? -v : v); ++n;
-                }
-                int h = n ? (int)((sum / n) / 600u) : 1;
-                h = clamp_int(h, 2, 28);
-                int x = 25 + i * 8;
-                c_rect_alpha(&bottom_canvas, x, 111 - h, 4, h, UI_CYAN, 230);
-            }
+        samples = (const int16_t *)mic_buffer;
+        sample_count = (size_t)(byte_count / 2u);
+    } else if (playback_data && playback_size >= 4) {
+        samples = (const int16_t *)playback_data;
+        sample_count = playback_size / (2u * (playback_channels ? playback_channels : 1));
+    }
+    if (samples && sample_count >= 2) {
+        size_t window = sample_count < 2048u ? sample_count : 2048u;
+        size_t base = sample_count - window;
+        const int16_t *tail = samples + base;
+        int32_t peak = 0;
+        for (size_t i = 0; i < window; i += 4u) {
+            int32_t v = tail[i]; if (v < 0) v = -v; if (v > peak) peak = v;
+        }
+        if (peak < 1800) peak = 1800;
+        int scale = 30;
+        /* Normalize within the recent window to make quieter microphones visible. */
+        const int points = 144;
+        int px = 20;
+        int py = 91 - (int)((int64_t)tail[0] * scale / peak);
+        for (int i = 1; i < points; ++i) {
+            size_t ix = ((size_t)i * (window - 1u)) / (size_t)(points - 1);
+            int x = 20 + (284 * i) / (points - 1);
+            int32_t val = tail[ix];
+            int y = 91 - (int)((int64_t)val * scale / peak);
+            y = clamp_int(y, 61, 121);
+            c_line(&bottom_canvas, px, py, x, y, recording ? UI_CYAN : 0xFFFFD17D);
+            px = x; py = y;
         }
     }
 }
 
 static void page_game(void) {
     game_top(); bottom_header(game.mode==1?"DUB CONTROLS":"GAMESHOW CONTROLS", "Stylus controls: start, next, review or save.");
-    draw_waveform(recording || playback_active); draw_game_touch_ui();
-    if (game.last_recording[0]) c_text(&bottom_canvas, 9, 126, "DUB READY", UI_TEXT_LIGHT, false, 100);
+    draw_waveform(recording || playback_active || dub_replay_active || recording_bytes > 0); draw_game_touch_ui();
+    if (active_dub_pack && game.clip_index >= 0 && game.clip_index < voice_clip_count) {
+        char path[512];
+        bool take = make_active_dub_record_path(game.clip_index, path, sizeof(path), false);
+        FILE *rf = take ? fopen(path, "rb") : NULL;
+        if (rf) fclose(rf);
+        c_text(&bottom_canvas, 9, 126, rf ? "THIS LINE SAVED" : "THIS LINE NOT RECORDED YET", rf ? UI_CYAN : 0xFFFFD17D, false, 230);
+    } else if (game.last_recording[0]) c_text(&bottom_canvas, 9, 126, "DUB READY", UI_TEXT_LIGHT, false, 100);
 }
 
 static void page_results(void) {
@@ -1492,7 +1577,7 @@ static void page_dub(void) {
     c_text(&top_canvas,161,146,"Review the",UI_TEXT_LIGHT,false,106);
     c_text(&top_canvas,161,163,"dub below.",UI_TEXT_LIGHT,false,106);
     bottom_header("DUB CONTROLS", "Waveform and actions stay on the lower screen.");
-    draw_waveform(recording || playback_active); draw_game_touch_ui();
+    draw_waveform(recording || playback_active || dub_replay_active || recording_bytes > 0); draw_game_touch_ui();
 }
 
 static void page_packs(void) {
@@ -1675,6 +1760,50 @@ static void page_cinema(void) {
     bottom_header("DUB CINEMA", "Choose, record, review and save your dub."); ui_grid(b,4,selected,2);
 }
 
+static void page_dub_pack_list(void) {
+    ui_common_top("CHOOSE A DUB PACK", "Only video packs from packs_voice are shown", 3);
+    bottom_header("DUB PACK LIST", "* = needs PC conversion. Select a row, then USE.");
+    c_rect_alpha(&top_canvas, 14, 62, 374, 145, UI_DARK_PANEL, 225);
+    c_text(&top_canvas, 24, 72, "SD:/3ds/The Choicer Voicer/packs_voice/", UI_CYAN, false, 350);
+    if (dub_pack_count <= 0) {
+        c_text(&top_canvas, 24, 106, "NO DUB PACKS FOUND", 0xFFFFD17D, true, 320);
+        c_text(&top_canvas, 24, 131, "Each pack needs dub_video.ogv and line files", UI_TEXT_LIGHT, false, 350);
+        c_text(&top_canvas, 24, 150, "with dub_timestamps in .ini/.txt metadata.", UI_TEXT_LIGHT, false, 350);
+        c_text(&top_canvas, 24, 176, "Run the GitHub build to create dub_video.tcv.", UI_TEXT_LIGHT, false, 350);
+    } else {
+        dub_pack_selected = clamp_int(dub_pack_selected, 0, dub_pack_count - 1);
+        int visible = dub_pack_count < 4 ? dub_pack_count : 4;
+        int max_offset = dub_pack_count > visible ? dub_pack_count - visible : 0;
+        if (dub_pack_selected < dub_pack_scroll_offset) dub_pack_scroll_offset = dub_pack_selected;
+        if (dub_pack_selected >= dub_pack_scroll_offset + visible) dub_pack_scroll_offset = dub_pack_selected - visible + 1;
+        dub_pack_scroll_offset = clamp_int(dub_pack_scroll_offset, 0, max_offset);
+        DubPackItem *it = &dub_pack_items[dub_pack_selected];
+        char detail[160];
+        if (it->has_tcv && it->clip_count > 0) snprintf(detail, sizeof(detail), "READY  |  %d timed line(s)", it->clip_count);
+        else if (!it->has_tcv) snprintf(detail, sizeof(detail), "NEEDS VIDEO CONVERSION  |  %d timed line(s)", it->clip_count);
+        else snprintf(detail, sizeof(detail), "MISSING TIMESTAMPS  |  video converted");
+        c_text(&top_canvas, 24, 105, it->name, UI_TEXT_LIGHT, true, 346);
+        c_text(&top_canvas, 24, 130, detail, (it->has_tcv && it->clip_count > 0) ? UI_CYAN : 0xFFFFD17D, false, 346);
+        c_text(&top_canvas, 24, 157, "1. Tap a row  2. Press USE  3. START + RECORD", UI_TEXT_LIGHT, false, 355);
+        c_text(&top_canvas, 24, 180, "WATCH DUB plays the full scene; SAVE DUB saves takes.", UI_TEXT_LIGHT, false, 355);
+        for (int i = 0; i < visible; ++i) {
+            int item_index = dub_pack_scroll_offset + i;
+            DubPackItem *item = &dub_pack_items[item_index];
+            int y = 36 + i * 27;
+            bool active = item_index == dub_pack_selected || selected == 4 + i;
+            c_rect_alpha(&bottom_canvas, 7, y, 306, 23, active ? 0xFF79D7E5 : 0xFFDBEFF1, active ? 235 : 195);
+            c_rect(&bottom_canvas, 7, y, 3, 23, active ? UI_ACCENT : UI_BORDER);
+            char row[112];
+            snprintf(row, sizeof(row), "%.68s  %d lines%s", item->name, item->clip_count, item->has_tcv ? "" : "  *");
+            c_text(&bottom_canvas, 15, y + 3, row, UI_TEXT, false, 290);
+            if (touch_button_count < (int)(sizeof(touch_buttons)/sizeof(touch_buttons[0])))
+                touch_buttons[touch_button_count++] = (TouchButton){7, y, 306, 23, item->name, 100 + item_index};
+        }
+    }
+    static const char *controls[] = {"PREV", "NEXT", "USE", "BACK"};
+    for (int i = 0; i < 4; ++i) ui_button(&bottom_canvas, 5 + i * 78, 153, 74, 27, controls[i], i, selected == i);
+}
+
 static void page_empty(void) {
     ui_common_top("THE CHOICER VOICER", "This panel is not available in the native build", 0);
     bottom_header("UNAVAILABLE", "Use the PC build for unsupported desktop-only tools.");
@@ -1703,10 +1832,10 @@ static void render(void) {
         case PAGE_SETTING_DETAIL: page_setting_detail(); break;
         case PAGE_FOLDER: page_folder(); break;
         case PAGE_CINEMA: page_cinema(); break;
+        case PAGE_DUB_PACK_LIST: page_dub_pack_list(); break;
         default: page_empty(); break;
     }
     if (message_timer > 0) --message_timer;
-    frames++;
 }
 
 static void canvas_flush(Canvas *c, gfxScreen_t screen, gfx3dSide_t side) {
@@ -1823,15 +1952,41 @@ static bool parse_timestamp_value(const char *raw, float *seconds) {
     *seconds = (float)n; return true;
 }
 
+static void add_clip_timestamp(NativeVoiceClip *clip, const char *raw) {
+    if (!clip || !raw || clip->timestamp_count >= MAX_CLIP_TIMESTAMPS) return;
+    float seconds = 0.0f;
+    if (!parse_timestamp_value(raw, &seconds)) return;
+    clip->timestamps[clip->timestamp_count++] = seconds;
+    clip->timestamp = clip->timestamps[0];
+    clip->has_timestamp = true;
+}
+
+static void parse_timestamp_list(const char *raw, NativeVoiceClip *clip) {
+    if (!raw || !clip) return;
+    char buf[768]; snprintf(buf, sizeof(buf), "%s", raw);
+    char *value = trim_inplace(buf);
+    if (*value == '[' || *value == '(') ++value;
+    size_t len = strlen(value);
+    while (len && (value[len-1] == ']' || value[len-1] == ')' || (unsigned char)value[len-1] <= 32)) value[--len] = '\0';
+    char *save = NULL;
+    for (char *item = strtok_r(value, ",", &save); item && clip->timestamp_count < MAX_CLIP_TIMESTAMPS; item = strtok_r(NULL, ",", &save)) {
+        char *v = trim_inplace(item);
+        if ((*v == '"' || *v == '\'') && strlen(v) > 1) {
+            ++v; size_t n = strlen(v); if (n && (v[n-1] == '"' || v[n-1] == '\'')) v[n-1] = '\0';
+        }
+        add_clip_timestamp(clip, v);
+    }
+}
+
 static void parse_timestamp_from_filename(NativeVoiceClip *clip) {
-    if (!clip || clip->has_timestamp) return;
+    if (!clip || clip->timestamp_count > 0 || clip->has_timestamp) return;
     char tmp[192]; snprintf(tmp, sizeof(tmp), "%s", clip->stem);
     char *leaf = strrchr(tmp, '/'); if (leaf) leaf++; else leaf = tmp;
     char *last = strrchr(leaf, '_');
     if (!last || !strchr(last + 1, '-')) return;
     char stamp[64]; snprintf(stamp, sizeof(stamp), "%s", last + 1);
     for (size_t i = 0; stamp[i]; ++i) if (stamp[i] == '-') stamp[i] = '.';
-    if (parse_timestamp_value(stamp, &clip->timestamp)) clip->has_timestamp = true;
+    add_clip_timestamp(clip, stamp);
 }
 
 static void parse_clip_metadata(const char *stem_path, NativeVoiceClip *clip) {
@@ -1870,7 +2025,7 @@ static void parse_clip_metadata(const char *stem_path, NativeVoiceClip *clip) {
                 }
                 clip->caption[w] = '\0';
             } else if (!strcasecmp(key, "dub_timestamps") || !strcasecmp(key, "dub_timestamp")) {
-                if (!clip->has_timestamp && parse_timestamp_value(value, &clip->timestamp)) clip->has_timestamp = true;
+                parse_timestamp_list(value, clip);
             } else if (!strcasecmp(key, "dub_characters") || !strcasecmp(key, "dub_character")) {
                 char *v = value;
                 while (*v && (*v == '[' || *v == ']' || *v == '"' || *v == '\'' || (unsigned char)*v <= 32)) ++v;
@@ -1895,7 +2050,9 @@ static int compare_voice_clips(const void *a, const void *b) {
     const NativeVoiceClip *cb = (const NativeVoiceClip *)b;
     if (sort_voice_by_timestamp && ca->timestamp != cb->timestamp)
         return ca->timestamp < cb->timestamp ? -1 : 1;
-    return strcasecmp(ca->relative, cb->relative);
+    int by_name = strcasecmp(ca->relative, cb->relative);
+    if (by_name != 0) return by_name;
+    return (int)ca->timestamp_ordinal - (int)cb->timestamp_ordinal;
 }
 
 static void scan_voice_dir(const char *pack_root, const char *dir, const char *relative, int depth, bool require_timestamp) {
@@ -1941,13 +2098,25 @@ static void scan_voice_dir(const char *pack_root, const char *dir, const char *r
         char stem_path[512]; int sn = snprintf(stem_path, sizeof(stem_path), "%s/%s", pack_root, clip.stem);
         if (sn <= 0 || (size_t)sn >= sizeof(stem_path)) continue;
         parse_clip_metadata(stem_path, &clip);
-        if (require_timestamp && !clip.has_timestamp) continue;
+        if (require_timestamp && (!clip.has_timestamp || clip.timestamp_count == 0)) continue;
         if (!require_timestamp && clip.dub_only) continue;
         if (!clip.caption[0]) {
             const char *leaf = strrchr(clip.relative, '/'); leaf = leaf ? leaf + 1 : clip.relative;
             snprintf(clip.caption, sizeof(clip.caption), "%.159s", leaf);
         }
-        voice_clips[voice_clip_count++] = clip;
+        if (require_timestamp) {
+            /* Godot packs allow an array of timestamps for one audio clip. Add
+               one timeline event per timestamp while retaining the source path. */
+            for (uint8_t ti = 0; ti < clip.timestamp_count && voice_clip_count < MAX_VOICE_CLIPS; ++ti) {
+                NativeVoiceClip event = clip;
+                event.timestamp = clip.timestamps[ti];
+                event.timestamp_ordinal = ti;
+                voice_clips[voice_clip_count++] = event;
+            }
+        } else {
+            clip.timestamp_ordinal = 0;
+            voice_clips[voice_clip_count++] = clip;
+        }
     }
     closedir(d);
 }
@@ -1958,6 +2127,148 @@ static int load_voice_clips(const char *pack_dir, bool require_timestamps) {
     scan_voice_dir(pack_dir, pack_dir, "", 0, require_timestamps);
     qsort(voice_clips, (size_t)voice_clip_count, sizeof(voice_clips[0]), compare_voice_clips);
     return voice_clip_count;
+}
+
+static void list_subdirectories(const char *root, ItemList *out) {
+    if (!out) return;
+    memset(out, 0, sizeof(*out));
+    DIR *dir = root ? opendir(root) : NULL;
+    if (!dir) return;
+    struct dirent *entry;
+    while ((entry = readdir(dir)) && out->count < MAX_ITEMS) {
+        if (entry->d_name[0] == '.') continue;
+        char path[512];
+        int n = snprintf(path, sizeof(path), "%s/%s", root, entry->d_name);
+        if (n <= 0 || (size_t)n >= sizeof(path)) continue;
+        struct stat st;
+        if (stat(path, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
+        snprintf(out->items[out->count++].name, MAX_NAME, "%.95s", entry->d_name);
+    }
+    closedir(dir);
+    qsort(out->items, (size_t)out->count, sizeof(out->items[0]), compare_items);
+}
+
+static bool path_is_file(const char *path) {
+    struct stat st;
+    return path && stat(path, &st) == 0 && S_ISREG(st.st_mode);
+}
+
+static int dub_pack_quality(const DubPackItem *item) {
+    if (item->has_tcv && item->clip_count > 0) return 0;
+    if (item->clip_count > 0) return 1;
+    if (item->has_tcv) return 2;
+    return 3;
+}
+
+static int compare_dub_packs(const void *a, const void *b) {
+    const DubPackItem *pa = (const DubPackItem *)a;
+    const DubPackItem *pb = (const DubPackItem *)b;
+    int qa = dub_pack_quality(pa), qb = dub_pack_quality(pb);
+    if (qa != qb) return qa - qb;
+    return strcasecmp(pa->name, pb->name);
+}
+
+static int scan_dub_pack_root(const char *voice_root, DubPackItem *out, int out_cap) {
+    if (!voice_root || !out || out_cap <= 0) return 0;
+    ItemList dirs;
+    list_subdirectories(voice_root, &dirs);
+    int count = 0;
+    for (int i = 0; i < dirs.count && count < out_cap; ++i) {
+        char pack[512], tcv[560], ogv[560];
+        int n = snprintf(pack, sizeof(pack), "%s/%s", voice_root, dirs.items[i].name);
+        if (n <= 0 || (size_t)n >= sizeof(pack)) continue;
+        n = snprintf(tcv, sizeof(tcv), "%s/dub_video.tcv", pack);
+        if (n <= 0 || (size_t)n >= sizeof(tcv)) continue;
+        n = snprintf(ogv, sizeof(ogv), "%s/dub_video.ogv", pack);
+        if (n <= 0 || (size_t)n >= sizeof(ogv)) continue;
+        bool has_tcv = path_is_file(tcv);
+        bool has_ogv = path_is_file(ogv);
+        /* Voice-only packs are not presented as dub packs. */
+        if (!has_tcv && !has_ogv) continue;
+        DubPackItem item; memset(&item, 0, sizeof(item));
+        snprintf(item.name, sizeof(item.name), "%.95s", dirs.items[i].name);
+        item.voice_index = i;
+        item.has_tcv = has_tcv;
+        item.has_ogv = has_ogv;
+        item.clip_count = load_voice_clips(pack, true);
+        out[count++] = item;
+    }
+    voice_clip_count = 0;
+    qsort(out, (size_t)count, sizeof(out[0]), compare_dub_packs);
+    return count;
+}
+
+static void open_dub_pack_browser(Page return_page) {
+    char path[512];
+    dub_pack_return_page = return_page;
+    snprintf(path, sizeof(path), "%s/packs_voice", ROOT);
+    dub_pack_count = scan_dub_pack_root(path, dub_pack_items, MAX_ITEMS);
+    dub_pack_selected = 0;
+    dub_pack_scroll_offset = 0;
+    selected = 0;
+    page = PAGE_DUB_PACK_LIST;
+    if (dub_pack_count == 0)
+        set_message("No dub videos found. Put packs in packs_voice/<Pack>/ with dub_video.ogv and timestamped line clips.");
+}
+
+static void begin_selected_dub_pack(void) {
+    if (dub_pack_count <= 0) { set_message("No dub packs found in packs_voice/"); return; }
+    dub_pack_selected = clamp_int(dub_pack_selected, 0, dub_pack_count - 1);
+    DubPackItem *item = &dub_pack_items[dub_pack_selected];
+    if (item->clip_count <= 0) {
+        set_message("This pack has no dub_timestamps. Add them in each line .ini/.txt file.");
+        return;
+    }
+    if (!item->has_tcv) {
+        set_message("This dub needs conversion: put it in repo packs_voice/ and run the GitHub build.");
+        return;
+    }
+    game.mode = 1;
+    game.voice = item->voice_index;
+    save_state();
+    begin_match();
+}
+
+static bool write_dub_session_manifest(void) {
+    if (!active_dub_pack || voice_clip_count <= 0 || !ensure_dub_record_directories()) return false;
+    char dir[512], final_path[600], temp_path[620];
+    char safe_pack[80]; snprintf(safe_pack, sizeof(safe_pack), "%s", active_pack_name[0] ? active_pack_name : "Dub Pack");
+    for (size_t i = 0; safe_pack[i]; ++i) if (safe_pack[i] == '/' || safe_pack[i] == '\\' || safe_pack[i] == ':' || safe_pack[i] == '\r' || safe_pack[i] == '\n') safe_pack[i] = '_';
+    int n = snprintf(dir, sizeof(dir), "%s/dub_recordings/%s/3DS Session", REC_DIR, safe_pack);
+    if (n <= 0 || (size_t)n >= sizeof(dir)) return false;
+    n = snprintf(final_path, sizeof(final_path), "%s/session.ini", dir);
+    if (n <= 0 || (size_t)n >= sizeof(final_path)) return false;
+    n = snprintf(temp_path, sizeof(temp_path), "%s/session.ini.tmp", dir);
+    if (n <= 0 || (size_t)n >= sizeof(temp_path)) return false;
+    int recorded_count = 0;
+    for (int i = 0; i < voice_clip_count; ++i) {
+        char take_path[600];
+        if (!make_active_dub_record_path(i, take_path, sizeof(take_path), false)) continue;
+        if (path_is_file(take_path)) recorded_count++;
+    }
+    if (recorded_count == 0) return false;
+    FILE *f = fopen(temp_path, "wb");
+    if (!f) return false;
+    bool ok = fprintf(f, "[session]\nformat_version=1\npack=\"%s\"\nclip_count=%d\nrecorded_count=%d\n\n", safe_pack, voice_clip_count, recorded_count) > 0;
+    for (int i = 0; ok && i < voice_clip_count; ++i) {
+        char take_path[600], take_name[128] = "";
+        bool has_take = make_active_dub_record_path(i, take_path, sizeof(take_path), false) && path_is_file(take_path);
+        if (has_take) {
+            const char *leaf = strrchr(take_path, '/'); leaf = leaf ? leaf + 1 : take_path;
+            snprintf(take_name, sizeof(take_name), "%.127s", leaf);
+        }
+        char source_name[128];
+        const char *leaf = strrchr(voice_clips[i].relative, '/'); leaf = leaf ? leaf + 1 : voice_clips[i].relative;
+        snprintf(source_name, sizeof(source_name), "%.127s", leaf);
+        for (size_t j = 0; source_name[j]; ++j) if (source_name[j] == '"' || source_name[j] == '\r' || source_name[j] == '\n') source_name[j] = '_';
+        for (size_t j = 0; take_name[j]; ++j) if (take_name[j] == '"' || take_name[j] == '\r' || take_name[j] == '\n') take_name[j] = '_';
+        ok = fprintf(f, "[clip_%03d]\ntimestamp=%.3f\nsource=\"%s\"\ntake=\"%s\"\nrecorded=%s\n\n",
+                     i + 1, voice_clips[i].timestamp, source_name, take_name, has_take ? "true" : "false") > 0;
+    }
+    if (fflush(f) != 0) ok = false;
+    if (fclose(f) != 0) ok = false;
+    if (!ok || rename(temp_path, final_path) != 0) { remove(temp_path); return false; }
+    return true;
 }
 
 static bool ensure_dub_record_directories(void) {
@@ -1982,7 +2293,15 @@ static bool make_active_dub_record_path(int clip_index, char *out, size_t out_si
     snprintf(safe_stem, sizeof(safe_stem), "%.68s", leaf);
     for (size_t i = 0; safe_stem[i]; ++i) if (safe_stem[i] == '/' || safe_stem[i] == '\\' || safe_stem[i] == ':') safe_stem[i] = '_';
     if (create_dirs && !ensure_dub_record_directories()) return false;
-    int n = snprintf(out, out_size, "%s/dub_recordings/%s/3DS Session/_dubrecord_%s.wav", REC_DIR, safe_pack, safe_stem);
+    int n;
+    if (voice_clips[clip_index].timestamp_count > 1) {
+        long stamp_ms = (long)(voice_clips[clip_index].timestamp * 1000.0f + 0.5f);
+        n = snprintf(out, out_size, "%s/dub_recordings/%s/3DS Session/_dubrecord_%s_t%08ld_%02u.wav",
+                     REC_DIR, safe_pack, safe_stem, stamp_ms, (unsigned)voice_clips[clip_index].timestamp_ordinal + 1u);
+    } else {
+        /* Keep sessions made by older port versions readable. */
+        n = snprintf(out, out_size, "%s/dub_recordings/%s/3DS Session/_dubrecord_%s.wav", REC_DIR, safe_pack, safe_stem);
+    }
     return n > 0 && (size_t)n < out_size;
 }
 
@@ -2115,12 +2434,38 @@ static void tcv_pump(void) {
 static void draw_tcv_video(Canvas *c, int x, int y, int w, int h) {
     TcvVideo *v = &dub_video;
     if (!c || !v->opened || !v->has_frame || !v->pixels || w <= 0 || h <= 0) return;
+
+    /* The native TCV profile is 160x90 and the main-screen view is 320x180.
+       Convert each RGB565 pixel once and duplicate it into a 2x2 block. This
+       cuts the hot video blit's colour conversions from 57,600 to 14,400/frame
+       on the normal view while retaining the generic scaled fallback. */
+    if (w == (int)v->width * 2 && h == (int)v->height * 2) {
+        for (int sy = 0; sy < (int)v->height; ++sy) {
+            int dy = y + sy * 2;
+            if (dy < 0 || dy >= c->h || dy + 1 < 0 || dy + 1 >= c->h) continue;
+            uint32_t *row0 = c->pixels + (size_t)dy * (size_t)c->w;
+            uint32_t *row1 = c->pixels + (size_t)(dy + 1) * (size_t)c->w;
+            for (int sx = 0; sx < (int)v->width; ++sx) {
+                int dx = x + sx * 2;
+                if (dx < 0 || dx >= c->w || dx + 1 < 0 || dx + 1 >= c->w) continue;
+                size_t pos = ((size_t)sy * v->width + (size_t)sx) * 2u;
+                uint16_t rgb565 = (uint16_t)v->pixels[pos] | ((uint16_t)v->pixels[pos + 1] << 8);
+                unsigned rr = ((rgb565 >> 11) & 31u) * 255u / 31u;
+                unsigned gg = ((rgb565 >> 5) & 63u) * 255u / 63u;
+                unsigned bb = (rgb565 & 31u) * 255u / 31u;
+                uint32_t color = 0xFF000000u | (rr << 16) | (gg << 8) | bb;
+                row0[dx] = color; row1[dx] = color;
+                row0[dx + 1] = color; row1[dx + 1] = color;
+            }
+        }
+        return;
+    }
+
     int x0 = x < 0 ? 0 : x, y0 = y < 0 ? 0 : y;
     int x1 = x + w > c->w ? c->w : x + w;
     int y1 = y + h > c->h ? c->h : y + h;
     for (int py = y0; py < y1; ++py) {
-        int dy = py - y;
-        int sy = (dy * (int)v->height) / h;
+        int sy = ((py - y) * (int)v->height) / h;
         uint32_t *row = c->pixels + (size_t)py * (size_t)c->w;
         for (int px = x0; px < x1; ++px) {
             int sx = ((px - x) * (int)v->width) / w;
@@ -2139,17 +2484,24 @@ static void dub_replay_pump(void) {
     pump_dub_overlay_audio();
     uint64_t now = osGetTime();
     float elapsed = (float)(now >= dub_replay_start_ms ? now - dub_replay_start_ms : 0) / 1000.0f;
+    float video_duration = (float)dub_video.frame_count / (float)(dub_video.fps ? dub_video.fps : 1u);
+    /* Malformed pack metadata sometimes places a line after the end of its
+       movie. Never leave Watch Dub/music running forever waiting for it. */
+    if (elapsed >= video_duration && dub_replay_next_clip < voice_clip_count) {
+        dub_replay_next_clip = voice_clip_count;
+        set_message("Scene ended; ignored line timestamps beyond the video duration");
+    }
     /* Do not wait for the previous line: timestamps are absolute on the video
        timeline and the independent channels permit natural overlaps. */
     while (dub_replay_next_clip < voice_clip_count &&
            voice_clips[dub_replay_next_clip].timestamp <= elapsed + 0.015f) {
         char path[512]; int idx = dub_replay_next_clip++;
-        bool played = false;
-        if (make_active_dub_record_path(idx, path, sizeof(path), false)) {
-            FILE *check = fopen(path, "rb");
-            if (check) { fclose(check); played = play_dub_overlay_wav(path); }
+        /* Watch Dub must play the user's recorded takes, not silently substitute
+           the stock source voice clip for a missing take. Backing track/video
+           continue normally; unrecorded lines remain silent and are easy to spot. */
+        if (make_active_dub_record_path(idx, path, sizeof(path), false) && path_is_file(path)) {
+            if (!play_dub_overlay_wav(path)) set_message("Could not play a saved take; check the WAV file");
         }
-        if (!played) (void)play_dub_overlay_wav(voice_clips[idx].path);
     }
     if (!dub_video.playing && dub_replay_next_clip >= voice_clip_count && !dub_overlay_audio_active()) {
         dub_replay_active = false; music_stream_stop(); start_selected_music(); set_message("Dub playback finished");
@@ -2157,10 +2509,19 @@ static void dub_replay_pump(void) {
 }
 
 static void start_dub_replay(void) {
-    if (!active_dub_pack || !dub_video.opened || voice_clip_count <= 0) { set_message("Load a converted dub pack first"); return; }
+    if (!active_dub_pack || !dub_video.opened || voice_clip_count <= 0) { set_message("Choose a READY dub pack from the dub-pack list first"); return; }
     if (recording) finish_recording();
     stop_playback();
     stop_dub_overlay_audio();
+    int take_count = 0;
+    for (int i = 0; i < voice_clip_count; ++i) {
+        char take[512];
+        if (make_active_dub_record_path(i, take, sizeof(take), false) && path_is_file(take)) take_count++;
+    }
+    if (take_count == 0) {
+        set_message("No voice takes saved yet. Use START + RECORD on a line, then try WATCH DUB.");
+        return;
+    }
     if (!tcv_seek(&dub_video, 0.0f)) { set_message("Could not seek dub video to start"); return; }
     char backing[512]; snprintf(backing, sizeof(backing), "%s/_backing_track.3ds.wav", active_pack_dir);
     dub_replay_next_clip = 0; dub_replay_start_ms = osGetTime(); dub_replay_active = true;
@@ -2264,6 +2625,7 @@ static void next_round(void) {
     if (active_dub_pack) {
         dub_replay_active = false;
         dub_video.playing = false;
+        stop_dub_overlay_audio();
         music_stream_stop();
         game.clip_index++;
         if (game.clip_index >= voice_clip_count) {
@@ -2316,12 +2678,11 @@ static bool copy_file_limited(const char *src, const char *dst) {
 static void save_latest_dub(void) {
     if (recording) finish_recording();
     if (active_dub_pack) {
-        char path[512];
-        if (make_active_dub_record_path(game.clip_index, path, sizeof(path), true)) {
-            FILE *f = fopen(path, "rb");
-            if (f) { fclose(f); snprintf(game.last_recording, sizeof(game.last_recording), "%.255s", path); set_message("Current line is saved in this dub pack session"); return; }
+        if (!write_dub_session_manifest()) {
+            set_message("Record at least one line before saving the dub session");
+            return;
         }
-        set_message("Record the current line first; each line saves into the pack session");
+        set_message("Dub session saved: recorded takes + timestamp manifest");
         return;
     }
     char latest[320]; snprintf(latest,sizeof(latest),"%s/dub_latest.wav",REC_DIR);
@@ -2404,7 +2765,7 @@ static void activate_menu(int id) {
             } break;
         case PAGE_PLAY:
             if (id == 0) { game.mode = 0; page = PAGE_MODE; }
-            else if (id == 1) { game.mode = 1; page = PAGE_MODE; }
+            else if (id == 1) { game.mode = 1; open_dub_pack_browser(PAGE_PLAY); }
             else if (id == 2) page = PAGE_CINEMA;
             else if (id == 3) go_home();
             break;
@@ -2413,7 +2774,7 @@ static void activate_menu(int id) {
             else if (id == 1) game.mode = 1;
             else if (id == 2) game.total_rounds = clamp_int(game.total_rounds-1,1,9);
             else if (id == 3) game.total_rounds = clamp_int(game.total_rounds+1,1,9);
-            else if (id == 4) page = PAGE_MEMBERS;
+            else if (id == 4) { if (game.mode == 1) open_dub_pack_browser(PAGE_MODE); else page = PAGE_MEMBERS; }
             else if (id == 5) page = PAGE_PLAY;
             save_state(); break;
         case PAGE_MEMBERS:
@@ -2455,6 +2816,12 @@ static void activate_menu(int id) {
             else if (id==1) pack_selected=(pack_selected+1)%pack_count_for_type(pack_type);
             else if (id==2) assign_selected_pack();
             else if (id==3) { page=pack_return_page; selected=0; }
+            break;
+        case PAGE_DUB_PACK_LIST:
+            if (id == 0 && dub_pack_count > 0) dub_pack_selected = (dub_pack_selected + dub_pack_count - 1) % dub_pack_count;
+            else if (id == 1 && dub_pack_count > 0) dub_pack_selected = (dub_pack_selected + 1) % dub_pack_count;
+            else if (id == 2) begin_selected_dub_pack();
+            else if (id == 3) { page = dub_pack_return_page; selected = 0; }
             break;
         case PAGE_PACKS:
             if (id >= 0 && id < 7) open_pack_browser(id, PAGE_PACKS);
@@ -2555,7 +2922,7 @@ static void activate_menu(int id) {
             else if (id==3) go_home();
             break;
         case PAGE_CINEMA:
-            if (id==0) { game.mode=1; begin_match(); }
+            if (id==0) { game.mode=1; open_dub_pack_browser(PAGE_CINEMA); }
             else if (id==1) watch_latest_dub();
             else if (id==2) save_latest_dub();
             else if (id==3) page=PAGE_PLAY;
@@ -2579,6 +2946,7 @@ static void back_page(void) {
         case PAGE_PACKS: case PAGE_SETTINGS: case PAGE_DATA: case PAGE_EXTRAS: case PAGE_GUIDE: case PAGE_CREDITS: case PAGE_FOLDER: go_home(); break;
         case PAGE_CUSTOMIZE: go_home(); break;
         case PAGE_PACK_LIST: page=pack_return_page; break;
+        case PAGE_DUB_PACK_LIST: page=dub_pack_return_page; break;
         case PAGE_SETTING_DETAIL: page=PAGE_SETTINGS; break;
         default: go_home(); break;
     }
@@ -2606,6 +2974,7 @@ static int keyboard_activate(void) {
         case PAGE_CREDITS: count=2; break;
         case PAGE_FOLDER: count=4; break;
         case PAGE_CINEMA: count=4; break;
+        case PAGE_DUB_PACK_LIST: count=4+(dub_pack_count<4?dub_pack_count:4); break;
         default: count=1; break;
     }
     if (count < 1) count=1;
@@ -2629,6 +2998,9 @@ static void handle_touch(void) {
         if (page==PAGE_PACK_LIST && id>=10) {
             pack_selected=clamp_int(id-10,0,pack_count_for_type(pack_type)-1);
             assign_selected_pack();
+        } else if (page == PAGE_DUB_PACK_LIST && id >= 100) {
+            dub_pack_selected = clamp_int(id - 100, 0, dub_pack_count - 1);
+            selected = 2; /* move keyboard focus to USE after tapping a row */
         } else activate_menu(id);
     }
 }
@@ -2684,23 +3056,32 @@ int main(int argc, char **argv) {
             if (page==PAGE_PACK_LIST && selected>=4) {
                 pack_selected=clamp_int(pack_scroll_offset+selected-4,0,pack_count_for_type(pack_type)-1);
                 assign_selected_pack();
+            } else if (page == PAGE_DUB_PACK_LIST && selected >= 4 && dub_pack_count > 0) {
+                dub_pack_selected=clamp_int(dub_pack_scroll_offset+selected-4,0,dub_pack_count-1);
+                begin_selected_dub_pack();
             } else activate_menu(selected);
         }
         handle_touch();
         if (recording) {
             bool sampling=false;
             if (R_SUCCEEDED(MICU_IsSampling(&sampling)) && !sampling) finish_recording();
-            else if ((frames-recording_started_frame) > (uint64_t)configured_record_seconds*60u) finish_recording();
+            else if (osGetTime() - recording_started_ms > (uint64_t)configured_record_seconds*1000u + 250u) finish_recording();
         }
         if (playback_active && playback_wave.status==NDSP_WBUF_DONE) stop_playback();
         tcv_pump();
         music_stream_pump();
         dub_replay_pump();
-        render();
-        canvas_flush(&top_canvas,GFX_TOP,GFX_LEFT);
-        canvas_flush(&bottom_canvas,GFX_BOTTOM,GFX_LEFT);
-        gfxFlushBuffers();
-        gfxSwapBuffers();
+        /* Logic/input/audio continue every VBlank, but rasterize only on alternate
+           VBlanks to cap the expensive software UI renderer at about 30 FPS. */
+        render_divider++;
+        if (render_divider >= RENDER_VBLANK_DIVISOR) {
+            render_divider = 0;
+            render();
+            canvas_flush(&top_canvas,GFX_TOP,GFX_LEFT);
+            canvas_flush(&bottom_canvas,GFX_BOTTOM,GFX_LEFT);
+            gfxFlushBuffers();
+            gfxSwapBuffers();
+        }
         gspWaitForVBlank();
     }
 

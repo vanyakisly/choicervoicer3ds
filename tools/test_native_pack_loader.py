@@ -34,8 +34,10 @@ def main() -> None:
         (pack / '01_A.ini').write_text('[data]\ncaption="First line"\ndub_timestamps=[1.25]\ndub_characters=["Narrator"]\nimage="01_A.jpg"\n', encoding='utf-8')
         (pack / '02_B.txt').write_text('[data]\ncaption="Second line"\ndub_timestamps=[00:02.500]\ndub_characters=["Second"]\n', encoding='utf-8')
         (pack / '03_C.ini').write_text('[data]\ncaption="Dub-only line"\ndub_timestamps=[3.5]\ndub_only="true"\n', encoding='utf-8')
+        (pack / '04_Multi.3ds.wav').write_bytes(b'normalized')
+        (pack / '04_Multi.ini').write_text('[data]\ncaption="Multi timestamp line"\ndub_timestamps=[4.0, 5.25]\n', encoding='utf-8')
         subprocess.run([str(executable), str(pack)], check=True)
-    print('PASS: native C loader reads timestamps, captions, character tags, .3ds.wav companions, and dub_only.')
+    print('PASS: native C loader reads timestamp arrays, captions, character tags, .3ds.wav companions, unique repeated-line take paths, and dub_only.')
 
 
 if __name__ == '__main__':

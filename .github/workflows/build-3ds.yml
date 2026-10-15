@@ -39,6 +39,12 @@ jobs:
           test -f tools/prepare_3ds_dub_packs.py
           test -f tools/test_3ds_dub_packs.py
           test -f tools/test_native_pack_loader.py
+          test -f tools/test_dub_pack_browser.py
+          test -f tools/test_dub_pack_browser.c
+          test -f tools/test_dub_workflow.py
+          test -f tools/test_dub_manifest.py
+          test -f tools/test_dub_manifest.c
+          test -f tools/test_tcv_blit.c
           test -f tools/test_pack_loader.c
           test -f tools/test_screen_flush.c
           test -f tools/build_3ds_in_container.sh
@@ -68,20 +74,32 @@ jobs:
         run: |
           set -euo pipefail
           python3 tools/test_native_pack_loader.py
-          cc -std=gnu11 -O0 -ffunction-sections -fdata-sections \
-            -Wno-implicit-function-declaration -Wno-int-conversion \
-            -Wno-pointer-to-int-cast -Wno-incompatible-pointer-types \
-            -Wno-unused-parameter -Wno-unused-function \
-            -I tools/3ds_test_stub tools/test_screen_flush.c \
-            -Wl,--gc-sections -lz -lm -o /tmp/test_screen_flush
+          python3 tools/test_dub_pack_browser.py
+          python3 tools/test_dub_workflow.py
+          python3 tools/test_dub_manifest.py
+          CFLAGS="-std=gnu11 -O0 -ffunction-sections -fdata-sections -Wno-implicit-function-declaration -Wno-int-conversion -Wno-pointer-to-int-cast -Wno-incompatible-pointer-types -Wno-unused-parameter -Wno-unused-function -I tools/3ds_test_stub"
+          cc $CFLAGS tools/test_screen_flush.c -Wl,--gc-sections -lz -lm -o /tmp/test_screen_flush
           /tmp/test_screen_flush
+          cc $CFLAGS tools/test_tcv_blit.c -Wl,--gc-sections -lz -lm -o /tmp/test_tcv_blit
+          /tmp/test_tcv_blit
           python3 - <<'PYTEST'
           from pathlib import Path
           source = Path("3ds_port/source/main.c").read_text(encoding="utf-8")
           assert '#define ROOT "sdmc:/3ds/The Choicer Voicer"' in source
           assert 'sdmc:/luma/3ds' not in source
           assert 'SD:/luma/3ds' not in source
-          print("PASS: runtime data root is SD:/3ds/The Choicer Voicer.")
+          assert '#define RENDER_VBLANK_DIVISOR 2u' in source
+          assert 'if (render_divider >= RENDER_VBLANK_DIVISOR)' in source
+          assert 'if (w == (int)v->width * 2 && h == (int)v->height * 2)' in source
+          replay_start = source.index('static void start_dub_replay(void) {')
+          replay_end = source.index('static void play_current_clip(void) {', replay_start)
+          replay = source[replay_start:replay_end]
+          assert 'No voice takes saved yet' in replay
+          pump_start = source.index('static void dub_replay_pump(void) {')
+          pump_end = source.index('static void start_dub_replay(void) {', pump_start)
+          pump = source[pump_start:pump_end]
+          assert 'play_dub_overlay_wav(voice_clips[idx].path)' not in pump
+          print("PASS: data root, 30 FPS render cap, video blit fast path, and recorded-take-only Watch Dub checks.")
           PYTEST
 
       - name: Stage all original assets, sounds, music and default packs for SD
