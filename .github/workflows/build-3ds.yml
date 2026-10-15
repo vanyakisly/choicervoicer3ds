@@ -30,6 +30,7 @@ jobs:
           test -f tools/test_3ds_dub_packs.py
           test -f tools/test_native_pack_loader.py
           test -f tools/test_pack_loader.c
+          test -f tools/test_screen_flush.c
           test -f packs_voice/README.txt
           echo "Native source, pack converter, and custom pack input folder found."
 
@@ -51,21 +52,36 @@ jobs:
         run: |
           set -euo pipefail
           python3 tools/test_native_pack_loader.py
+          cc -std=gnu11 -O0 -ffunction-sections -fdata-sections \
+            -Wno-implicit-function-declaration -Wno-int-conversion \
+            -Wno-pointer-to-int-cast -Wno-incompatible-pointer-types \
+            -Wno-unused-parameter -Wno-unused-function \
+            -I tools/3ds_test_stub tools/test_screen_flush.c \
+            -Wl,--gc-sections -lz -lm -o /tmp/test_screen_flush
+          /tmp/test_screen_flush
+          python3 - <<'PYTEST'
+          from pathlib import Path
+          source = Path("3ds_port/source/main.c").read_text(encoding="utf-8")
+          assert '#define ROOT "sdmc:/3ds/The Choicer Voicer"' in source
+          assert 'sdmc:/luma/3ds' not in source
+          assert 'SD:/luma/3ds' not in source
+          print("PASS: runtime data root is SD:/3ds/The Choicer Voicer.")
+          PYTEST
 
       - name: Stage all original assets, sounds, music and default packs for SD
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "3ds_port/dist/SD/luma/3ds/The Choicer Voicer"
+          mkdir -p "3ds_port/dist/SD/3ds/The Choicer Voicer"
           python3 tools/prepare_3ds_assets.py \
             --source "$GITHUB_WORKSPACE" \
-            --output "$GITHUB_WORKSPACE/3ds_port/dist/SD/luma/3ds/The Choicer Voicer"
-          test -s "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/assets_native/logo_banner.rgba"
-          test -s "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/assets_native/font_small.rgba"
-          test -s "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/audio/music/maintheme.wav"
-          test -d "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/packs_voice"
-          test -d "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/packs_menu"
-          test -f "3ds_port/dist/SD/luma/3ds/The Choicer Voicer/INSTALL-ASSETS.txt"
+            --output "$GITHUB_WORKSPACE/3ds_port/dist/SD/3ds/The Choicer Voicer"
+          test -s "3ds_port/dist/SD/3ds/The Choicer Voicer/assets_native/logo_banner.rgba"
+          test -s "3ds_port/dist/SD/3ds/The Choicer Voicer/assets_native/font_small.rgba"
+          test -s "3ds_port/dist/SD/3ds/The Choicer Voicer/audio/music/maintheme.wav"
+          test -d "3ds_port/dist/SD/3ds/The Choicer Voicer/packs_voice"
+          test -d "3ds_port/dist/SD/3ds/The Choicer Voicer/packs_menu"
+          test -f "3ds_port/dist/SD/3ds/The Choicer Voicer/INSTALL-ASSETS.txt"
 
       - name: Pull official devkitPro ARM image
         run: docker pull devkitpro/devkitarm:latest
@@ -120,7 +136,7 @@ jobs:
           Keep the directory structure exactly as provided.
 
           App:   /3ds/TheChoicerVoicer3DS.3dsx
-          Data:  /luma/3ds/The Choicer Voicer/
+          Data:  /3ds/The Choicer Voicer/
 
           This is a native compatibility port, not the original Godot 4 desktop
           executable. The original graphic/assets/model trees, project audio,

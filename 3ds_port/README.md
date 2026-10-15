@@ -38,7 +38,7 @@ This folder is the hardware-adapted native target placed alongside the original 
 
 ## Requested data location
 
-`sdmc:/luma/3ds/The Choicer Voicer/`
+`sdmc:/3ds/The Choicer Voicer/`
 
 The runtime creates:
 
@@ -84,7 +84,7 @@ The Makefile follows the current devkitPro 3DS toolchain architecture (`armv6k`,
 
 ## Automatic GitHub build
 
-A GitHub Actions workflow is included at `.github/workflows/build-3ds.yml` in the project root. It uses the official `devkitpro/devkitarm` container to build the native target, converts MP3/OGG audio to PCM WAV companions, creates the SD data directory containing the original graphic/assets/model trees, original audio and default packs, and uploads `TheChoicerVoicer-Old3DS-SD-Install.zip` alongside the raw `.3dsx` and `.smdh` files. Extract the install ZIP directly to the SD card root so it creates `/3ds/` and `/luma/3ds/The Choicer Voicer/`.
+A GitHub Actions workflow is included at `.github/workflows/build-3ds.yml` in the project root. It uses the official `devkitpro/devkitarm` container to build the native target, converts MP3/OGG audio to PCM WAV companions, creates the SD data directory containing the original graphic/assets/model trees, original audio and default packs, and uploads `TheChoicerVoicer-Old3DS-SD-Install.zip` alongside the raw `.3dsx` and `.smdh` files. Extract the install ZIP directly to the SD card root so it creates `/3ds/` and `/3ds/The Choicer Voicer/`.
 
 ## Windows build
 

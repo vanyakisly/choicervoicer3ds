@@ -15,7 +15,7 @@ Expected outputs in `3ds_port/`:
 - `TheChoicerVoicer3DS.3dsx`
 - `TheChoicerVoicer3DS.smdh`
 
-User data is stored under `SD:/luma/3ds/The Choicer Voicer/`. The `.3dsx` homebrew executable itself should be placed in `SD:/3ds/`.
+User data is stored under `SD:/3ds/The Choicer Voicer/`. The `.3dsx` homebrew executable itself should be placed in `SD:/3ds/`.
 
 
 ## Voice and dub pack compatibility

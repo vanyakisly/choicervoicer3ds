@@ -22,7 +22,7 @@
 #include <malloc.h>
 #include <zlib.h>
 
-#define ROOT "sdmc:/luma/3ds/The Choicer Voicer"
+#define ROOT "sdmc:/3ds/The Choicer Voicer"
 #define SAVE_DIR ROOT "/saves"
 #define REC_DIR ROOT "/recordings"
 #define SAVE_FILE SAVE_DIR "/save.json"
@@ -293,7 +293,7 @@ static int mk_dir(const char *path) {
 
 static bool setup_storage(void) {
     const char *dirs[] = {
-        "sdmc:/luma", "sdmc:/luma/3ds", ROOT, SAVE_DIR, REC_DIR,
+        "sdmc:/3ds", ROOT, SAVE_DIR, REC_DIR,
         ROOT "/packs_host", ROOT "/packs_judges", ROOT "/packs_menu",
         ROOT "/packs_studio", ROOT "/packs_voice", ROOT "/packs_player", ROOT "/packs_twitch"
     };
@@ -1614,7 +1614,7 @@ static void page_data(void) {
     ui_common_top("DATA MANAGEMENT", "Save files, recordings and imported packs", 0);
     c_rect_alpha(&top_canvas,18,72,260,132,UI_DARK_PANEL,220);
     c_text(&top_canvas,27,82,"SD CARD DATA",UI_CYAN,true,232);
-    c_text(&top_canvas,27,109,"/luma/3ds/The Choicer Voicer/",UI_TEXT_LIGHT,false,242);
+    c_text(&top_canvas,27,109,"/3ds/The Choicer Voicer/",UI_TEXT_LIGHT,false,242);
     c_text(&top_canvas,27,132,"saves/save.json",UI_TEXT_LIGHT,false,232);
     c_text(&top_canvas,27,152,"recordings/*.wav",UI_TEXT_LIGHT,false,232);
     c_text(&top_canvas,27,179,"Reset only clears this native save.",0xFFFFDDA8,false,242);
@@ -1658,7 +1658,7 @@ static void page_credits(void) {
 static void page_folder(void) {
     ui_common_top("GAME DATA FOLDER", "This is the SD-card equivalent of Open Game Folder", 0);
     c_rect_alpha(&top_canvas,18,73,260,130,UI_DARK_PANEL,220);
-    c_text(&top_canvas,28,84,"SD:/luma/3ds/",UI_CYAN,false,236);
+    c_text(&top_canvas,28,84,"SD:/3ds/",UI_CYAN,false,236);
     c_text(&top_canvas,28,108,"The Choicer Voicer/",UI_TEXT_LIGHT,true,236);
     c_text(&top_canvas,28,139,"packs_voice/  packs_player/",UI_TEXT_LIGHT,false,236);
     c_text(&top_canvas,28,158,"packs_host/  packs_judges/",UI_TEXT_LIGHT,false,236);
@@ -1710,14 +1710,27 @@ static void render(void) {
 }
 
 static void canvas_flush(Canvas *c, gfxScreen_t screen, gfx3dSide_t side) {
-    if (!c || !c->pixels) return;
+    if (!c || !c->pixels || c->w <= 0 || c->h <= 0) return;
     u16 fw=0, fh=0;
     u8 *fb = gfxGetFramebuffer(screen, side, &fw, &fh);
-    if (!fb || fw != c->w || fh != c->h) return;
+    if (!fb) return;
+
+    /* libctru exposes the physical framebuffer sideways: top is 240x400 and
+       bottom is 240x320, while our logical canvases are 400x240 and 320x240.
+       The old dimension check compared these values in the wrong order, so it
+       returned before writing any pixels. In libctru's sideways BGR8 layout,
+       logical (x,y) maps to x*fw + (fw-1-y): fw (240), not fh, is the stride.
+       Using fh here overruns the framebuffer and can crash/corrupt memory. */
+    bool sideways = (fw == (u16)c->h && fh == (u16)c->w);
+    bool direct = (fw == (u16)c->w && fh == (u16)c->h);
+    if (!sideways && !direct) return;
+
     for (int x=0; x<c->w; ++x) {
         for (int y=0; y<c->h; ++y) {
             uint32_t col = c->pixels[(size_t)y*(size_t)c->w+(size_t)x];
-            size_t dst = ((size_t)x*(size_t)fh + (size_t)(fh-1-y))*3u;
+            size_t dst;
+            if (sideways) dst = ((size_t)x*(size_t)fw + (size_t)(fw-1-y))*3u;
+            else dst = ((size_t)y*(size_t)fw + (size_t)x)*3u;
             fb[dst+0]=color_b(col); fb[dst+1]=color_g(col); fb[dst+2]=color_r(col);
         }
     }

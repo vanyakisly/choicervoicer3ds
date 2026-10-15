@@ -116,7 +116,7 @@ def convert_compressed_audio(audio_root: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", default=".", help="Original source project directory")
-    parser.add_argument("--output", required=True, help="SD:/luma/3ds/The Choicer Voicer staging directory")
+    parser.add_argument("--output", required=True, help="SD:/3ds/The Choicer Voicer staging directory")
     args = parser.parse_args()
     src = Path(args.source).resolve()
     out = Path(args.output).resolve()
@@ -174,7 +174,7 @@ def main() -> None:
     # A plain install note travels with the SD data folder.
     (out / "INSTALL-ASSETS.txt").write_text(
         "The Choicer Voicer — Old 3DS data\n\n"
-        "Copy this entire folder to SD:/luma/3ds/The Choicer Voicer/ .\n"
+        "Copy this entire folder to SD:/3ds/The Choicer Voicer/ .\n"
         "Keep assets_native/, audio/, and the packs_* folders intact.\n"
         "All original graphic/, assets/, and model/ files are preserved under source_assets/.\n"
         "All original music and SFX are preserved under audio/; MP3/OGG files also\n"
