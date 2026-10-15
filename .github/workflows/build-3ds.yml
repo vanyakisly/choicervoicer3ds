@@ -18,6 +18,16 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
 
+      # The image normally includes 3ds-zlib. This pinned source checkout is a
+      # fallback so a package-server outage cannot block the build.
+      - name: Fetch pinned zlib fallback source
+        uses: actions/checkout@v4
+        with:
+          repository: madler/zlib
+          ref: v1.3.1
+          path: .build-deps/zlib-src
+          persist-credentials: false
+
       - name: Check native project files
         shell: bash
         run: |
@@ -31,8 +41,14 @@ jobs:
           test -f tools/test_native_pack_loader.py
           test -f tools/test_pack_loader.c
           test -f tools/test_screen_flush.c
+          test -f tools/build_3ds_in_container.sh
           test -f packs_voice/README.txt
-          echo "Native source, pack converter, and custom pack input folder found."
+          sh -n tools/build_3ds_in_container.sh
+          if grep -Eq '(^|[[:space:]])(dkp-pacman|pacman)[[:space:]]+-Sy' .github/workflows/build-3ds.yml tools/build_3ds_in_container.sh; then
+            echo "Unexpected devkitPro package-database refresh found; this build uses the SDK image and pinned source fallback." >&2
+            exit 1
+          fi
+          echo "Native source, container build script, pack converter, and custom pack input folder found."
 
       - name: Install original-asset conversion tools
         shell: bash
@@ -94,22 +110,7 @@ jobs:
             --volume "${GITHUB_WORKSPACE}:/work" \
             --workdir /work/3ds_port \
             devkitpro/devkitarm:latest \
-            sh -c 'set -eu; \
-              test -f "$DEVKITARM/3ds_rules"; \
-              echo "Using DEVKITPRO=$DEVKITPRO"; \
-              echo "Using DEVKITARM=$DEVKITARM"; \
-              if command -v dkp-pacman >/dev/null 2>&1; then dkp-pacman -Sy --noconfirm 3ds-zlib; \
-              elif command -v pacman >/dev/null 2>&1; then pacman -Sy --noconfirm 3ds-zlib; \
-              else echo No-devkitPro-package-manager-found-in-the-build-image >&2; exit 1; fi; \
-              ZLIB_INCLUDE="$DEVKITPRO/portlibs/3ds/include"; \
-              ZLIB_LIBRARY="$DEVKITPRO/portlibs/3ds/lib"; \
-              test -f "$ZLIB_INCLUDE/zlib.h" || { echo "Missing zlib header: $ZLIB_INCLUDE/zlib.h" >&2; find "$DEVKITPRO/portlibs" -name zlib.h -print 2>/dev/null || true; exit 1; }; \
-              test -f "$ZLIB_LIBRARY/libz.a" || { echo "Missing zlib archive: $ZLIB_LIBRARY/libz.a" >&2; find "$DEVKITPRO/portlibs" -name 'libz.a' -print 2>/dev/null || true; exit 1; }; \
-              printf "#include <zlib.h>\nint main(void) { return Z_OK; }\n" > /tmp/tcv_zlib_probe.c; \
-              "$DEVKITARM/bin/arm-none-eabi-gcc" -I"$ZLIB_INCLUDE" -c /tmp/tcv_zlib_probe.c -o /tmp/tcv_zlib_probe.o; \
-              echo "zlib header probe passed: $ZLIB_INCLUDE/zlib.h"; \
-              make clean; \
-              make -j2 V=1'
+            sh /work/tools/build_3ds_in_container.sh
 
       - name: Verify binary and prepare install bundle
         shell: bash

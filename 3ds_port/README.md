@@ -95,4 +95,4 @@ For a normal Windows PC, from the project root double-click:
 This detects the standard `C:\devkitPro` installation, uses its bundled MSYS2 Bash shell, sets `DEVKITPRO` / `DEVKITARM`, and runs the 3DS Makefile. See `BUILD-WINDOWS.md` for setup details.
 
 
-Build dependency note: the GitHub workflow installs the official `3ds-zlib` portlib. The Makefile explicitly includes the portlibs `include` and `lib` paths for `zlib.h`/`libz.a`. If a local build reports `zlib.h` missing, ensure `3ds-zlib` is installed in devkitPro and that `DEVKITPRO` points to the same installation whose `portlibs/3ds/include/zlib.h` exists.
+Build dependency note: GitHub Actions deliberately avoids refreshing devkitPro package databases during each run. It uses the zlib portlib already in the official image, with a fallback that builds pinned upstream zlib v1.3.1 source if the installed portlib is absent. Local builds must provide a matching ARM zlib header and static library.

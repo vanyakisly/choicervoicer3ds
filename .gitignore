@@ -16,3 +16,6 @@
 # Python conversion / regression-test caches
 __pycache__/
 *.py[cod]
+
+# Temporary dependency source checkout used by GitHub Actions
+.build-deps/

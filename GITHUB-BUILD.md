@@ -20,6 +20,6 @@ For the easiest install, extract `TheChoicerVoicer-Old3DS-SD-Install.zip` direct
 The workflow fails visibly if the native source/Makefile, required UI sprite/font outputs, audio tracks, starter packs, or compiled outputs are missing. It verifies the `.3dsx` header before publishing the artifact. The actual ARM cross-compilation happens in GitHub Actions; it has not been tested on a physical Old 3DS by this source-editing environment.
 
 
-### zlib include-path fix (v11)
+### zlib / package-server resilience (v13)
 
-The native port uses zlib for the compressed video-frame format. The workflow installs `3ds-zlib`, verifies both `zlib.h` and `libz.a`, and compiles a small header probe before building. The native Makefile explicitly adds `$(DEVKITPRO)/portlibs/3ds/include` to compiler flags and `$(DEVKITPRO)/portlibs/3ds/lib` to linker flags; this avoids relying on version-specific behavior in the recursive devkitARM rules.
+The native port uses zlib for the compressed video-frame format. The workflow avoids refreshing devkitPro package databases during each build (which can fail when pkg.devkitpro.org responds with HTTP 403). It locates the zlib portlib already present in the official image, and if missing, compiles pinned upstream zlib v1.3.1 from the checked-out GitHub source. It then checks the zlib header and `uncompress` symbol before building.

@@ -21,8 +21,8 @@ ARCH := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 # to compiler/linker flags as well as LIBDIRS so they are present in the
 # recursive build regardless of which devkitARM rules version is installed.
 PORTLIBS_3DS := $(DEVKITPRO)/portlibs/3ds
-ZLIB_INCLUDE := $(PORTLIBS_3DS)/include
-ZLIB_LIBRARY := $(PORTLIBS_3DS)/lib
+ZLIB_INCLUDE ?= $(PORTLIBS_3DS)/include
+ZLIB_LIBRARY ?= $(PORTLIBS_3DS)/lib
 CFLAGS := -g -Wall -Werror=implicit-function-declaration -Werror=return-type -O2 -mword-relocations -ffunction-sections $(ARCH)
 CFLAGS += -D__3DS__ -DOLD_3DS_PORT -I$(TOPDIR)/include -I$(CTRULIB)/include -I$(ZLIB_INCLUDE)
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
@@ -60,7 +60,7 @@ export OFILES := $(OFILES_BIN) $(OFILES_SOURCES)
 export HFILES :=
 export INCLUDE := $(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
                   $(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-                  -I$(CURDIR)/$(BUILD)
+                  -I$(ZLIB_INCLUDE) -I$(CURDIR)/$(BUILD)
 export LIBPATHS := $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 export _3DSXDEPS := $(OUTPUT).smdh
 export _3DSXFLAGS := --smdh=$(OUTPUT).smdh
