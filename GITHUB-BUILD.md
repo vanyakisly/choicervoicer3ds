@@ -18,3 +18,8 @@ For this source size, GitHub Desktop or Git is more reliable than the browser's 
 For the easiest install, extract `TheChoicerVoicer-Old3DS-SD-Install.zip` directly to the root of the 3DS SD card, preserving the folders. It contains `/3ds/TheChoicerVoicer3DS.3dsx`, the SMDH, and `/luma/3ds/The Choicer Voicer/` with generated native sprites/fonts, the original graphic/assets/model trees, all original music/SFX, PCM WAV companions for MP3/OGG files, and the seven default pack categories. The raw `.3dsx` and `.smdh` are also available separately in the Actions artifact.
 
 The workflow fails visibly if the native source/Makefile, required UI sprite/font outputs, audio tracks, starter packs, or compiled outputs are missing. It verifies the `.3dsx` header before publishing the artifact. The actual ARM cross-compilation happens in GitHub Actions; it has not been tested on a physical Old 3DS by this source-editing environment.
+
+
+### zlib include-path fix (v11)
+
+The native port uses zlib for the compressed video-frame format. The workflow installs `3ds-zlib`, verifies both `zlib.h` and `libz.a`, and compiles a small header probe before building. The native Makefile explicitly adds `$(DEVKITPRO)/portlibs/3ds/include` to compiler flags and `$(DEVKITPRO)/portlibs/3ds/lib` to linker flags; this avoids relying on version-specific behavior in the recursive devkitARM rules.

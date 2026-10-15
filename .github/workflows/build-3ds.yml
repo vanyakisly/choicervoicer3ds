@@ -85,10 +85,15 @@ jobs:
               if command -v dkp-pacman >/dev/null 2>&1; then dkp-pacman -Sy --noconfirm 3ds-zlib; \
               elif command -v pacman >/dev/null 2>&1; then pacman -Sy --noconfirm 3ds-zlib; \
               else echo No-devkitPro-package-manager-found-in-the-build-image >&2; exit 1; fi; \
-              test -f "$DEVKITPRO/portlibs/3ds/include/zlib.h"; \
-              test -f "$DEVKITPRO/portlibs/3ds/lib/libz.a"; \
+              ZLIB_INCLUDE="$DEVKITPRO/portlibs/3ds/include"; \
+              ZLIB_LIBRARY="$DEVKITPRO/portlibs/3ds/lib"; \
+              test -f "$ZLIB_INCLUDE/zlib.h" || { echo "Missing zlib header: $ZLIB_INCLUDE/zlib.h" >&2; find "$DEVKITPRO/portlibs" -name zlib.h -print 2>/dev/null || true; exit 1; }; \
+              test -f "$ZLIB_LIBRARY/libz.a" || { echo "Missing zlib archive: $ZLIB_LIBRARY/libz.a" >&2; find "$DEVKITPRO/portlibs" -name 'libz.a' -print 2>/dev/null || true; exit 1; }; \
+              printf "#include <zlib.h>\nint main(void) { return Z_OK; }\n" > /tmp/tcv_zlib_probe.c; \
+              "$DEVKITARM/bin/arm-none-eabi-gcc" -I"$ZLIB_INCLUDE" -c /tmp/tcv_zlib_probe.c -o /tmp/tcv_zlib_probe.o; \
+              echo "zlib header probe passed: $ZLIB_INCLUDE/zlib.h"; \
               make clean; \
-              make -j2'
+              make -j2 V=1'
 
       - name: Verify binary and prepare install bundle
         shell: bash

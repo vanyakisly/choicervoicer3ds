@@ -17,13 +17,19 @@ DATA := data
 INCLUDES := include
 
 ARCH := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
+# zlib is a devkitPro portlib, not part of libctru. Add its paths directly
+# to compiler/linker flags as well as LIBDIRS so they are present in the
+# recursive build regardless of which devkitARM rules version is installed.
+PORTLIBS_3DS := $(DEVKITPRO)/portlibs/3ds
+ZLIB_INCLUDE := $(PORTLIBS_3DS)/include
+ZLIB_LIBRARY := $(PORTLIBS_3DS)/lib
 CFLAGS := -g -Wall -Werror=implicit-function-declaration -Werror=return-type -O2 -mword-relocations -ffunction-sections $(ARCH)
-CFLAGS += -D__3DS__ -DOLD_3DS_PORT -I$(TOPDIR)/include -I$(CTRULIB)/include
+CFLAGS += -D__3DS__ -DOLD_3DS_PORT -I$(TOPDIR)/include -I$(CTRULIB)/include -I$(ZLIB_INCLUDE)
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS := -g $(ARCH)
-LDFLAGS := -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(TARGET).map
+LDFLAGS := -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(TARGET).map -L$(ZLIB_LIBRARY)
 LIBS := -lctru -lz -lm
-LIBDIRS := $(CTRULIB) $(DEVKITPRO)/portlibs/3ds
+LIBDIRS := $(CTRULIB) $(PORTLIBS_3DS)
 
 APP_TITLE := The Choicer Voicer
 APP_DESCRIPTION := Native Old 3DS port
