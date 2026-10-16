@@ -1,5 +1,5 @@
 # The Choicer Voicer — Old 3DS native target
-# Uses devkitPro's standard 3DS rules and can be built locally or in GitHub Actions.
+# Uses devkitPro rules and embeds read-only runtime data in the 3DSX RomFS.
 
 .SUFFIXES:
 
@@ -15,6 +15,7 @@ BUILD := build
 SOURCES := source
 DATA := data
 INCLUDES := include
+ROMFS := romfs
 
 ARCH := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 # zlib is a devkitPro portlib, not part of libctru. Add its paths directly
@@ -63,7 +64,7 @@ export INCLUDE := $(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
                   -I$(ZLIB_INCLUDE) -I$(CURDIR)/$(BUILD)
 export LIBPATHS := $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 export _3DSXDEPS := $(OUTPUT).smdh
-export _3DSXFLAGS := --smdh=$(OUTPUT).smdh
+export _3DSXFLAGS := --smdh=$(OUTPUT).smdh --romfs=$(CURDIR)/$(ROMFS)
 export APP_TITLE APP_DESCRIPTION APP_AUTHOR
 export APP_ICON := $(CURDIR)/$(ICON)
 

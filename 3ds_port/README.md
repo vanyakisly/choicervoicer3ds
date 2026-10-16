@@ -20,7 +20,7 @@ This folder is the hardware-adapted native target placed alongside the original 
   - Credits
 - Dual-screen layout: information/game presentation on the top screen and interactive controls on the bottom screen.
 - **Stylus/touch activation for every native UI button.**
-- Dub Mode opens a dedicated, alphabetized list of packs discovered recursively under `SD:/3ds/The Choicer Voicer/packs_voice/`. It finds the directory containing `dub_video.tcv`/`dub_video.ogv`, filters out ordinary voice-only packs, prioritizes converted/timestamp-ready packs, and opens the exact selected nested path.
+- Dub Mode opens an alphabetized list from three layers: optional custom packs under `SD:/3ds/TheChoicerVoicer3DS_User/packs_voice/`, any existing legacy packs under `SD:/3ds/The Choicer Voicer/packs_voice/`, and built-in packs embedded in the `.3dsx` RomFS. It recursively finds folders with `dub_video.tcv`/`dub_video.ogv`, filters ordinary voice-only packs, and opens the exact selected path.
 - In gameplay and Dub Mode the bottom screen specifically contains:
   - `START + RECORD` / `STOP & SAVE` for the current line
   - `NEXT` to move to the next timestamped clip
@@ -38,29 +38,18 @@ This folder is the hardware-adapted native target placed alongside the original 
 - UI rendering is capped at every other 60 Hz VBlank (30 FPS maximum); the 160x90 video frame blit uses a 2x fast path that converts each RGB565 source pixel once. The source remains 10 FPS video for lower decoder load.
 - The Watch Dub player overlays saved voice takes only. Unrecorded lines are silent rather than quietly playing the original cue audio, so it is clear which lines have actually been dubbed.
 
-## Requested data location
+## Data and installation layout
 
-`sdmc:/3ds/The Choicer Voicer/`
+Read-only art, music, bundled voice packs and converted dub packs are embedded at `romfs:/tcv` inside the `.3dsx`. You do **not** need to create, replace or copy anything to `SD:/3ds/The Choicer Voicer/`.
 
-The runtime creates:
-
-- `packs_host/`
-- `packs_judges/`
-- `packs_menu/`
-- `packs_studio/`
-- `packs_voice/`
-- `packs_player/`
-- `saves/`
-- `recordings/`
-
-Save data is `saves/save.json`; recorded lines are stored as PCM WAV files under `recordings/dub_recordings/<Pack Name>/3DS Session/`. `session.ini` lists source clips, timestamps, take filenames, and which lines have a recording. The separate `recordings/dub_latest.wav` is used by non-pack single-take mode.
+At first launch, writable files are created in `SD:/3ds/TheChoicerVoicer3DS_User/`, including `saves/save.json`, `recordings/`, and optional `packs_voice/`, `packs_player/`, `packs_host/`, `packs_judges/`, `packs_studio/`, `packs_menu/` and `packs_twitch/` directories. Recorded takes go under `recordings/dub_recordings/<Pack Name>/3DS Session/`. The application can read old packs/save data from the old spaced folder if it already exists, but never writes there.
 
 ## Controls
 
 ### Choosing a dub pack
 
 1. Choose `PLAY` → `DUB MODE` (or `DUB CINEMA` → `START DUB MODE`).
-2. The app searches `packs_voice/` and displays folders that contain `dub_video.tcv` or `dub_video.ogv`. Tap a row to select it, then tap `USE`.
+2. The app searches optional user packs, existing legacy packs and bundled `packs_voice/` in the embedded RomFS, and displays folders that contain `dub_video.tcv` or `dub_video.ogv`. Tap a row to select it, then tap `USE`.
 3. A pack can start only when it has a converted `dub_video.tcv` and line metadata containing `dub_timestamps`. Packs with only the original `.ogv` need to be included in the source repository and run through GitHub Actions to generate the `.tcv` companion.
 
 ### Recording and reviewing
@@ -87,9 +76,11 @@ The original Godot source remains intact in the parent directory. This is a nati
 
 ## Build
 
-Use the current devkitPro/devkitARM + libctru environment and run:
+Use the current devkitPro/devkitARM + libctru environment. On a local Linux/macOS build, install FFmpeg and Python 3 with Pillow, then from the repository root prepare the embedded assets before building:
 
-`make`
+`python3 tools/prepare_3ds_assets.py --source . --output 3ds_port/romfs/tcv`
+
+Then run `make` inside `3ds_port/`. The Windows `build_windows.bat` helper performs the preparation step automatically when the generated RomFS is missing. GitHub Actions always rebuilds this generated directory from source; it is intentionally gitignored to avoid checking duplicate 60-MB runtime assets into the repository.
 
 Output:
 
@@ -99,7 +90,7 @@ The Makefile follows the current devkitPro 3DS toolchain architecture (`armv6k`,
 
 ## Automatic GitHub build
 
-A GitHub Actions workflow is included at `.github/workflows/build-3ds.yml` in the project root. It uses the official `devkitpro/devkitarm` container to build the native target, converts MP3/OGG audio to PCM WAV companions, creates the SD data directory containing the original graphic/assets/model trees, original audio and default packs, and uploads `TheChoicerVoicer-Old3DS-SD-Install.zip` alongside the raw `.3dsx` and `.smdh` files. Extract the install ZIP directly to the SD card root so it creates `/3ds/` and `/3ds/The Choicer Voicer/`.
+A GitHub Actions workflow is included at `.github/workflows/build-3ds.yml` in the project root. It uses the official `devkitpro/devkitarm` container to build the native target, converts MP3/OGG audio to PCM WAV companions, embeds compact runtime art, PCM audio and default packs inside the .3dsx, and uploads `TheChoicerVoicer-Old3DS-SD-Install.zip` alongside the raw `.3dsx` and `.smdh` files. Extract the app ZIP to the SD card root so it only installs the .3dsx and .smdh under `/3ds/`; writable user data is created automatically on first launch.
 
 ## Windows build
 
@@ -111,3 +102,8 @@ This detects the standard `C:\devkitPro` installation, uses its bundled MSYS2 Ba
 
 
 Build dependency note: GitHub Actions deliberately avoids refreshing devkitPro package databases during each run. It uses the zlib portlib already in the official image, with a fallback that builds pinned upstream zlib v1.3.1 source if the installed portlib is absent. Local builds must provide a matching ARM zlib header and static library.
+
+
+## Recording UI and Watch Dub (v17)
+
+While recording, the lower-screen waveform follows recent completed microphone PCM samples in real time. The status strip displays recording elapsed time, then an explicit stop/save result when recording ends. The trace freezes on the captured take after stopping. Watch Dub renders the actual pack video from `dub_video.tcv` in the top screen, plays the backing track when present, and overlays recorded WAV takes by timestamp. Built-in media stays embedded in RomFS; only `/3ds/TheChoicerVoicer3DS.3dsx` and its `.smdh` are needed for installation. Saves and recordings use `/3ds/TheChoicerVoicer3DS_User/`, and no files need to be added to or replaced in `/3ds/The Choicer Voicer/`.

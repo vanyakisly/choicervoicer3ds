@@ -15,7 +15,7 @@ For this source size, GitHub Desktop or Git is more reliable than the browser's 
 
 ## Install the artifact
 
-For the easiest install, extract `TheChoicerVoicer-Old3DS-SD-Install.zip` directly to the root of the 3DS SD card, preserving the folders. It contains `/3ds/TheChoicerVoicer3DS.3dsx`, the SMDH, and `/3ds/The Choicer Voicer/` with generated native sprites/fonts, the original graphic/assets/model trees, all original music/SFX, PCM WAV companions for MP3/OGG files, and the seven default pack categories. The raw `.3dsx` and `.smdh` are also available separately in the Actions artifact.
+For the easiest install, extract `TheChoicerVoicer-Old3DS-SD-Install.zip` directly to the SD card root. It contains only `/3ds/TheChoicerVoicer3DS.3dsx`, the SMDH and an install note. The native sprites/fonts, optimized runtime music and sounds, default packs and converted dub videos are embedded inside the `.3dsx` RomFS; no assets directory is required on the SD card. Saves/recordings are auto-created under `/3ds/TheChoicerVoicer3DS_User/` on first launch. You do not need to put anything in `/3ds/The Choicer Voicer/`.
 
 The workflow fails visibly if the native source/Makefile, required UI sprite/font outputs, audio tracks, starter packs, or compiled outputs are missing. It verifies the `.3dsx` header before publishing the artifact. The actual ARM cross-compilation happens in GitHub Actions; it has not been tested on a physical Old 3DS by this source-editing environment.
 
@@ -23,3 +23,8 @@ The workflow fails visibly if the native source/Makefile, required UI sprite/fon
 ### zlib / package-server resilience (v13)
 
 The native port uses zlib for the compressed video-frame format. The workflow avoids refreshing devkitPro package databases during each build (which can fail when pkg.devkitpro.org responds with HTTP 403). It locates the zlib portlib already present in the official image, and if missing, compiles pinned upstream zlib v1.3.1 from the checked-out GitHub source. It then checks the zlib header and `uncompress` symbol before building.
+
+
+### v17 recording and playback feedback
+
+The bottom screen includes a live sample-derived microphone waveform and a dedicated recording status strip. It explicitly reports when recording stops and whether the take was saved. Dub Cinema renders the actual selected dub video while Watch Dub is active and overlays saved takes at their timestamps. All default assets/packs remain embedded in the `.3dsx`; the SD card still only needs the app files under `/3ds/`, and the old `The Choicer Voicer` folder is not required or modified.

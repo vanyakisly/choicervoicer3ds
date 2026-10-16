@@ -7,6 +7,11 @@ typedef uint8_t u8; typedef uint16_t u16; typedef uint32_t u32; typedef uint64_t
 typedef struct { int px, py; } touchPosition;
 typedef struct { s16 *data_pcm16; u32 nsamples; bool looping; int status; } ndspWaveBuf;
 u8 *gfxGetFramebuffer(gfxScreen_t screen, gfx3dSide_t side, u16 *width, u16 *height);
+Result romfsInit(void);
+Result romfsExit(void);
+u32 micGetLastSampleOffset(void);
+u32 micGetSampleDataSize(void);
+Result MICU_StopSampling(void);
 void *linearAlloc(size_t size);
 void linearFree(void *ptr);
 #define GFX_BOTTOM 0

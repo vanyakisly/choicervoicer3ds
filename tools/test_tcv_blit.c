@@ -20,8 +20,9 @@ int main(void) {
     dub_video.width = 2;
     dub_video.height = 2;
     dub_video.pixels = src;
-    draw_tcv_video(&c, 0, 0, 4, 4);
     const uint32_t expected[4] = {0xFFFF0000u, 0xFF00FF00u, 0xFF0000FFu, 0xFFFFFFFFu};
+    dub_video.argb_pixels = (uint32_t *)expected;
+    draw_tcv_video(&c, 0, 0, 4, 4);
     for (int sy = 0; sy < 2; ++sy) for (int sx = 0; sx < 2; ++sx) {
         uint32_t want = expected[sy * 2 + sx];
         for (int yy = 0; yy < 2; ++yy) for (int xx = 0; xx < 2; ++xx) {
@@ -31,6 +32,15 @@ int main(void) {
             }
         }
     }
-    puts("PASS: optimized 2x RGB565 video blit duplicates converted source pixels correctly.");
+    /* Also exercise the pre-decode RGB565 conversion fallback used by test fixtures. */
+    dub_video.argb_pixels = NULL;
+    for (int i = 0; i < 16; ++i) pixels[i] = 0xFF000000u;
+    draw_tcv_video(&c, 0, 0, 4, 4);
+    for (int sy = 0; sy < 2; ++sy) for (int sx = 0; sx < 2; ++sx) {
+        uint32_t want = expected[sy * 2 + sx];
+        for (int yy = 0; yy < 2; ++yy) for (int xx = 0; xx < 2; ++xx)
+            if (pixels[(sy * 2 + yy) * 4 + sx * 2 + xx] != want) return 2;
+    }
+    puts("PASS: cached 2x video blit and RGB565 fallback both duplicate pixels correctly.");
     return 0;
 }

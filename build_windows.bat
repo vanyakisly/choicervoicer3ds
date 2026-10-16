@@ -76,6 +76,33 @@ if not exist "%~dp03ds_port\Makefile" (
     exit /b 1
 )
 
+rem -----------------------------------------------------------------
+rem Prepare embedded game assets if this source ZIP did not include generated RomFS.
+rem -----------------------------------------------------------------
+if not exist "%~dp03ds_port\romfs\tcv\ROMFS-INFO.txt" (
+    echo [INFO] Preparing embedded artwork, mono audio and default packs...
+    where ffmpeg.exe >nul 2>nul
+    if errorlevel 1 (
+        echo [ERROR] FFmpeg is required to prepare the embedded assets.
+        echo Install FFmpeg and add its bin folder to PATH, then rerun this script.
+        pause
+        exit /b 1
+    )
+    py -3 -c "import PIL" >nul 2>nul
+    if errorlevel 1 (
+        echo [ERROR] Python 3 with Pillow is required to prepare embedded assets.
+        echo Install Python 3 and run: py -3 -m pip install Pillow
+        pause
+        exit /b 1
+    )
+    py -3 "%~dp0tools\prepare_3ds_assets.py" --source "%~dp0." --output "%~dp03ds_port\romfs\tcv"
+    if errorlevel 1 (
+        echo [ERROR] Runtime asset preparation failed. See the error above.
+        pause
+        exit /b 1
+    )
+)
+
 pushd "%~dp03ds_port"
 
 echo [INFO] DEVKITPRO = %DEVKITPRO%

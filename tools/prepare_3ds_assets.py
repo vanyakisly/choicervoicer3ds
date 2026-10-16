@@ -8,9 +8,10 @@ import argparse
 import shutil
 import struct
 import subprocess
+import wave
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
-from prepare_3ds_dub_packs import convert_audio_tree, prepare_tree as prepare_voice_packs
+from prepare_3ds_dub_packs import convert_audio_tree, convert_pack_images, prepare_tree as prepare_voice_packs
 
 SPRITES = {
     "logo_banner": ("graphic/image/cv_temp_preview_banner.png", (240, 90)),
@@ -109,17 +110,110 @@ def convert_compressed_audio(audio_root: Path) -> None:
             continue
         subprocess.run([
             ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-i", str(source),
-            "-ar", "22050", "-ac", "2", "-c:a", "pcm_s16le", str(destination)
+            "-ar", "22050", "-ac", "1", "-c:a", "pcm_s16le", str(destination)
         ], check=True)
+
+
+def optimize_large_wavs(root: Path, minimum_bytes: int = 1024 * 1024) -> tuple[int, int]:
+    """Shrink large WAVs to mono PCM16/16-kHz to fit the native 4-MiB audio cap.
+
+    Only files larger than 1 MiB are inspected, avoiding hundreds of tiny FFmpeg
+    invocations during pack staging. Already compliant WAV companions are kept.
+    """
+    ffmpeg = shutil.which("ffmpeg")
+    if not ffmpeg:
+        raise SystemExit("ffmpeg is required to optimize native WAV files")
+    converted = 0
+    bytes_saved = 0
+    for source in sorted(root.rglob("*.wav")):
+        if not source.is_file() or source.stat().st_size < minimum_bytes:
+            continue
+        try:
+            with wave.open(str(source), "rb") as reader:
+                compliant = (reader.getnchannels() == 1 and reader.getframerate() == 16000
+                             and reader.getsampwidth() == 2 and reader.getcomptype() == "NONE")
+            if compliant:
+                continue
+        except (wave.Error, EOFError):
+            # Let FFmpeg repair/normalize WAVs with unsupported chunk layouts.
+            pass
+        before = source.stat().st_size
+        temporary = source.with_name(source.name + ".optimized.wav")
+        try:
+            subprocess.run([
+                ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-threads", "1",
+                "-i", str(source), "-vn", "-ar", "16000", "-ac", "1",
+                "-c:a", "pcm_s16le", str(temporary)
+            ], check=True)
+            if not temporary.is_file() or temporary.stat().st_size < 44:
+                raise RuntimeError(f"ffmpeg produced an invalid WAV: {source}")
+            # Validate output format before replacing the only staged copy.
+            with wave.open(str(temporary), "rb") as reader:
+                if (reader.getnchannels(), reader.getframerate(), reader.getsampwidth(), reader.getcomptype()) != (1, 16000, 2, "NONE"):
+                    raise RuntimeError(f"ffmpeg output did not normalize correctly: {source}")
+            temporary.replace(source)
+            converted += 1
+            bytes_saved += before - source.stat().st_size
+        finally:
+            try:
+                temporary.unlink()
+            except FileNotFoundError:
+                pass
+    return converted, bytes_saved
+
+
+def prune_runtime_files(runtime_root: Path) -> tuple[int, int]:
+    """Drop source-format duplicates after native companions have been made.
+
+    The desktop source project remains untouched in the repository. The ROMFS
+    bundle only keeps files the native 3DS runtime actually reads, which avoids
+    carrying full-resolution art, source videos, and compressed audio duplicates
+    inside every build.
+    """
+    removed = 0
+    bytes_removed = 0
+    for source in sorted((p for p in runtime_root.rglob('*') if p.is_file()), reverse=True):
+        low = source.name.lower()
+        remove = False
+        if source.suffix.lower() in ('.mp3', '.ogg'):
+            # Audio preparation writes same-stem WAV/3DS WAV files.
+            candidates = [source.with_suffix('.wav'), source.with_name(source.stem + '.3ds.wav')]
+            remove = any(c.is_file() for c in candidates)
+        elif source.suffix.lower() == '.ogv':
+            remove = source.with_name('dub_video.tcv').is_file()
+        elif low.endswith('.3ds.wav'):
+            remove = False
+        elif source.suffix.lower() == '.wav':
+            remove = source.with_name(source.stem + '.3ds.wav').is_file()
+        elif source.suffix.lower() in ('.png', '.jpg', '.jpeg', '.webp', '.bmp'):
+            remove = source.with_suffix('.tcvr').is_file()
+        elif source.suffix.lower() == '.import':
+            # Godot editor import sidecars have no meaning to the native runtime.
+            remove = True
+        if remove:
+            try:
+                size = source.stat().st_size
+                source.unlink()
+                removed += 1
+                bytes_removed += size
+            except OSError:
+                pass
+    return removed, bytes_removed
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", default=".", help="Original source project directory")
-    parser.add_argument("--output", required=True, help="SD:/3ds/The Choicer Voicer staging directory")
+    parser.add_argument("--output", required=True, help="Read-only runtime data tree embedded into the .3dsx RomFS")
     args = parser.parse_args()
     src = Path(args.source).resolve()
     out = Path(args.output).resolve()
+    if out == src:
+        raise SystemExit("Refusing to use the entire source project as the generated output directory")
+    # Rebuild the generated tree from scratch so stale conversions never leak
+    # into a later build (especially after a previous interrupted staging run).
+    if out.exists():
+        shutil.rmtree(out)
     out.mkdir(parents=True, exist_ok=True)
     native = out / "assets_native"
     native.mkdir(parents=True, exist_ok=True)
@@ -143,6 +237,7 @@ def main() -> None:
     # Keep the original audio tree available and use the real game-default SFX/music.
     copy_tree(src / "audio", out / "audio")
     convert_compressed_audio(out / "audio")
+    optimized_audio, audio_bytes_saved = optimize_large_wavs(out / "audio")
 
     # Real starter packs (voice samples, host/players/judges, menu SFX and configs).
     # Custom packs committed at repository-root packs_voice/ etc. are merged into
@@ -158,37 +253,39 @@ def main() -> None:
                 if user_pack.is_dir() and not user_pack.name.startswith("."):
                     shutil.copytree(user_pack, destination / user_pack.name, dirs_exist_ok=True)
         if pack != "packs_voice" and destination.exists():
+            # Converters already emit 22.05-kHz PCM16 companions. Avoid a second
+            # whole-tree FFmpeg pass; it adds minutes without changing valid output.
             convert_audio_tree(destination)
+            optimize_large_wavs(destination)
+            convert_pack_images(destination)
 
     # Real dub packs are still stored in packs_voice. Keep the original OGV
     # source and create native-friendly TCV video plus WAV companions for clips.
     prepare_voice_packs(out / "packs_voice", transcode_audio=True)
+    optimized_voice, voice_bytes_saved = optimize_large_wavs(out / "packs_voice")
+    # prepare_voice_packs produces PCM16/22.05-kHz companions directly, so no
+    # second normalization pass is needed. All native playback is mono to reduce
+    # the Old 3DS memory bandwidth and card footprint.
 
-    # Retain all original graphic, asset, and model trees in addition to the
-    # compact sprites used by the native renderer.  This keeps the supplied
-    # artwork/fonts/screen examples available for future native UI work.
-    copy_tree(src / "graphic", out / "source_assets" / "graphic")
-    copy_tree(src / "assets", out / "source_assets" / "assets")
-    copy_tree(src / "model", out / "source_assets" / "model")
-
-    # A plain install note travels with the SD data folder.
-    (out / "INSTALL-ASSETS.txt").write_text(
-        "The Choicer Voicer — Old 3DS data\n\n"
-        "Copy this entire folder to SD:/3ds/The Choicer Voicer/ .\n"
-        "Keep assets_native/, audio/, and the packs_* folders intact.\n"
-        "All original graphic/, assets/, and model/ files are preserved under source_assets/.\n"
-        "All original music and SFX are preserved under audio/; MP3/OGG files also\n"
-        "get PCM WAV companions for native playback. Voice/dub pack source WAV/MP3/OGG files\n"
-        "are preserved alongside normalized .3ds.wav companions (22.05 kHz PCM16), and \
-"
-        "pack image files receive compact .tcvr companions for the native renderer. Dub packs placed in repository-root\n"
-        "packs_voice/<Pack Name>/ are copied intact, their dub_video.ogv is preserved,\n"
-        "and a 160x90/10fps dub_video.tcv is generated for the Old 3DS player.\n"
-        "Each dub clip needs a matching .ini/.cfg/.txt with dub_timestamps=[seconds]\n"
-        "or a timestamp suffix such as _44-048 in its filename.\n",
+    # Do not copy the original full-resolution graphic/assets/model trees into
+    # ROMFS. They remain in the source repository; the 3DS runtime only needs
+    # the compact native sprites, converted PCM audio, metadata, and TCV clips.
+    removed_count, removed_bytes = prune_runtime_files(out)
+    (out / "ROMFS-INFO.txt").write_text(
+        "The Choicer Voicer — embedded Old 3DS runtime data\n\n"
+        "This tree is embedded read-only inside TheChoicerVoicer3DS.3dsx.\n"
+        "Do not copy this tree to the SD card.\n"
+        "Writable settings and recordings are automatically stored in\n"
+        "SD:/3ds/TheChoicerVoicer3DS_User/.\n"
+        "Optional custom packs can be placed in SD:/3ds/TheChoicerVoicer3DS_User/packs_voice/.\n"
+        "Existing packs under SD:/3ds/The Choicer Voicer/packs_voice/ are read as a legacy\n"
+        "fallback, but the application never writes to that folder.\n",
         encoding="utf-8"
     )
-    print(f"Prepared native UI, original audio, default/user packs, and converted dub videos at {out}")
+    print("Converted compressed audio to mono PCM16; large WAVs are reduced to 16-kHz so they fit the 4-MiB playback cap")
+    print(f"Optimized {optimized_audio + optimized_voice} large WAVs; saved {audio_bytes_saved + voice_bytes_saved:,} bytes")
+    print(f"Pruned {removed_count} duplicate/source files ({removed_bytes:,} bytes) from runtime data")
+    print(f"Prepared compact embedded runtime tree at {out}")
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@
  * Forward+ renderer.
  */
 #include <3ds.h>
+#include <3ds/romfs.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,9 +23,14 @@
 #include <malloc.h>
 #include <zlib.h>
 
-#define ROOT "sdmc:/3ds/The Choicer Voicer"
-#define SAVE_DIR ROOT "/saves"
-#define REC_DIR ROOT "/recordings"
+/* Immutable defaults are embedded inside the .3dsx RomFS; writable files live
+   in a separate user-data directory. The old spaced folder is read-only
+   compatibility fallback and is never created or written by this application. */
+#define ROOT "romfs:/tcv"
+#define USER_ROOT "sdmc:/3ds/TheChoicerVoicer3DS_User"
+#define LEGACY_ROOT "sdmc:/3ds/The Choicer Voicer"
+#define SAVE_DIR USER_ROOT "/saves"
+#define REC_DIR USER_ROOT "/recordings"
 #define SAVE_FILE SAVE_DIR "/save.json"
 
 #define MAX_ITEMS 64
@@ -158,6 +164,7 @@ typedef struct {
     uint32_t frame_count, current_frame, index_offset;
     uint32_t *offsets;
     uint8_t *pixels;       /* decoded RGB565 bytes */
+    uint32_t *argb_pixels; /* cached 32-bit colours, rebuilt once per decoded frame */
     uint8_t *decoded;      /* one decompressed frame/delta */
     uint8_t *payload;      /* compressed/raw frame packet */
     size_t frame_bytes;
@@ -236,6 +243,14 @@ static u8 *mic_buffer = NULL;
 static bool mic_ready = false;
 static bool recording = false;
 static u32 recording_bytes = 0;
+/* A stable recent-sample snapshot keeps the waveform live while MICU writes
+   its shared buffer. 2048 PCM16 samples represent about 125 ms at 16.36 kHz. */
+#define MIC_WAVE_SNAPSHOT_SAMPLES 2048u
+static int16_t mic_wave_snapshot[MIC_WAVE_SNAPSHOT_SAMPLES];
+static size_t mic_wave_snapshot_count = 0;
+static uint32_t mic_wave_snapshot_offset = 0;
+static char game_status[112] = "READY - TAP START TO RECORD";
+static int game_status_timer = 0;
 
 static uint8_t *playback_data = NULL;
 static size_t playback_size = 0;
@@ -280,6 +295,9 @@ static char active_pack_dir[512] = "";
 static char active_pack_name[MAX_NAME] = "";
 static char pending_dub_pack_path[512] = "";
 static char pending_dub_pack_name[MAX_NAME] = "";
+static int status_cached_clip = -1;
+static bool status_cached_has_take = false;
+static char status_cached_pack[MAX_NAME] = "";
 static TcvVideo dub_video;
 static const char *pack_folders[] = {
     "packs_voice", "packs_player", "packs_host", "packs_judges", "packs_studio", "packs_menu", "packs_twitch"
@@ -307,10 +325,20 @@ static void pump_dub_overlay_audio(void);
 static void stop_dub_overlay_audio(void);
 static bool play_dub_overlay_wav(const char *path);
 static void draw_tcv_video(Canvas *c, int x, int y, int w, int h);
+static bool copy_file_limited(const char *src, const char *dst);
+static bool path_is_file(const char *path);
+static void draw_game_status_line(void);
+static bool cached_current_take_exists(void);
+static void invalidate_current_take_cache(void);
 
 static void set_message(const char *text) {
     snprintf(message, sizeof(message), "%s", text ? text : "");
     message_timer = 180;
+}
+
+static void set_game_status(const char *text) {
+    snprintf(game_status, sizeof(game_status), "%s", text ? text : "");
+    game_status_timer = 210; /* six to seven seconds at the 30-FPS UI cap */
 }
 
 static int mk_dir(const char *path) {
@@ -322,10 +350,13 @@ static int mk_dir(const char *path) {
 }
 
 static bool setup_storage(void) {
+    /* Defaults and stock packs are embedded in RomFS. Only saves, recordings,
+       and optional user-installed custom packs need writable SD directories. */
     const char *dirs[] = {
-        "sdmc:/3ds", ROOT, SAVE_DIR, REC_DIR,
-        ROOT "/packs_host", ROOT "/packs_judges", ROOT "/packs_menu",
-        ROOT "/packs_studio", ROOT "/packs_voice", ROOT "/packs_player", ROOT "/packs_twitch"
+        "sdmc:/3ds", USER_ROOT, SAVE_DIR, REC_DIR,
+        USER_ROOT "/packs_host", USER_ROOT "/packs_judges", USER_ROOT "/packs_menu",
+        USER_ROOT "/packs_studio", USER_ROOT "/packs_voice", USER_ROOT "/packs_player",
+        USER_ROOT "/packs_twitch"
     };
     for (size_t i = 0; i < sizeof(dirs)/sizeof(dirs[0]); ++i) {
         if (mk_dir(dirs[i]) != 0) return false;
@@ -333,11 +364,15 @@ static bool setup_storage(void) {
 
     FILE *f = fopen(SAVE_FILE, "rb");
     if (f) { fclose(f); return true; }
+
+    /* Import an existing save from the old folder once, without altering it. */
+    if (copy_file_limited(LEGACY_ROOT "/saves/save.json", SAVE_FILE)) return true;
+
     f = fopen(SAVE_FILE, "wb");
     if (!f) return false;
     bool ok = fprintf(f,
         "{\n"
-        "  \"version\": 9,\n"
+        "  \"version\": 10,\n"
         "  \"mode\": 0,\n"
         "  \"member_count\": 1,\n"
         "  \"player\": 0,\n"
@@ -485,25 +520,50 @@ static void list_dir(const char *path, ItemList *out) {
     qsort(out->items, (size_t)out->count, sizeof(out->items[0]), compare_items);
 }
 
+static bool path_is_directory(const char *path) {
+    struct stat st;
+    return path && stat(path, &st) == 0 && S_ISDIR(st.st_mode);
+}
+
+static bool item_name_exists(const ItemList *items, const char *name) {
+    if (!items || !name) return false;
+    for (int i = 0; i < items->count; ++i)
+        if (strcasecmp(items->items[i].name, name) == 0) return true;
+    return false;
+}
+
+static void add_pack_names_from_root(const char *base, const char *folder, ItemList *out) {
+    if (!base || !folder || !out || out->count >= MAX_ITEMS) return;
+    char path[512];
+    int pn = snprintf(path, sizeof(path), "%s/%s", base, folder);
+    if (pn <= 0 || (size_t)pn >= sizeof(path)) return;
+    DIR *d = opendir(path);
+    if (!d) return;
+    struct dirent *e;
+    while ((e = readdir(d)) && out->count < MAX_ITEMS) {
+        if (e->d_name[0] == '.') continue;
+        char child[600];
+        int cn = snprintf(child, sizeof(child), "%s/%s", path, e->d_name);
+        if (cn <= 0 || (size_t)cn >= sizeof(child) || !path_is_directory(child)) continue;
+        /* One logical pack per name. get_pack_dir() prefers writable custom
+           packs first, then the old location, then embedded defaults. */
+        if (item_name_exists(out, e->d_name)) continue;
+        snprintf(out->items[out->count++].name, MAX_NAME, "%.95s", e->d_name);
+    }
+    closedir(d);
+}
+
 static void list_pack_dir(int type, ItemList *out) {
     memset(out, 0, sizeof(*out));
-    char path[256];
-    snprintf(path, sizeof(path), "%s/%s", ROOT, pack_folders[clamp_int(type, 0, 6)]);
-    DIR *d = opendir(path);
-    if (d) {
-        struct dirent *e;
-        while ((e = readdir(d)) && out->count < MAX_ITEMS) {
-            if (e->d_name[0] == '.') continue;
-            char child[384]; struct stat st;
-            snprintf(child, sizeof(child), "%s/%s", path, e->d_name);
-            if (stat(child, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
-            snprintf(out->items[out->count++].name, MAX_NAME, "%.95s", e->d_name);
-        }
-        closedir(d);
-        qsort(out->items, (size_t)out->count, sizeof(out->items[0]), compare_items);
-    }
+    const char *folder = pack_folders[clamp_int(type, 0, 6)];
+    /* Optional user packs first, then backwards-compatible old packs, then
+       built-in read-only packs embedded in the application. */
+    add_pack_names_from_root(USER_ROOT, folder, out);
+    add_pack_names_from_root(LEGACY_ROOT, folder, out);
+    add_pack_names_from_root(ROOT, folder, out);
+    qsort(out->items, (size_t)out->count, sizeof(out->items[0]), compare_items);
     if (out->count == 0) {
-        snprintf(out->items[0].name, MAX_NAME, "Default (no external packs)");
+        snprintf(out->items[0].name, MAX_NAME, "Default (embedded)");
         out->count = 1;
     }
 }
@@ -833,7 +893,7 @@ static void start_selected_music(void) {
     char path[384];
     snprintf(path, sizeof(path), "%s/%s", ROOT, tracks[clamp_int(music_track, 0, 4)]);
     if (music_stream_start_path(path)) set_message("Playing original TCV music");
-    else set_message("Music file unavailable; check the SD assets folder");
+    else set_message("Embedded music file unavailable; rebuild with RomFS assets");
 }
 
 static void set_music_volume(void) {
@@ -912,9 +972,34 @@ static bool init_mic(void) {
     return true;
 }
 
+static void update_live_waveform_snapshot(void) {
+    if (!recording || !mic_ready || !mic_buffer) return;
+    uint32_t sample_bytes = micGetLastSampleOffset();
+    uint32_t sample_cap = micGetSampleDataSize();
+    if (sample_bytes > sample_cap) sample_bytes = sample_cap;
+    sample_bytes &= ~1u;
+    size_t count = (size_t)(sample_bytes / 2u);
+    if (sample_bytes == mic_wave_snapshot_offset && mic_wave_snapshot_count > 0) return;
+    size_t window = count < MIC_WAVE_SNAPSHOT_SAMPLES ? count : MIC_WAVE_SNAPSHOT_SAMPLES;
+    if (window == 0) return;
+
+    /* Sampling is non-looping and appends from offset 0. Copy only samples
+       which MICU has already reported as complete, avoiding a concurrent read
+       of the unwritten tail while rendering the scrolling real-sample trace. */
+    size_t first = count - window;
+    memcpy(mic_wave_snapshot, ((const int16_t *)mic_buffer) + first,
+           window * sizeof(mic_wave_snapshot[0]));
+    mic_wave_snapshot_count = window;
+    mic_wave_snapshot_offset = sample_bytes;
+}
+
 static void stop_recording(bool save_now) {
     if (!recording) return;
-    if (mic_ready) MICU_StopSampling();
+    if (mic_ready) {
+        (void)MICU_StopSampling();
+        /* The final sample offset remains queryable after StopSampling. */
+        update_live_waveform_snapshot();
+    }
     recording = false;
     if (active_dub_pack) {
         dub_video.playing = false;
@@ -928,28 +1013,48 @@ static void stop_recording(bool save_now) {
     if (bytes > micGetSampleDataSize()) bytes = micGetSampleDataSize();
     bytes &= ~1u; /* PCM16 must end on a complete sample. */
     recording_bytes = bytes;
-    if (save_now && bytes > 2048) {
-        char path[512];
-        bool destination_ok = false;
+
+    if (!save_now) {
+        set_game_status("RECORDING STOPPED");
+        return;
+    }
+    if (bytes <= 2048u || !mic_buffer) {
+        set_game_status("RECORDING STOPPED - TOO SHORT TO SAVE");
+        set_message("Recording stopped; speak a little longer before saving");
+        return;
+    }
+
+    char path[512];
+    bool destination_ok = false;
+    if (active_dub_pack) {
+        destination_ok = make_active_dub_record_path(game.clip_index, path, sizeof(path), true);
+    } else {
+        bool found_slot = false;
+        for (int index = 1; index < 100000; ++index) {
+            snprintf(path, sizeof(path), "%s/dub_%03d.wav", REC_DIR, index);
+            FILE *existing = fopen(path, "rb");
+            if (!existing) { found_slot = true; break; }
+            fclose(existing);
+        }
+        destination_ok = found_slot;
+    }
+    if (!destination_ok) {
+        set_game_status("RECORDING STOPPED - SAVE FAILED");
+        set_message("Recording stopped, but a save destination could not be created");
+        return;
+    }
+    if (save_wav(path, mic_buffer, bytes, MIC_RATE, 1, 16)) {
+        snprintf(game.last_recording, sizeof(game.last_recording), "%s", path);
         if (active_dub_pack) {
-            destination_ok = make_active_dub_record_path(game.clip_index, path, sizeof(path), true);
-        } else {
-            bool found_slot = false;
-            for (int index = 1; index < 100000; ++index) {
-                snprintf(path, sizeof(path), "%s/dub_%03d.wav", REC_DIR, index);
-                FILE *existing = fopen(path, "rb");
-                if (!existing) { found_slot = true; break; }
-                fclose(existing);
-            }
-            destination_ok = found_slot;
+            status_cached_clip = game.clip_index;
+            status_cached_has_take = true;
+            snprintf(status_cached_pack, sizeof(status_cached_pack), "%.95s", active_pack_name);
         }
-        if (!destination_ok) { set_message("Could not create a recording destination"); return; }
-        if (save_wav(path, mic_buffer, bytes, MIC_RATE, 1, 16)) {
-            snprintf(game.last_recording, sizeof(game.last_recording), "%s", path);
-            set_message(active_dub_pack ? "Dub line saved into this pack's session" : "Recording saved");
-        } else {
-            set_message("Could not write recording to SD card");
-        }
+        set_game_status("RECORDING STOPPED - TAKE SAVED");
+        set_message(active_dub_pack ? "Recording stopped; dub line saved" : "Recording stopped; WAV saved");
+    } else {
+        set_game_status("RECORDING STOPPED - SAVE FAILED");
+        set_message("Recording stopped, but writing the WAV failed");
     }
 }
 
@@ -962,20 +1067,33 @@ static void start_recording(void) {
         dub_video.playing = false;
         if (game.clip_index < 0 || game.clip_index >= voice_clip_count ||
             !tcv_seek(&dub_video, voice_clips[game.clip_index].timestamp)) {
+            set_game_status("VIDEO SEEK FAILED - REBUILD THIS PACK");
             set_message("Could not seek to this dub line; try rebuilding the pack");
             return;
         }
     }
     stop_playback();
-    if (!init_mic()) { set_message("Microphone unavailable"); return; }
+    if (!init_mic()) {
+        set_game_status("MICROPHONE UNAVAILABLE - CHECK SETTINGS");
+        set_message("Microphone unavailable");
+        return;
+    }
     memset(mic_buffer, 0, MIC_BUFFER_SIZE);
     recording_bytes = 0;
+    mic_wave_snapshot_count = 0;
+    mic_wave_snapshot_offset = 0;
+    memset(mic_wave_snapshot, 0, sizeof(mic_wave_snapshot));
     u32 sample_bytes = (u32)configured_record_seconds * MIC_RATE * 2u;
     if (sample_bytes > micGetSampleDataSize()) sample_bytes = micGetSampleDataSize() & ~1u;
     Result r = MICU_StartSampling(MICU_ENCODING_PCM16_SIGNED, MICU_SAMPLE_RATE_16360, 0, sample_bytes, false);
-    if (R_FAILED(r)) { set_message("Microphone start failed"); return; }
+    if (R_FAILED(r)) {
+        set_game_status("RECORDING FAILED - MIC DID NOT START");
+        set_message("Microphone start failed");
+        return;
+    }
     recording = true;
     recording_started_ms = osGetTime();
+    set_game_status("RECORDING - SPEAK NOW");
     if (active_dub_pack) {
         /* Record while the picture and source line play; the TCV movie is video-only. */
         dub_video.playing = true;
@@ -1002,7 +1120,10 @@ static void finish_recording(void) {
             set_message("Dub saved as latest");
         } else set_message("Could not save latest dub");
     }
-    if (active_dub_pack && recording_bytes > 2048) (void)write_dub_session_manifest();
+    if (active_dub_pack && recording_bytes > 2048) {
+        if (write_dub_session_manifest()) set_game_status("RECORDING STOPPED - TAKE SAVED");
+        else set_game_status("RECORDING STOPPED - TAKE SAVED; USE SAVE DUB");
+    }
 }
 
 /* -------------------------------------------------------------------------
@@ -1285,10 +1406,13 @@ static void bottom_header(const char *title, const char *hint) {
     c_rect_alpha(&bottom_canvas, 0, 0, 320, 32, 0xFF102732, 242);
     c_rect(&bottom_canvas, 0, 30, 320, 2, UI_CYAN);
     c_text(&bottom_canvas, 9, 5, title, UI_TEXT_LIGHT, true, 294);
-    if (hint && *hint) c_text(&bottom_canvas, 8, 198, hint, UI_TEXT_LIGHT, false, 302);
+    if (hint && *hint && page != PAGE_GAME && page != PAGE_DUB)
+        c_text(&bottom_canvas, 8, 198, hint, UI_TEXT_LIGHT, false, 302);
     c_rect_alpha(&bottom_canvas, 0, 220, 320, 20, 0xFF0D2029, 240);
     c_text(&bottom_canvas, 6, 222, "A SELECT   B BACK   TOUCH TO CHOOSE", 0xFFCDEDF1, false, 308);
-    if (message_timer > 0 && message[0]) {
+    /* Gameplay has its own status strip above the controls. The old global
+       toast at y=181 covered WATCH DUB and SAVE DUB on the lower screen. */
+    if (message_timer > 0 && message[0] && page != PAGE_GAME && page != PAGE_DUB) {
         c_rect_alpha(&bottom_canvas, 5, 179, 310, 18, 0xFF07141A, 205);
         c_text(&bottom_canvas, 10, 181, message, 0xFFFFF1A6, false, 300);
     }
@@ -1484,6 +1608,7 @@ static void game_top(void) {
 }
 
 static void draw_game_touch_ui(void) {
+    draw_game_status_line();
     const char *a = recording ? "STOP & SAVE" : (active_dub_pack ? "START + RECORD" : "START");
     ui_button(&bottom_canvas, 8, 145, 148, 30, a, 0, selected==0);
     ui_button(&bottom_canvas, 164, 145, 148, 30, "NEXT", 1, selected==1);
@@ -1492,65 +1617,94 @@ static void draw_game_touch_ui(void) {
 }
 
 static void draw_waveform(bool live) {
+    /* Dedicated waveform/status band leaves all four stylus buttons clear. */
     int sprite = waveform_mode == 1 ? SPR_WAVE_TIMING : waveform_mode == 2 ? SPR_WAVE_LOUD : live ? SPR_WAVE_GOOD : SPR_WAVE_QUIET;
-    c_rect_alpha(&bottom_canvas, 6, 36, 308, 104, 0xFF101D24, 220);
-    c_sprite(&bottom_canvas, sprite, 9, 38, 302, 99);
-    if (live) {
-        c_sprite(&bottom_canvas, SPR_MIC, 13, 44, 25, 45);
-        c_rect_alpha(&bottom_canvas, 43, 43, 145, 17, 0xFF0B202A, 215);
-        const char *state = recording ? "LIVE MIC WAVEFORM" : (dub_replay_active ? "WATCHING DUB" : "YOUR VOICE WAVEFORM");
-        c_text(&bottom_canvas, 48, 43, state, 0xFFFFD6DE, false, 140);
+    c_rect_alpha(&bottom_canvas, 6, 36, 308, 84, 0xFF101D24, 220);
+    c_sprite(&bottom_canvas, sprite, 9, 38, 302, 80);
+    if (live || recording || dub_replay_active) {
+        c_sprite(&bottom_canvas, SPR_MIC, 13, 42, 22, 31);
+        c_rect_alpha(&bottom_canvas, 39, 41, 181, 16, 0xFF0B202A, 215);
+        const char *label = recording ? "LIVE MIC - RECORDING" : (dub_replay_active ? "WATCH DUB - PLAYING" : "YOUR RECORDED VOICE");
+        c_text(&bottom_canvas, 43, 42, label, recording ? 0xFFFFD6DE : UI_CYAN, true, 174);
     }
-    /* Draw actual signed PCM samples (not an average-volume bar meter). Keep
-       the trace window bounded so rendering remains inexpensive on Old 3DS. */
+
+    /* The live trace is copied from newly completed MICU samples on every
+       logic tick. When stopped, it freezes on the actual final take rather
+       than disappearing or reverting to a decorative waveform image. */
     const int16_t *samples = NULL;
     size_t sample_count = 0;
-    if (mic_buffer && (recording || recording_bytes > 0)) {
-        uint32_t byte_count = recording ? micGetLastSampleOffset() : recording_bytes;
-        uint32_t byte_cap = recording ? micGetSampleDataSize() : (uint32_t)MIC_BUFFER_SIZE;
-        if (byte_count > byte_cap) byte_count = byte_cap;
+    if (recording && mic_wave_snapshot_count > 0) {
+        samples = mic_wave_snapshot;
+        sample_count = mic_wave_snapshot_count;
+    } else if (mic_buffer && recording_bytes >= 4u) {
         samples = (const int16_t *)mic_buffer;
-        sample_count = (size_t)(byte_count / 2u);
-    } else if (playback_data && playback_size >= 4) {
+        sample_count = (size_t)(recording_bytes / 2u);
+    } else if (playback_data && playback_size >= 4u) {
         samples = (const int16_t *)playback_data;
-        sample_count = playback_size / (2u * (playback_channels ? playback_channels : 1));
+        sample_count = playback_size / (2u * (playback_channels ? playback_channels : 1u));
     }
-    if (samples && sample_count >= 2) {
-        size_t window = sample_count < 2048u ? sample_count : 2048u;
+
+    const int left = 19, right = 304, baseline = 83, amplitude = 26;
+    c_line(&bottom_canvas, left, baseline, right, baseline, 0xFF486B75);
+    if (samples && sample_count >= 2u) {
+        size_t window = sample_count < MIC_WAVE_SNAPSHOT_SAMPLES ? sample_count : MIC_WAVE_SNAPSHOT_SAMPLES;
         size_t base = sample_count - window;
         const int16_t *tail = samples + base;
         int32_t peak = 0;
-        for (size_t i = 0; i < window; i += 4u) {
+        size_t step = window > 512u ? 4u : 1u;
+        for (size_t i = 0; i < window; i += step) {
             int32_t v = tail[i]; if (v < 0) v = -v; if (v > peak) peak = v;
         }
-        if (peak < 1800) peak = 1800;
-        int scale = 30;
-        /* Normalize within the recent window to make quieter microphones visible. */
+        if (peak < 1400) peak = 1400;
+        int px = left;
+        int py = baseline - (int)((int64_t)tail[0] * amplitude / peak);
+        py = clamp_int(py, 54, 112);
         const int points = 144;
-        int px = 20;
-        int py = 91 - (int)((int64_t)tail[0] * scale / peak);
         for (int i = 1; i < points; ++i) {
             size_t ix = ((size_t)i * (window - 1u)) / (size_t)(points - 1);
-            int x = 20 + (284 * i) / (points - 1);
-            int32_t val = tail[ix];
-            int y = 91 - (int)((int64_t)val * scale / peak);
-            y = clamp_int(y, 61, 121);
-            c_line(&bottom_canvas, px, py, x, y, recording ? UI_CYAN : 0xFFFFD17D);
+            int x = left + ((right - left) * i) / (points - 1);
+            int y = baseline - (int)((int64_t)tail[ix] * amplitude / peak);
+            y = clamp_int(y, 54, 112);
+            c_line(&bottom_canvas, px, py, x, y, recording ? 0xFF7BE0EE : 0xFFFFD17D);
             px = x; py = y;
         }
+    } else if (recording) {
+        /* Visible center guide while the MIC service is filling its first block. */
+        c_line(&bottom_canvas, left, baseline, right, baseline, UI_CYAN);
+        c_text(&bottom_canvas, 85, 91, "LISTENING FOR VOICE...", UI_TEXT_LIGHT, false, 150);
     }
+}
+
+static void draw_game_status_line(void) {
+    c_rect_alpha(&bottom_canvas, 7, 121, 306, 20, 0xFF0B202A, 232);
+    char line[112];
+    uint32_t color = UI_TEXT_LIGHT;
+    if (recording) {
+        uint64_t elapsed_ms = osGetTime() >= recording_started_ms ? osGetTime() - recording_started_ms : 0;
+        if (elapsed_ms > (uint64_t)configured_record_seconds * 1000u) elapsed_ms = (uint64_t)configured_record_seconds * 1000u;
+        snprintf(line, sizeof(line), "RECORDING %llu.%01llu / %d.0s - SPEAK NOW",
+                 (unsigned long long)(elapsed_ms / 1000u),
+                 (unsigned long long)((elapsed_ms % 1000u) / 100u), configured_record_seconds);
+        color = 0xFFFFA5B4;
+    } else if (game_status_timer > 0 && game_status[0]) {
+        snprintf(line, sizeof(line), "%s", game_status);
+        if (strstr(game_status, "FAILED") || strstr(game_status, "TOO SHORT")) color = 0xFFFFA5B4;
+        else color = 0xFFFFE1A1;
+    } else if (active_dub_pack && game.clip_index >= 0 && game.clip_index < voice_clip_count) {
+        bool has_take = cached_current_take_exists();
+        snprintf(line, sizeof(line), "%s - %s", has_take ? "LINE RECORDED" : "LINE NOT RECORDED", has_take ? "NEXT TO CONTINUE" : "START + RECORD");
+        color = has_take ? UI_CYAN : UI_TEXT_LIGHT;
+    } else if (game.last_recording[0]) {
+        snprintf(line, sizeof(line), "TAKE READY - WATCH DUB TO REVIEW");
+    } else {
+        snprintf(line, sizeof(line), "READY - TAP START TO RECORD YOUR VOICE");
+    }
+    c_text(&bottom_canvas, 11, 124, line, color, true, 298);
 }
 
 static void page_game(void) {
     game_top(); bottom_header(game.mode==1?"DUB CONTROLS":"GAMESHOW CONTROLS", "Stylus controls: start, next, review or save.");
     draw_waveform(recording || playback_active || dub_replay_active || recording_bytes > 0); draw_game_touch_ui();
-    if (active_dub_pack && game.clip_index >= 0 && game.clip_index < voice_clip_count) {
-        char path[512];
-        bool take = make_active_dub_record_path(game.clip_index, path, sizeof(path), false);
-        FILE *rf = take ? fopen(path, "rb") : NULL;
-        if (rf) fclose(rf);
-        c_text(&bottom_canvas, 9, 126, rf ? "THIS LINE SAVED" : "THIS LINE NOT RECORDED YET", rf ? UI_CYAN : 0xFFFFD17D, false, 230);
-    } else if (game.last_recording[0]) c_text(&bottom_canvas, 9, 126, "DUB READY", UI_TEXT_LIGHT, false, 100);
 }
 
 static void page_results(void) {
@@ -1571,15 +1725,27 @@ static void page_results(void) {
 }
 
 static void page_dub(void) {
-    ui_common_top("DUB CINEMA", "The actual tutorial art and dubbing controls", 3);
-    c_sprite(&top_canvas, current_clip_sprite(), 25, 68, 118, 118);
-    c_sprite(&top_canvas, SPR_HOST, 286, 50, 106, 174);
-    c_rect_alpha(&top_canvas, 153, 79, 122, 106, UI_DARK_PANEL, 220);
-    c_text(&top_canvas,161,90,"YOUR TAKE",UI_CYAN,false,105);
-    c_text(&top_canvas,161,115,recording?"RECORDING":"READY",UI_TEXT_LIGHT,true,106);
-    c_text(&top_canvas,161,146,"Review the",UI_TEXT_LIGHT,false,106);
-    c_text(&top_canvas,161,163,"dub below.",UI_TEXT_LIGHT,false,106);
-    bottom_header("DUB CONTROLS", "Waveform and actions stay on the lower screen.");
+    if (active_dub_pack && dub_video.opened && (dub_replay_active || recording)) {
+        ui_common_top("DUB CINEMA", active_pack_name, 3);
+        draw_tcv_video(&top_canvas, 40, 57, 320, 180);
+        c_rect_alpha(&top_canvas, 40, 207, 320, 30, 0xFF081A24, 225);
+        char line[96];
+        snprintf(line, sizeof(line), "LINE %d / %d", game.clip_index + 1, voice_clip_count);
+        c_text(&top_canvas, 46, 210, line, UI_CYAN, true, 100);
+        if (recording) c_text(&top_canvas, 257, 211, "REC", 0xFFFF6E8A, true, 85);
+        else if (dub_replay_active) c_text(&top_canvas, 257, 211, "PLAYING", UI_CYAN, true, 85);
+        if (show_subtitles && game_subtitle[0]) c_text(&top_canvas, 46, 226, game_subtitle, UI_TEXT_LIGHT, false, 306);
+    } else {
+        ui_common_top("DUB CINEMA", "Choose, record, watch and save a dub", 3);
+        c_sprite(&top_canvas, current_clip_sprite(), 25, 68, 118, 118);
+        c_sprite(&top_canvas, SPR_HOST, 286, 50, 106, 174);
+        c_rect_alpha(&top_canvas, 153, 79, 122, 106, UI_DARK_PANEL, 220);
+        c_text(&top_canvas,161,90,"YOUR TAKE",UI_CYAN,false,105);
+        c_text(&top_canvas,161,115,recording?"RECORDING":"READY",UI_TEXT_LIGHT,true,106);
+        c_text(&top_canvas,161,146,"Choose a pack",UI_TEXT_LIGHT,false,106);
+        c_text(&top_canvas,161,163,"or review it.",UI_TEXT_LIGHT,false,106);
+    }
+    bottom_header("DUB CONTROLS", "Live voice trace and actions stay on the lower screen.");
     draw_waveform(recording || playback_active || dub_replay_active || recording_bytes > 0); draw_game_touch_ui();
 }
 
@@ -1702,7 +1868,7 @@ static void page_data(void) {
     ui_common_top("DATA MANAGEMENT", "Save files, recordings and imported packs", 0);
     c_rect_alpha(&top_canvas,18,72,260,132,UI_DARK_PANEL,220);
     c_text(&top_canvas,27,82,"SD CARD DATA",UI_CYAN,true,232);
-    c_text(&top_canvas,27,109,"/3ds/The Choicer Voicer/",UI_TEXT_LIGHT,false,242);
+    c_text(&top_canvas,27,109,"/3ds/TheChoicerVoicer3DS_User/",UI_TEXT_LIGHT,false,270);
     c_text(&top_canvas,27,132,"saves/save.json",UI_TEXT_LIGHT,false,232);
     c_text(&top_canvas,27,152,"recordings/*.wav",UI_TEXT_LIGHT,false,232);
     c_text(&top_canvas,27,179,"Reset only clears this native save.",0xFFFFDDA8,false,242);
@@ -1747,7 +1913,7 @@ static void page_folder(void) {
     ui_common_top("GAME DATA FOLDER", "This is the SD-card equivalent of Open Game Folder", 0);
     c_rect_alpha(&top_canvas,18,73,260,130,UI_DARK_PANEL,220);
     c_text(&top_canvas,28,84,"SD:/3ds/",UI_CYAN,false,236);
-    c_text(&top_canvas,28,108,"The Choicer Voicer/",UI_TEXT_LIGHT,true,236);
+    c_text(&top_canvas,28,108,"TheChoicerVoicer3DS_User/",UI_TEXT_LIGHT,true,264);
     c_text(&top_canvas,28,139,"packs_voice/  packs_player/",UI_TEXT_LIGHT,false,236);
     c_text(&top_canvas,28,158,"packs_host/  packs_judges/",UI_TEXT_LIGHT,false,236);
     c_text(&top_canvas,28,177,"saves/  recordings/  audio/",UI_TEXT_LIGHT,false,236);
@@ -1767,7 +1933,7 @@ static void page_dub_pack_list(void) {
     ui_common_top("CHOOSE A DUB PACK", "Searches pack folders inside packs_voice", 3);
     bottom_header("DUB PACK LIST", "* = needs PC conversion. Select a row, then USE.");
     c_rect_alpha(&top_canvas, 14, 62, 374, 145, UI_DARK_PANEL, 225);
-    c_text(&top_canvas, 24, 72, "PACK ROOT: /3ds/The Choicer Voicer/packs_voice/", UI_CYAN, false, 350);
+    c_text(&top_canvas, 24, 72, "BUILT-IN PACKS EMBEDDED; CUSTOM PACKS: /3ds/TheChoicerVoicer3DS_User/packs_voice/", UI_CYAN, false, 350);
     if (dub_pack_count <= 0) {
         c_text(&top_canvas, 24, 106, "NO DUB PACKS FOUND", 0xFFFFD17D, true, 320);
         c_text(&top_canvas, 24, 131, "A pack folder needs dub_video.ogv and line files", UI_TEXT_LIGHT, false, 350);
@@ -1808,7 +1974,7 @@ static void page_dub_pack_list(void) {
 }
 
 static void page_empty(void) {
-    ui_common_top("THE CHOICER VOICER", "This panel is not available in the native build", 0);
+    ui_common_top("THE CHOICER VOICER", "Defaults are embedded; custom packs and recordings stay in user data", 0);
     bottom_header("UNAVAILABLE", "Use the PC build for unsupported desktop-only tools.");
     static const char *b[]={"BACK"}; ui_grid(b,1,selected,2);
 }
@@ -1839,6 +2005,7 @@ static void render(void) {
         default: page_empty(); break;
     }
     if (message_timer > 0) --message_timer;
+    if (game_status_timer > 0) --game_status_timer;
 }
 
 static void canvas_flush(Canvas *c, gfxScreen_t screen, gfx3dSide_t side) {
@@ -1908,10 +2075,19 @@ static void assign_selected_pack(void) {
 static bool get_pack_dir(int type, int index, char *out, size_t out_size) {
     ItemList items;
     if (!out || out_size == 0) return false;
+    out[0] = '\0';
     list_pack_dir(type, &items);
     if (index < 0 || index >= items.count) return false;
-    int n = snprintf(out, out_size, "%s/%s/%s", ROOT, pack_folders[clamp_int(type, 0, 6)], items.items[index].name);
-    return n > 0 && (size_t)n < out_size;
+    const char *bases[] = { USER_ROOT, LEGACY_ROOT, ROOT };
+    const char *folder = pack_folders[clamp_int(type, 0, 6)];
+    for (size_t i = 0; i < sizeof(bases)/sizeof(bases[0]); ++i) {
+        char candidate[600];
+        int n = snprintf(candidate, sizeof(candidate), "%s/%s/%s", bases[i], folder, items.items[index].name);
+        if (n <= 0 || (size_t)n >= sizeof(candidate) || !path_is_directory(candidate)) continue;
+        if (snprintf(out, out_size, "%s", candidate) >= (int)out_size) { out[0] = '\0'; return false; }
+        return true;
+    }
+    return false;
 }
 
 static char *trim_inplace(char *s) {
@@ -2238,11 +2414,33 @@ static int scan_dub_pack_root(const char *voice_root, DubPackItem *out, int out_
     return count;
 }
 
+static int scan_all_dub_pack_roots(DubPackItem *out, int out_cap) {
+    if (!out || out_cap <= 0) return 0;
+    const char *roots[] = {
+        USER_ROOT "/packs_voice",
+        LEGACY_ROOT "/packs_voice",
+        ROOT "/packs_voice"
+    };
+    int total = 0;
+    DubPackItem scratch[MAX_ITEMS];
+    for (size_t r = 0; r < sizeof(roots)/sizeof(roots[0]) && total < out_cap; ++r) {
+        int n = scan_dub_pack_root(roots[r], scratch, MAX_ITEMS);
+        for (int i = 0; i < n && total < out_cap; ++i) {
+            bool duplicate = false;
+            for (int j = 0; j < total; ++j) {
+                if (strcasecmp(out[j].name, scratch[i].name) == 0) { duplicate = true; break; }
+            }
+            if (!duplicate) out[total++] = scratch[i];
+        }
+    }
+    qsort(out, (size_t)total, sizeof(out[0]), compare_dub_packs);
+    voice_clip_count = 0;
+    return total;
+}
+
 static void open_dub_pack_browser(Page return_page) {
-    char path[512];
     dub_pack_return_page = return_page;
-    snprintf(path, sizeof(path), "%s/packs_voice", ROOT);
-    dub_pack_count = scan_dub_pack_root(path, dub_pack_items, MAX_ITEMS);
+    dub_pack_count = scan_all_dub_pack_roots(dub_pack_items, MAX_ITEMS);
     dub_pack_selected = 0;
     dub_pack_scroll_offset = 0;
     selected = 0;
@@ -2351,6 +2549,23 @@ static bool make_active_dub_record_path(int clip_index, char *out, size_t out_si
     return n > 0 && (size_t)n < out_size;
 }
 
+static void invalidate_current_take_cache(void) {
+    status_cached_clip = -1;
+    status_cached_pack[0] = '\0';
+}
+
+static bool cached_current_take_exists(void) {
+    if (!active_dub_pack || game.clip_index < 0 || game.clip_index >= voice_clip_count) return false;
+    if (status_cached_clip == game.clip_index && strcmp(status_cached_pack, active_pack_name) == 0)
+        return status_cached_has_take;
+    char path[512];
+    bool exists = make_active_dub_record_path(game.clip_index, path, sizeof(path), false) && path_is_file(path);
+    status_cached_clip = game.clip_index;
+    status_cached_has_take = exists;
+    snprintf(status_cached_pack, sizeof(status_cached_pack), "%.95s", active_pack_name);
+    return exists;
+}
+
 static void load_current_pack_art(const NativeVoiceClip *clip) {
     free(active_clip_art.rgba);
     memset(&active_clip_art, 0, sizeof(active_clip_art));
@@ -2407,6 +2622,18 @@ static bool tcv_decode_one(TcvVideo *v, uint32_t index) {
         if (!v->has_frame || v->current_frame + 1 != index) return false;
         for (size_t i = 0; i < v->frame_bytes; ++i) v->pixels[i] ^= v->decoded[i];
     }
+    /* Convert RGB565 to ARGB exactly once per decoded video frame. During
+       30-FPS UI rendering, a 10-FPS frame is drawn several times; caching these
+       colours avoids repeating 14,400 colour conversions on every redraw. */
+    if (v->argb_pixels) {
+        for (size_t i = 0; i < (size_t)v->width * (size_t)v->height; ++i) {
+            uint16_t rgb565 = (uint16_t)v->pixels[i * 2u] | ((uint16_t)v->pixels[i * 2u + 1u] << 8);
+            unsigned rr = ((rgb565 >> 11) & 31u) * 255u / 31u;
+            unsigned gg = ((rgb565 >> 5) & 63u) * 255u / 63u;
+            unsigned bb = (rgb565 & 31u) * 255u / 31u;
+            v->argb_pixels[i] = 0xFF000000u | (rr << 16) | (gg << 8) | bb;
+        }
+    }
     v->current_frame = index; v->has_frame = true;
     return true;
 }
@@ -2414,7 +2641,7 @@ static bool tcv_decode_one(TcvVideo *v, uint32_t index) {
 static void tcv_close(TcvVideo *v) {
     if (!v) return;
     if (v->file) fclose(v->file);
-    free(v->offsets); free(v->pixels); free(v->decoded); free(v->payload);
+    free(v->offsets); free(v->pixels); free(v->argb_pixels); free(v->decoded); free(v->payload);
     memset(v, 0, sizeof(*v));
 }
 
@@ -2432,20 +2659,23 @@ static bool tcv_open(TcvVideo *v, const char *path) {
         (uint64_t)index_offset + (uint64_t)frames_n * 4u > (uint64_t)file_size) { fclose(f); return false; }
     uint32_t *offsets = (uint32_t *)malloc((size_t)frames_n * sizeof(uint32_t));
     uint8_t *pixels = (uint8_t *)calloc(1, TCV_FRAME_BYTES);
+    uint32_t *argb_pixels = (uint32_t *)malloc((size_t)160u * 90u * sizeof(uint32_t));
     uint8_t *decoded = (uint8_t *)malloc(TCV_FRAME_BYTES);
     uint8_t *payload = (uint8_t *)malloc(TCV_FRAME_BYTES);
-    if (!offsets || !pixels || !decoded || !payload) { free(offsets); free(pixels); free(decoded); free(payload); fclose(f); return false; }
-    if (fseek(f, (long)index_offset, SEEK_SET) != 0) { free(offsets); free(pixels); free(decoded); free(payload); fclose(f); return false; }
+    if (!offsets || !pixels || !argb_pixels || !decoded || !payload) {
+        free(offsets); free(pixels); free(argb_pixels); free(decoded); free(payload); fclose(f); return false;
+    }
+    if (fseek(f, (long)index_offset, SEEK_SET) != 0) { free(offsets); free(pixels); free(argb_pixels); free(decoded); free(payload); fclose(f); return false; }
     for (uint32_t i = 0; i < frames_n; ++i) {
-        uint8_t b[4]; if (fread(b, 1, 4, f) != 4) { free(offsets); free(pixels); free(decoded); free(payload); fclose(f); return false; }
+        uint8_t b[4]; if (fread(b, 1, 4, f) != 4) { free(offsets); free(pixels); free(argb_pixels); free(decoded); free(payload); fclose(f); return false; }
         offsets[i] = read_le32(b);
         if (offsets[i] < index_offset + frames_n * 4u || offsets[i] > (uint32_t)(file_size - 8)) {
-            free(offsets); free(pixels); free(decoded); free(payload); fclose(f); return false;
+            free(offsets); free(pixels); free(argb_pixels); free(decoded); free(payload); fclose(f); return false;
         }
     }
     v->file = f; v->width = width; v->height = height; v->fps = fps; v->key_interval = key;
     v->frame_count = frames_n; v->index_offset = index_offset; v->offsets = offsets;
-    v->pixels = pixels; v->decoded = decoded; v->payload = payload; v->frame_bytes = TCV_FRAME_BYTES;
+    v->pixels = pixels; v->argb_pixels = argb_pixels; v->decoded = decoded; v->payload = payload; v->frame_bytes = TCV_FRAME_BYTES;
     v->opened = true; v->has_frame = false; v->playing = false;
     if (!tcv_decode_one(v, 0)) { tcv_close(v); return false; }
     return true;
@@ -2473,35 +2703,46 @@ static void tcv_pump(void) {
     if (target64 >= v->frame_count) { (void)tcv_seek(v, (float)(v->frame_count - 1) / (float)v->fps); v->playing = false; return; }
     uint32_t target = (uint32_t)target64;
     while (v->current_frame < target) {
-        if (!tcv_decode_one(v, v->current_frame + 1)) { v->playing = false; set_message("Dub video decode failed; rebuild this pack on PC"); return; }
+        if (!tcv_decode_one(v, v->current_frame + 1)) {
+            v->playing = false;
+            set_game_status("DUB VIDEO DECODE FAILED - REBUILD PACK");
+            set_message("Dub video decode failed; rebuild this pack on PC");
+            return;
+        }
     }
+}
+
+static inline uint32_t tcv_argb_at(const TcvVideo *v, size_t pos) {
+    if (v->argb_pixels) return v->argb_pixels[pos];
+    /* Defensive fallback for harnesses/partially initialized frames. */
+    size_t byte_pos = pos * 2u;
+    uint16_t rgb565 = (uint16_t)v->pixels[byte_pos] | ((uint16_t)v->pixels[byte_pos + 1u] << 8);
+    unsigned rr = ((rgb565 >> 11) & 31u) * 255u / 31u;
+    unsigned gg = ((rgb565 >> 5) & 63u) * 255u / 63u;
+    unsigned bb = (rgb565 & 31u) * 255u / 31u;
+    return 0xFF000000u | (rr << 16) | (gg << 8) | bb;
 }
 
 static void draw_tcv_video(Canvas *c, int x, int y, int w, int h) {
     TcvVideo *v = &dub_video;
     if (!c || !v->opened || !v->has_frame || !v->pixels || w <= 0 || h <= 0) return;
 
-    /* The native TCV profile is 160x90 and the main-screen view is 320x180.
-       Convert each RGB565 pixel once and duplicate it into a 2x2 block. This
-       cuts the hot video blit's colour conversions from 57,600 to 14,400/frame
-       on the normal view while retaining the generic scaled fallback. */
+    /* The common 160x90 -> 320x180 path only copies cached 32-bit pixels.
+       RGB565 conversion now happens once when a video frame is decoded, not
+       every time that same 10-FPS frame is drawn on the 30-FPS UI. */
     if (w == (int)v->width * 2 && h == (int)v->height * 2) {
         for (int sy = 0; sy < (int)v->height; ++sy) {
             int dy = y + sy * 2;
-            if (dy < 0 || dy >= c->h || dy + 1 < 0 || dy + 1 >= c->h) continue;
+            if (dy < 0 || dy >= c->h || dy + 1 >= c->h) continue;
             uint32_t *row0 = c->pixels + (size_t)dy * (size_t)c->w;
             uint32_t *row1 = c->pixels + (size_t)(dy + 1) * (size_t)c->w;
+            size_t source_row = (size_t)sy * v->width;
             for (int sx = 0; sx < (int)v->width; ++sx) {
                 int dx = x + sx * 2;
-                if (dx < 0 || dx >= c->w || dx + 1 < 0 || dx + 1 >= c->w) continue;
-                size_t pos = ((size_t)sy * v->width + (size_t)sx) * 2u;
-                uint16_t rgb565 = (uint16_t)v->pixels[pos] | ((uint16_t)v->pixels[pos + 1] << 8);
-                unsigned rr = ((rgb565 >> 11) & 31u) * 255u / 31u;
-                unsigned gg = ((rgb565 >> 5) & 63u) * 255u / 63u;
-                unsigned bb = (rgb565 & 31u) * 255u / 31u;
-                uint32_t color = 0xFF000000u | (rr << 16) | (gg << 8) | bb;
-                row0[dx] = color; row1[dx] = color;
-                row0[dx + 1] = color; row1[dx + 1] = color;
+                if (dx < 0 || dx + 1 >= c->w) continue;
+                uint32_t color = tcv_argb_at(v, source_row + (size_t)sx);
+                row0[dx] = color; row0[dx + 1] = color;
+                row1[dx] = color; row1[dx + 1] = color;
             }
         }
         return;
@@ -2512,15 +2753,13 @@ static void draw_tcv_video(Canvas *c, int x, int y, int w, int h) {
     int y1 = y + h > c->h ? c->h : y + h;
     for (int py = y0; py < y1; ++py) {
         int sy = ((py - y) * (int)v->height) / h;
+        if (sy < 0 || sy >= (int)v->height) continue;
         uint32_t *row = c->pixels + (size_t)py * (size_t)c->w;
+        size_t source_row = (size_t)sy * v->width;
         for (int px = x0; px < x1; ++px) {
             int sx = ((px - x) * (int)v->width) / w;
-            size_t pos = ((size_t)sy * v->width + (size_t)sx) * 2u;
-            uint16_t rgb565 = (uint16_t)v->pixels[pos] | ((uint16_t)v->pixels[pos + 1] << 8);
-            unsigned rr = ((rgb565 >> 11) & 31u) * 255u / 31u;
-            unsigned gg = ((rgb565 >> 5) & 63u) * 255u / 63u;
-            unsigned bb = (rgb565 & 31u) * 255u / 31u;
-            row[px] = 0xFF000000u | (rr << 16) | (gg << 8) | bb;
+            if (sx < 0 || sx >= (int)v->width) continue;
+            row[px] = tcv_argb_at(v, source_row + (size_t)sx);
         }
     }
 }
@@ -2546,11 +2785,15 @@ static void dub_replay_pump(void) {
            the stock source voice clip for a missing take. Backing track/video
            continue normally; unrecorded lines remain silent and are easy to spot. */
         if (make_active_dub_record_path(idx, path, sizeof(path), false) && path_is_file(path)) {
-            if (!play_dub_overlay_wav(path)) set_message("Could not play a saved take; check the WAV file");
+            if (!play_dub_overlay_wav(path)) {
+                set_game_status("WATCH DUB - ONE TAKE COULD NOT PLAY");
+                set_message("Could not play a saved take; check the WAV file");
+            }
         }
     }
     if (!dub_video.playing && dub_replay_next_clip >= voice_clip_count && !dub_overlay_audio_active()) {
-        dub_replay_active = false; music_stream_stop(); start_selected_music(); set_message("Dub playback finished");
+        dub_replay_active = false; music_stream_stop(); start_selected_music();
+        set_game_status("WATCH DUB FINISHED"); set_message("Dub playback finished");
     }
 }
 
@@ -2565,10 +2808,15 @@ static void start_dub_replay(void) {
         if (make_active_dub_record_path(i, take, sizeof(take), false) && path_is_file(take)) take_count++;
     }
     if (take_count == 0) {
+        set_game_status("NO TAKES YET - RECORD A LINE FIRST");
         set_message("No voice takes saved yet. Use START + RECORD on a line, then try WATCH DUB.");
         return;
     }
-    if (!tcv_seek(&dub_video, 0.0f)) { set_message("Could not seek dub video to start"); return; }
+    if (!tcv_seek(&dub_video, 0.0f)) {
+        set_game_status("WATCH DUB FAILED - VIDEO SEEK ERROR");
+        set_message("Could not seek dub video to start");
+        return;
+    }
     char backing[512]; snprintf(backing, sizeof(backing), "%s/_backing_track.3ds.wav", active_pack_dir);
     dub_replay_next_clip = 0; dub_replay_start_ms = osGetTime(); dub_replay_active = true;
     dub_video.playing = true; dub_video.start_time_ms = dub_replay_start_ms;
@@ -2576,6 +2824,7 @@ static void start_dub_replay(void) {
         snprintf(backing, sizeof(backing), "%s/_backing_track.wav", active_pack_dir);
         if (!music_stream_start_path(backing)) music_stream_stop();
     }
+    set_game_status("WATCH DUB - PLAYING FULL SCENE");
     set_message("Playing full dub pack with recorded line timings");
 }
 
@@ -2670,11 +2919,13 @@ static void begin_match(void) {
     }
     game.round = 0;
     game.clip_index = 0;
+    invalidate_current_take_cache();
     game.selected_member = 0;
     memset(game.score, 0, sizeof(game.score));
     save_state();
     page = PAGE_GAME;
     selected = 0;
+    set_game_status("PACK READY - TAP START + RECORD");
     play_current_clip();
 }
 
@@ -2687,6 +2938,7 @@ static void next_round(void) {
         stop_dub_overlay_audio();
         music_stream_stop();
         game.clip_index++;
+        invalidate_current_take_cache();
         if (game.clip_index >= voice_clip_count) {
             game.clip_index = voice_clip_count - 1;
             page = PAGE_RESULTS;
@@ -2697,6 +2949,7 @@ static void next_round(void) {
         }
         page = PAGE_GAME;
         selected = 0;
+        set_game_status("READY FOR NEXT LINE - TAP START + RECORD");
         play_current_clip();
         return;
     }
@@ -3067,6 +3320,8 @@ static void handle_touch(void) {
 int main(int argc, char **argv) {
     (void)argc; (void)argv;
     gfxInitDefault();
+    bool romfs_ready = R_SUCCEEDED(romfsInit());
+    if (!romfs_ready) set_message("Embedded game data failed to mount; rebuild the .3dsx with RomFS");
     if (R_SUCCEEDED(ndspInit())) {
         ndsp_ready=true; ndspSetMasterVol(1.0f);
         ndspChnSetFormat(0, NDSP_FORMAT_STEREO_PCM16);
@@ -3080,6 +3335,7 @@ int main(int argc, char **argv) {
     if (!top_canvas.pixels || !bottom_canvas.pixels) {
         free(top_canvas.pixels); free(bottom_canvas.pixels);
         if (ndsp_ready) ndspExit();
+        if (romfs_ready) (void)romfsExit();
         gfxExit();
         return 1;
     }
@@ -3091,9 +3347,11 @@ int main(int argc, char **argv) {
     FILE *latest_file=fopen(latest,"rb");
     if (latest_file) { fclose(latest_file); snprintf(game.last_recording,sizeof(game.last_recording),"%s",latest); }
     if (ndsp_ready) start_selected_music();
-    if (!sprites[SPR_FONT_SMALL].rgba || !sprites[SPR_FONT_LARGE].rgba)
-        set_message("Install the SD assets bundle for the full UI");
+    if (!romfs_ready) set_message("Embedded game data unavailable; rebuild with RomFS support");
+    else if (!sprites[SPR_FONT_SMALL].rgba || !sprites[SPR_FONT_LARGE].rgba)
+        set_message("Embedded UI assets missing; rebuild the application bundle");
 
+    bool redraw_pending = true;
     while (aptMainLoop()) {
         hidScanInput();
         u32 k=hidKeysDown();
@@ -3122,6 +3380,9 @@ int main(int argc, char **argv) {
         }
         handle_touch();
         if (recording) {
+            /* Refresh the actual PCM tail before testing completion so the
+               frozen waveform includes the final samples when auto-stop fires. */
+            update_live_waveform_snapshot();
             bool sampling=false;
             if (R_SUCCEEDED(MICU_IsSampling(&sampling)) && !sampling) finish_recording();
             else if (osGetTime() - recording_started_ms > (uint64_t)configured_record_seconds*1000u + 250u) finish_recording();
@@ -3130,16 +3391,24 @@ int main(int argc, char **argv) {
         tcv_pump();
         music_stream_pump();
         dub_replay_pump();
-        /* Logic/input/audio continue every VBlank, but rasterize only on alternate
-           VBlanks to cap the expensive software UI renderer at about 30 FPS. */
+        /* Only redraw on input/visible state changes while idle. Gameplay,
+           live mic input, video playback, and transient messages remain animated.
+           Logic and audio pumps still run every VBlank; rasterization is capped at
+           30 FPS and static menus consume nearly no renderer time. */
+        if (k != 0) redraw_pending = true;
+        if (message_timer > 0 || game_status_timer > 0 || recording || dub_video.playing || dub_replay_active ||
+            (page == PAGE_GAME && playback_active) || (page == PAGE_DUB && playback_active)) redraw_pending = true;
         render_divider++;
         if (render_divider >= RENDER_VBLANK_DIVISOR) {
             render_divider = 0;
-            render();
-            canvas_flush(&top_canvas,GFX_TOP,GFX_LEFT);
-            canvas_flush(&bottom_canvas,GFX_BOTTOM,GFX_LEFT);
-            gfxFlushBuffers();
-            gfxSwapBuffers();
+            if (redraw_pending) {
+                render();
+                canvas_flush(&top_canvas,GFX_TOP,GFX_LEFT);
+                canvas_flush(&bottom_canvas,GFX_BOTTOM,GFX_LEFT);
+                gfxFlushBuffers();
+                gfxSwapBuffers();
+                redraw_pending = false;
+            }
         }
         gspWaitForVBlank();
     }
@@ -3157,6 +3426,7 @@ int main(int argc, char **argv) {
     free(top_canvas.pixels); top_canvas.pixels=NULL;
     free(bottom_canvas.pixels); bottom_canvas.pixels=NULL;
     if (ndsp_ready) { ndspExit(); ndsp_ready=false; }
+    if (romfs_ready) { (void)romfsExit(); romfs_ready=false; }
     gfxExit();
     return 0;
 }

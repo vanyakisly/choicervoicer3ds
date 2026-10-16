@@ -152,8 +152,8 @@ def convert_audio_tree(root: Path) -> int:
         dest = source.with_suffix('.wav')
         if dest.exists() and dest.stat().st_mtime >= source.stat().st_mtime:
             continue
-        # Voice prompts are mono to keep even 60-second clips within the 3DS RAM cap.
-        mono = source.name.lower().startswith('_backing_track') is False
+        # All runtime audio is mono PCM to keep the Old 3DS memory/bandwidth load low.
+        mono = True
         cmd = [ffmpeg, '-hide_banner', '-loglevel', 'error', '-y', '-i', str(source),
                '-ar', '22050', '-ac', '1' if mono else '2', '-c:a', 'pcm_s16le', str(dest)]
         subprocess.run(cmd, check=True)
@@ -184,7 +184,9 @@ def prepare_voice_pack_audio(root: Path) -> int:
         dest = source.with_name(source.stem + '.3ds.wav')
         if dest.exists() and dest.stat().st_mtime >= source.stat().st_mtime:
             continue
-        stereo = source.name.lower().startswith('_backing_track')
+        # Native 3DS runtime uses mono for both voice and backing tracks to
+        # halve PCM memory and SD bandwidth; originals stay in the desktop source.
+        stereo = False
         cmd = [ffmpeg, '-hide_banner', '-loglevel', 'error', '-y', '-threads', '1',
                '-i', str(source), '-vn', '-ar', '22050', '-ac', '2' if stereo else '1',
                '-c:a', 'pcm_s16le', str(dest)]

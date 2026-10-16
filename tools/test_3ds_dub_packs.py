@@ -115,12 +115,12 @@ def main() -> None:
             return channels, rate, bits
         assert fmt(wav) == (1, 22050, 16)
         assert fmt(existing) == (1, 22050, 16)
-        assert fmt(backing) == (2, 22050, 16)
+        assert fmt(backing) == (1, 22050, 16)
         tcvr = (pack / '01_TestLine.tcvr').read_bytes()
         im_magic, im_w, im_h = struct.unpack_from('<4sHH', tcvr)
         assert im_magic == b'TCVR' and im_w == 256 and im_h <= 256
         assert len(tcvr) == 8 + im_w * im_h * 4
-        print(f'PASS: {frames} indexed TCV frames decoded; WAV/OGG/backing-track audio normalized; JPG companion created.')
+        print(f'PASS: {frames} indexed TCV frames decoded; WAV/OGG/backing-track audio normalized to mono; JPG companion created.')
 
 
 if __name__ == '__main__':

@@ -16,9 +16,13 @@ def function_body(name: str, next_name: str) -> str:
         raise AssertionError(f"Missing next function definition: {next_name}")
     return SOURCE[match.start():match.end() + next_match.start()]
 
-# A dub list is built from video-bearing pack folders recursively under the configured data root.
-assert 'snprintf(path, sizeof(path), "%s/packs_voice", ROOT)' in SOURCE
-assert 'scan_dub_pack_root(path, dub_pack_items, MAX_ITEMS)' in SOURCE
+# Default packs are embedded; user/legacy custom packs are optional overlay roots.
+assert '#define ROOT "romfs:/tcv"' in SOURCE
+assert '#define USER_ROOT "sdmc:/3ds/TheChoicerVoicer3DS_User"' in SOURCE
+assert 'static int scan_all_dub_pack_roots(' in SOURCE
+assert 'USER_ROOT "/packs_voice"' in SOURCE
+assert 'LEGACY_ROOT "/packs_voice"' in SOURCE
+assert 'scan_dub_pack_root(roots[r], scratch, MAX_ITEMS)' in SOURCE
 assert 'static void scan_dub_pack_tree(' in SOURCE
 assert 'snprintf(pending_dub_pack_path, sizeof(pending_dub_pack_path), "%s", item->path)' in SOURCE
 assert 'use_pending_dub_path' in SOURCE
@@ -38,8 +42,21 @@ waveform_start = SOURCE.index("static void draw_waveform(bool live) {")
 waveform_end = SOURCE.index("static void page_game(void) {", waveform_start)
 waveform = SOURCE[waveform_start:waveform_end]
 assert "(const int16_t *)mic_buffer" in waveform
+assert "MIC_WAVE_SNAPSHOT_SAMPLES" in waveform
 assert "const int points = 144" in waveform
 assert "c_line(&bottom_canvas, px, py, x, y" in waveform
+assert "static int16_t mic_wave_snapshot[MIC_WAVE_SNAPSHOT_SAMPLES]" in SOURCE
+assert "static void update_live_waveform_snapshot(void)" in SOURCE
+assert "update_live_waveform_snapshot();" in SOURCE[SOURCE.index("int main(int argc, char **argv)"):]
+assert "RECORDING STOPPED - TAKE SAVED" in SOURCE
+assert "RECORDING STOPPED - TOO SHORT TO SAVE" in SOURCE
+assert "static void draw_game_status_line(void)" in SOURCE
+# Dub Cinema has to render the actual TCV frames during recording/review,
+# not just display a static tutorial illustration.
+page_dub_start = SOURCE.index("static void page_dub(void) {")
+page_dub_end = SOURCE.index("static void page_packs(void) {", page_dub_start)
+assert "draw_tcv_video(&top_canvas, 40, 57, 320, 180)" in SOURCE[page_dub_start:page_dub_end]
+assert "WATCH DUB - PLAYING FULL SCENE" in SOURCE
 
 # Playback intentionally overlays saved takes only, and does not fall back to source cues.
 replay_pump = function_body("dub_replay_pump", "start_dub_replay")
@@ -62,4 +79,7 @@ assert "write_dub_session_manifest()" in SOURCE[save_start:save_end]
 assert "#define RENDER_VBLANK_DIVISOR 2u" in SOURCE
 assert "if (render_divider >= RENDER_VBLANK_DIVISOR)" in SOURCE
 assert "if (w == (int)v->width * 2 && h == (int)v->height * 2)" in SOURCE
-print("PASS: dub browser, mic recording, live signed waveform, recorded-take-only Watch Dub, Save Dub manifest and 30 FPS render-cap source checks.")
+assert "uint32_t *argb_pixels" in SOURCE
+assert "if (redraw_pending)" in SOURCE
+assert 'R_SUCCEEDED(romfsInit())' in SOURCE
+print("PASS: embedded/custom pack roots, mic waveform, Watch/Save Dub, cached video colours, dirty redraw and 30 FPS render cap.")

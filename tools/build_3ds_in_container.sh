@@ -21,6 +21,11 @@ cd /work/3ds_port
     echo "ERROR: devkitPro 3DS variables file missing: $DEVKITPRO/3dsvars.sh" >&2
     exit 1
 }
+[ -d /work/3ds_port/romfs/tcv ] || {
+    echo "ERROR: runtime RomFS was not prepared at /work/3ds_port/romfs/tcv" >&2
+    echo "Run tools/prepare_3ds_assets.py before building; the app embeds its default art, audio and packs." >&2
+    exit 1
+}
 
 echo "Using DEVKITPRO=$DEVKITPRO"
 echo "Using DEVKITARM=$DEVKITARM"

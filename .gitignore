@@ -1,6 +1,9 @@
 # Godot editor/import cache (generated automatically)
 .godot/
 
+# Generated embedded runtime assets (rebuilt by GitHub Actions or the Windows helper)
+3ds_port/romfs/
+
 # Native Old 3DS build outputs
 3ds_port/build/
 3ds_port/TheChoicerVoicer3DS.3dsx
