@@ -24,7 +24,7 @@ The native runtime recursively searches `packs_voice/` for pack directories cont
 
 For Dub Mode, each pack needs the original `dub_video.ogv` plus per-line timestamps. The build creates `dub_video.tcv`, a 160×90 RGB565 stream at 10 fps, with periodic keyframes and zlib-compressed frame deltas. The OGV is retained unchanged. Clip images (PNG/JPG/JPEG/WebP/BMP) receive bounded `.tcvr` companions. Dub recordings are saved under `recordings/dub_recordings/<Pack Name>/3DS Session/` and replayed against their line timestamps.
 
-On v17, the lower screen draws a live, scrolling waveform from actual completed microphone PCM samples. When recording stops (manually or by reaching the limit), the status strip reports whether the take was saved or why it failed. Watch Dub displays the actual selected TCV movie in Dub Cinema as well as in Dub Mode, and schedules saved line recordings against the video timestamps. The current line's recorded/unrecorded indicator is cached to avoid repeated SD-card file checks every frame.
+On v19, the lower screen draws a live, scrolling waveform from actual completed microphone PCM samples. When recording stops (manually or by reaching the limit), the status strip reports whether the take was saved or why it failed. Watch Dub displays the actual selected TCV movie in Dub Cinema as well as in Dub Mode, and schedules saved line recordings against the video timestamps. The current line's recorded/unrecorded indicator is cached to avoid repeated SD-card file checks every frame.
 
 To convert a pack locally before copying it to the SD card, install Python 3, Pillow and FFmpeg, then run `python tools/prepare_3ds_dub_packs.py --tree packs_voice`. The GitHub workflow runs a synthetic video/audio/image test and a host-side regression test of the actual C metadata scanner before attempting the devkitARM build.
 
@@ -34,3 +34,10 @@ This is a hardware-adapted native port, not an execution of Godot scenes on the 
 ## v18 — Pack selector crash fix
 
 The dub browser no longer allocates its 64-item (~39.7 KiB) scratch array on the main stack. Pack/voice directory scanning now uses bounded iterative directory stacks and a 512-directory scan budget, and menu code reuses static item-list scratch buffers. The GitHub host regression test runs the actual multi-root scanner with a 64 KiB stack limit on Linux and checks compiler-measured frame sizes.
+
+
+## v19 — Microphone, Repeat Line and Watch Dub requirement
+
+MIC shared memory is allocated with a `0x1000`-aligned address and buffer size, matching libctru's MIC API and official microphone example. Failure messages retain the exact `micInit` result code. `REPEAT LINE` replays the selected cue and its matching video segment. `WATCH DUB` is locked until every timestamped line has a saved take; its completion scan is cached and invalidated after a successful take save.
+
+The native app continues to use embedded RomFS assets and automatically created writable state under `SD:/3ds/TheChoicerVoicer3DS_User/`; it does not require files to be added to or replaced in `SD:/3ds/The Choicer Voicer/`.

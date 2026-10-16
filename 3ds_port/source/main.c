@@ -275,6 +275,13 @@ static u8 *mic_buffer = NULL;
 static bool mic_ready = false;
 static bool recording = false;
 static u32 recording_bytes = 0;
+/* Repeat Line plays the source cue and its matching video segment. */
+static bool repeat_line_playing = false;
+static uint32_t repeat_line_end_frame = 0;
+/* Cached full-session completion avoids stat() on every rendered frame. */
+static bool dub_completion_cache_valid = false;
+static bool dub_completion_all_recorded = false;
+static int dub_completion_first_missing = -1;
 /* A stable recent-sample snapshot keeps the waveform live while MICU writes
    its shared buffer. 2048 PCM16 samples represent about 125 ms at 16.36 kHz. */
 #define MIC_WAVE_SNAPSHOT_SAMPLES 2048u
@@ -362,6 +369,10 @@ static bool path_is_file(const char *path);
 static void draw_game_status_line(void);
 static bool cached_current_take_exists(void);
 static void invalidate_current_take_cache(void);
+static void invalidate_dub_completion_cache(void);
+static bool all_dub_takes_recorded(int *first_missing);
+static void repeat_current_line(void);
+static void play_current_clip(void);
 
 static void set_message(const char *text) {
     snprintf(message, sizeof(message), "%s", text ? text : "");
@@ -983,21 +994,35 @@ static bool save_wav(const char *path, const uint8_t *data, uint32_t bytes,
 
 static bool init_mic(void) {
     if (mic_ready) return true;
-    mic_buffer = (u8 *)linearAlloc(MIC_BUFFER_SIZE);
-    if (!mic_buffer) { set_message("Not enough linear memory for microphone"); return false; }
+    /* libctru creates an MIC shared-memory block directly over this pointer.
+       MIC requires a 0x1000-aligned heap address and buffer size; linearAlloc's
+       general alignment is not sufficient to guarantee the address alignment. */
+    mic_buffer = (u8 *)memalign(0x1000u, MIC_BUFFER_SIZE);
+    if (!mic_buffer) { set_message("Not enough aligned memory for microphone"); return false; }
+    if (((uintptr_t)mic_buffer & 0xFFFu) != 0u || (MIC_BUFFER_SIZE & 0xFFFu) != 0u) {
+        free(mic_buffer); mic_buffer = NULL;
+        set_message("Microphone buffer alignment check failed");
+        return false;
+    }
     memset(mic_buffer, 0, MIC_BUFFER_SIZE);
     Result r = micInit(mic_buffer, MIC_BUFFER_SIZE);
     if (R_FAILED(r)) {
-        linearFree(mic_buffer);
+        char diag[128];
+        snprintf(diag, sizeof(diag), "MIC init failed (0x%08lX)", (unsigned long)(u32)r);
+        free(mic_buffer);
         mic_buffer = NULL;
-        set_message("Microphone service unavailable");
+        set_message(diag);
+        set_game_status("MIC INIT FAILED - SEE ERROR CODE");
         return false;
     }
-    if (R_FAILED(MICU_SetClamp(false)) || R_FAILED(MICU_SetGain((u8)clamp_int(mic_gain, 0, 127)))) {
+    Result clamp_result = MICU_SetClamp(false);
+    Result gain_result = MICU_SetGain((u8)clamp_int(mic_gain, 0, 127));
+    if (R_FAILED(clamp_result) || R_FAILED(gain_result)) {
         micExit();
-        linearFree(mic_buffer);
+        free(mic_buffer);
         mic_buffer = NULL;
-        set_message("Could not configure microphone");
+        set_message(R_FAILED(clamp_result) ? "MIC clamp configuration failed" : "MIC gain configuration failed");
+        set_game_status("MIC CONFIGURATION FAILED");
         return false;
     }
     mic_ready = true;
@@ -1081,6 +1106,7 @@ static void stop_recording(bool save_now) {
             status_cached_clip = game.clip_index;
             status_cached_has_take = true;
             snprintf(status_cached_pack, sizeof(status_cached_pack), "%.95s", active_pack_name);
+            invalidate_dub_completion_cache();
         }
         set_game_status("RECORDING STOPPED - TAKE SAVED");
         set_message(active_dub_pack ? "Recording stopped; dub line saved" : "Recording stopped; WAV saved");
@@ -1094,6 +1120,7 @@ static void start_recording(void) {
     if (recording) return;
     if (active_dub_pack) {
         dub_replay_active = false;
+        repeat_line_playing = false;
         stop_dub_overlay_audio();
         music_stream_stop();
         dub_video.playing = false;
@@ -1106,8 +1133,9 @@ static void start_recording(void) {
     }
     stop_playback();
     if (!init_mic()) {
-        set_game_status("MICROPHONE UNAVAILABLE - CHECK SETTINGS");
-        set_message("Microphone unavailable");
+        /* init_mic() already provides the specific error (including the MIC
+           service result code). Do not overwrite it with a generic toast. */
+        set_game_status("MICROPHONE UNAVAILABLE - CHECK ERROR MESSAGE");
         return;
     }
     memset(mic_buffer, 0, MIC_BUFFER_SIZE);
@@ -1641,11 +1669,18 @@ static void game_top(void) {
 
 static void draw_game_touch_ui(void) {
     draw_game_status_line();
-    const char *a = recording ? "STOP & SAVE" : (active_dub_pack ? "START + RECORD" : "START");
-    ui_button(&bottom_canvas, 8, 145, 148, 30, a, 0, selected==0);
-    ui_button(&bottom_canvas, 164, 145, 148, 30, "NEXT", 1, selected==1);
-    ui_button(&bottom_canvas, 8, 181, 148, 30, "WATCH DUB", 2, selected==2);
-    ui_button(&bottom_canvas, 164, 181, 148, 30, "SAVE DUB", 3, selected==3);
+    const char *start_label = recording ? "STOP & SAVE" : (active_dub_pack ? "START + RECORD" : "START");
+    bool watch_enabled = !active_dub_pack || all_dub_takes_recorded(NULL);
+    const char *watch_label = watch_enabled ? "WATCH DUB" : "RECORD ALL LINES";
+    /* Three easy-to-hit cue controls on row one, two full-width actions below. */
+    ui_button(&bottom_canvas, 5, 145, 98, 30, start_label, 0, selected==0);
+    ui_button(&bottom_canvas, 111, 145, 98, 30, "NEXT", 1, selected==1);
+    ui_button(&bottom_canvas, 217, 145, 98, 30, "REPEAT LINE", 4, selected==4);
+    ui_button(&bottom_canvas, 5, 181, 151, 30, watch_label, 2, selected==2);
+    ui_button(&bottom_canvas, 164, 181, 151, 30, "SAVE DUB", 3, selected==3);
+    if (!watch_enabled) {
+        c_rect_alpha(&bottom_canvas, 7, 183, 147, 26, 0xFF283A40, 105);
+    }
 }
 
 static void draw_waveform(bool live) {
@@ -1757,7 +1792,7 @@ static void page_results(void) {
 }
 
 static void page_dub(void) {
-    if (active_dub_pack && dub_video.opened && (dub_replay_active || recording)) {
+    if (active_dub_pack && dub_video.opened && (dub_replay_active || recording || repeat_line_playing)) {
         ui_common_top("DUB CINEMA", active_pack_name, 3);
         draw_tcv_video(&top_canvas, 40, 57, 320, 180);
         c_rect_alpha(&top_canvas, 40, 207, 320, 30, 0xFF081A24, 225);
@@ -2647,6 +2682,7 @@ static bool make_active_dub_record_path(int clip_index, char *out, size_t out_si
 static void invalidate_current_take_cache(void) {
     status_cached_clip = -1;
     status_cached_pack[0] = '\0';
+    invalidate_dub_completion_cache();
 }
 
 static bool cached_current_take_exists(void) {
@@ -2659,6 +2695,36 @@ static bool cached_current_take_exists(void) {
     status_cached_has_take = exists;
     snprintf(status_cached_pack, sizeof(status_cached_pack), "%.95s", active_pack_name);
     return exists;
+}
+
+static void invalidate_dub_completion_cache(void) {
+    dub_completion_cache_valid = false;
+    dub_completion_all_recorded = false;
+    dub_completion_first_missing = -1;
+}
+
+static bool all_dub_takes_recorded(int *first_missing) {
+    if (!active_dub_pack || voice_clip_count <= 0) {
+        if (first_missing) *first_missing = 0;
+        return false;
+    }
+    if (!dub_completion_cache_valid) {
+        bool complete = true;
+        int missing = -1;
+        for (int i = 0; i < voice_clip_count; ++i) {
+            char path[512];
+            if (!make_active_dub_record_path(i, path, sizeof(path), false) || !path_is_file(path)) {
+                if (missing < 0) missing = i;
+                complete = false;
+                break;
+            }
+        }
+        dub_completion_all_recorded = complete;
+        dub_completion_first_missing = missing;
+        dub_completion_cache_valid = true;
+    }
+    if (first_missing) *first_missing = dub_completion_first_missing;
+    return dub_completion_all_recorded;
 }
 
 static void load_current_pack_art(const NativeVoiceClip *clip) {
@@ -2795,8 +2861,18 @@ static void tcv_pump(void) {
     uint64_t now = osGetTime();
     uint64_t elapsed_ms = now >= v->start_time_ms ? now - v->start_time_ms : 0;
     uint64_t target64 = (elapsed_ms * v->fps) / 1000u;
-    if (target64 >= v->frame_count) { (void)tcv_seek(v, (float)(v->frame_count - 1) / (float)v->fps); v->playing = false; return; }
+    if (target64 >= v->frame_count) {
+        (void)tcv_seek(v, (float)(v->frame_count - 1) / (float)v->fps);
+        v->playing = false;
+        if (repeat_line_playing) repeat_line_playing = false;
+        return;
+    }
     uint32_t target = (uint32_t)target64;
+    if (repeat_line_playing && target >= repeat_line_end_frame) {
+        v->playing = false;
+        repeat_line_playing = false;
+        return;
+    }
     while (v->current_frame < target) {
         if (!tcv_decode_one(v, v->current_frame + 1)) {
             v->playing = false;
@@ -2895,6 +2971,20 @@ static void dub_replay_pump(void) {
 static void start_dub_replay(void) {
     if (!active_dub_pack || !dub_video.opened || voice_clip_count <= 0) { set_message("Choose a READY dub pack from the dub-pack list first"); return; }
     if (recording) finish_recording();
+    repeat_line_playing = false;
+    dub_video.playing = false;
+    int first_missing = -1;
+    if (!all_dub_takes_recorded(&first_missing)) {
+        int line_number = first_missing >= 0 ? first_missing + 1 : 1;
+        if (first_missing >= 0 && first_missing < voice_clip_count) {
+            game.clip_index = first_missing;
+            play_current_clip();
+        }
+        char msg[128]; snprintf(msg, sizeof(msg), "Record every line before Watch Dub; line %d is missing", line_number);
+        set_game_status("WATCH DUB LOCKED - RECORD EVERY LINE");
+        set_message(msg);
+        return;
+    }
     stop_playback();
     stop_dub_overlay_audio();
     int take_count = 0;
@@ -2961,6 +3051,7 @@ static void begin_match(void) {
     char selected_dub_name[MAX_NAME] = "";
     if (recording) finish_recording();
     dub_replay_active = false;
+    repeat_line_playing = false;
     stop_dub_overlay_audio();
     tcv_close(&dub_video);
     active_dub_pack = false;
@@ -3029,6 +3120,7 @@ static void next_round(void) {
     stop_playback();
     if (active_dub_pack) {
         dub_replay_active = false;
+        repeat_line_playing = false;
         dub_video.playing = false;
         stop_dub_overlay_audio();
         music_stream_stop();
@@ -3130,6 +3222,61 @@ static void watch_latest_dub(void) {
     set_message("No saved WAV dub found");
 }
 
+static void repeat_current_line(void) {
+    if (recording) {
+        set_message("Stop recording before repeating the line");
+        return;
+    }
+    if (voice_clip_count <= 0 || game.clip_index < 0 || game.clip_index >= voice_clip_count) {
+        set_message("Choose a line before using Repeat Line");
+        return;
+    }
+    dub_replay_active = false;
+    repeat_line_playing = false;
+    stop_dub_overlay_audio();
+    music_stream_stop();
+    stop_playback();
+    NativeVoiceClip *clip = &voice_clips[game.clip_index];
+    if (active_dub_pack) {
+        if (!dub_video.opened || !tcv_seek(&dub_video, clip->timestamp)) {
+            set_game_status("REPEAT LINE FAILED - VIDEO SEEK ERROR");
+            set_message("Could not seek the video to this line; rebuild the pack");
+            return;
+        }
+        /* The TCV decoder uses an absolute movie clock. Play from the selected
+           timestamp until the next distinct cue, or to the end of the movie. */
+        uint32_t current = dub_video.current_frame;
+        uint32_t end_frame = dub_video.frame_count;
+        for (int i = game.clip_index + 1; i < voice_clip_count; ++i) {
+            if (voice_clips[i].timestamp > clip->timestamp + 0.025f) {
+                float end_seconds = voice_clips[i].timestamp;
+                uint32_t candidate = (uint32_t)ceilf(end_seconds * (float)dub_video.fps);
+                if (candidate > current && candidate < end_frame) end_frame = candidate;
+                break;
+            }
+        }
+        if (end_frame <= current) end_frame = current + 1u;
+        if (end_frame > dub_video.frame_count) end_frame = dub_video.frame_count;
+        repeat_line_end_frame = end_frame;
+        uint64_t now = osGetTime();
+        uint64_t frame_offset = ((uint64_t)current * 1000u) / (dub_video.fps ? dub_video.fps : 1u);
+        dub_video.start_time_ms = now >= frame_offset ? now - frame_offset : 0;
+        dub_video.playing = true;
+        repeat_line_playing = true;
+        if (!play_wav_file(clip->path)) {
+            dub_video.playing = false;
+            repeat_line_playing = false;
+            set_game_status("REPEAT LINE FAILED - AUDIO ERROR");
+            set_message("Could not play this line's reference audio");
+            return;
+        }
+    } else {
+        play_current_clip();
+    }
+    set_game_status("REPEATING CURRENT LINE");
+    set_message("Repeating the current line; press START + RECORD when ready");
+}
+
 static void open_pack_browser(int type, Page return_page) {
     pack_type = clamp_int(type, 0, 6);
     pack_return_page = return_page;
@@ -3205,6 +3352,7 @@ static void activate_menu(int id) {
             else if (id == 1) next_round();
             else if (id == 2) watch_latest_dub();
             else if (id == 3) save_latest_dub();
+            else if (id == 4) repeat_current_line();
             break;
         case PAGE_RESULTS:
             if (id == 0) {
@@ -3368,7 +3516,7 @@ static int keyboard_activate(void) {
         case PAGE_MODE: count=6; break;
         case PAGE_MEMBERS: count=6; break;
         case PAGE_SETUP: count=12; break;
-        case PAGE_GAME: case PAGE_DUB: count=4; break;
+        case PAGE_GAME: case PAGE_DUB: count=5; break;
         case PAGE_RESULTS: count=6; break;
         case PAGE_PACKS: count=8; break;
         case PAGE_CUSTOMIZE: count=8; break;
@@ -3515,7 +3663,7 @@ int main(int argc, char **argv) {
     tcv_close(&dub_video);
     save_state();
     if (mic_ready) { micExit(); mic_ready=false; }
-    if (mic_buffer) { linearFree(mic_buffer); mic_buffer=NULL; }
+    if (mic_buffer) { free(mic_buffer); mic_buffer=NULL; }
     free_ui_assets();
     free(active_clip_art.rgba); active_clip_art.rgba = NULL;
     free(top_canvas.pixels); top_canvas.pixels=NULL;

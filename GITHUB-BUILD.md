@@ -33,3 +33,10 @@ The bottom screen includes a live sample-derived microphone waveform and a dedic
 ### v18 — Dub pack selection crash fix
 
 The native pack scanner uses static bounded scratch buffers instead of large stack-local arrays, and iterative DFS for pack and clip discovery instead of recursive calls. GitHub Actions exercises user/legacy/embedded roots under a 64 KiB host stack limit on Linux and checks stack-frame reports before the ARM build.
+
+
+## v19 microphone and dubbing controls
+
+The MIC buffer is allocated with `memalign(0x1000, ...)`, as required by libctru's shared-memory API. `Repeat Line` replays the current source cue/video segment. `Watch Dub` is visibly locked until each timestamped clip has a saved recording, and the start function enforces the same check. Host-side regression tests check the alignment, failure diagnostics, button mapping and all-lines gating.
+
+No manual assets are required in `SD:/3ds/The Choicer Voicer/`: defaults remain embedded in RomFS and writable recordings/settings are automatically created under `SD:/3ds/TheChoicerVoicer3DS_User/`.
