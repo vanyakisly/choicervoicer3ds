@@ -1,0 +1,6 @@
+[data]
+
+caption="123 and so where did everybody go!"
+image="016_Verity.jpg"
+dub_timestamps=[38.014]
+dub_characters=["Verity"]

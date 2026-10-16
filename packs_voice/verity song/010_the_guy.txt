@@ -1,0 +1,6 @@
+[data]
+
+caption="okay, what does the cow say"
+image="010_the_guy.jpg"
+dub_timestamps=[25.047]
+dub_characters=["the guy"]

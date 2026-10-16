@@ -1,0 +1,6 @@
+[data]
+
+caption="hey its me its verity! la la la la"
+image="017_Verity.jpg"
+dub_timestamps=[41.807]
+dub_characters=["Verity"]

@@ -1,0 +1,6 @@
+[data]
+
+caption="i know about a million things! la la la la"
+image="045_Verity.jpg"
+dub_timestamps=[112.103]
+dub_characters=["Verity"]

@@ -1,0 +1,6 @@
+[data]
+
+caption="Oh moo moo moo, i speak that too!"
+image="011_Verity.jpg"
+dub_timestamps=[27.846]
+dub_characters=["Verity"]

@@ -1,0 +1,6 @@
+[data]
+
+caption="ask me anything!"
+image="035_Verity.jpg"
+dub_timestamps=[85.605]
+dub_characters=["Verity"]

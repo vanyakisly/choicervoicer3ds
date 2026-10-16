@@ -1,0 +1,6 @@
+[data]
+
+caption="no need to leave!"
+image="024_Verity.jpg"
+dub_timestamps=[62.146]
+dub_characters=["Verity"]

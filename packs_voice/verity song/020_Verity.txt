@@ -1,0 +1,6 @@
+[data]
+
+caption="ill do everything!"
+image="020_Verity.jpg"
+dub_timestamps=[53.407]
+dub_characters=["Verity"]

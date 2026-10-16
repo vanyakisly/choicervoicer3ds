@@ -1,0 +1,6 @@
+[data]
+
+caption="i got a question"
+image="003_the_guy.jpg"
+dub_timestamps=[8.163]
+dub_characters=["the guy"]

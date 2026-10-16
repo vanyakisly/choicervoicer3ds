@@ -20,7 +20,7 @@ User data is stored under `SD:/3ds/The Choicer Voicer/`. The `.3dsx` homebrew ex
 
 ## Voice and dub pack compatibility
 
-The native runtime reads voice packs from `packs_voice/<Pack Name>/`. Supported input audio is WAV, MP3 and OGG; the build preparation step preserves those source files and creates `.3ds.wav` companions normalized to PCM16/22.05 kHz (mono for lines, stereo for `_backing_track`). Clip metadata in matching `.ini`, `.cfg`, or `.txt` files supplies captions, character names, optional artwork, `dub_only`, and absolute `dub_timestamps`. Timestamp suffixes such as `_44-048` are also recognized.
+The native runtime recursively searches `packs_voice/` for pack directories containing `dub_video.ogv` or `dub_video.tcv`, so `packs_voice/<Pack Name>/` and `packs_voice/<Collection>/<Pack Name>/` both work. Supported input audio is WAV, MP3 and OGG; the build preparation step preserves those source files and creates `.3ds.wav` companions normalized to PCM16/22.05 kHz (mono for lines, stereo for `_backing_track`). Clip metadata in matching `.ini`, `.cfg`, or `.txt` files supplies captions, character names, optional artwork, `dub_only`, and absolute `dub_timestamps`. Timestamp suffixes such as `_44-048` are also recognized.
 
 For Dub Mode, each pack needs the original `dub_video.ogv` plus per-line timestamps. The build creates `dub_video.tcv`, a 160×90 RGB565 stream at 10 fps, with periodic keyframes and zlib-compressed frame deltas. The OGV is retained unchanged. Clip images (PNG/JPG/JPEG/WebP/BMP) receive bounded `.tcvr` companions. Dub recordings are saved under `recordings/dub_recordings/<Pack Name>/3DS Session/` and replayed against their line timestamps.
 

@@ -1,0 +1,6 @@
+[data]
+
+caption="oh i just know"
+image="028_Verity.jpg"
+dub_timestamps=[67.702]
+dub_characters=["Verity"]

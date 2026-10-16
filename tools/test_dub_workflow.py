@@ -16,9 +16,12 @@ def function_body(name: str, next_name: str) -> str:
         raise AssertionError(f"Missing next function definition: {next_name}")
     return SOURCE[match.start():match.end() + next_match.start()]
 
-# A dub list is built from video-bearing child folders under the configured data root.
+# A dub list is built from video-bearing pack folders recursively under the configured data root.
 assert 'snprintf(path, sizeof(path), "%s/packs_voice", ROOT)' in SOURCE
 assert 'scan_dub_pack_root(path, dub_pack_items, MAX_ITEMS)' in SOURCE
+assert 'static void scan_dub_pack_tree(' in SOURCE
+assert 'snprintf(pending_dub_pack_path, sizeof(pending_dub_pack_path), "%s", item->path)' in SOURCE
+assert 'use_pending_dub_path' in SOURCE
 assert 'static void page_dub_pack_list(void)' in SOURCE
 assert 'CHOOSE A DUB PACK' in SOURCE
 assert 'Tap a row' in SOURCE

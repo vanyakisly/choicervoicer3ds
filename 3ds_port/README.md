@@ -20,7 +20,7 @@ This folder is the hardware-adapted native target placed alongside the original 
   - Credits
 - Dual-screen layout: information/game presentation on the top screen and interactive controls on the bottom screen.
 - **Stylus/touch activation for every native UI button.**
-- Dub Mode opens a dedicated, alphabetized list of packs discovered directly under `SD:/3ds/The Choicer Voicer/packs_voice/`. It filters out ordinary voice-only packs, prioritizes converted/timestamp-ready packs, and reports whether conversion or timestamps are missing.
+- Dub Mode opens a dedicated, alphabetized list of packs discovered recursively under `SD:/3ds/The Choicer Voicer/packs_voice/`. It finds the directory containing `dub_video.tcv`/`dub_video.ogv`, filters out ordinary voice-only packs, prioritizes converted/timestamp-ready packs, and opens the exact selected nested path.
 - In gameplay and Dub Mode the bottom screen specifically contains:
   - `START + RECORD` / `STOP & SAVE` for the current line
   - `NEXT` to move to the next timestamped clip

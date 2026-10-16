@@ -1,0 +1,6 @@
+[data]
+
+caption="okay but, wh-why"
+image="021_the_guy.jpg"
+dub_timestamps=[55.649]
+dub_characters=["the guy"]

@@ -1,0 +1,6 @@
+[data]
+
+caption="all right!"
+image="007_the_guy.jpg"
+dub_timestamps=[16.002]
+dub_characters=["the guy"]

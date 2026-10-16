@@ -236,7 +236,7 @@ def prepare_tree(root: Path, transcode_audio: bool = True) -> tuple[int, int]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--tree', required=True, help='Root directory containing packs_voice/<pack>/...')
+    parser.add_argument('--tree', required=True, help='Root directory containing packs_voice/; searches recursively for dub_video.ogv')
     parser.add_argument('--no-audio', action='store_true', help='Only convert dub_video.ogv to .tcv')
     args = parser.parse_args()
     try:

@@ -1,0 +1,6 @@
+[data]
+
+caption="whats the capital of france?"
+image="008_the_guy.jpg"
+dub_timestamps=[17.326]
+dub_characters=["the guy"]

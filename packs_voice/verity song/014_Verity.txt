@@ -1,0 +1,6 @@
+[data]
+
+caption="do you live alone?"
+image="014_Verity.jpg"
+dub_timestamps=[34.180]
+dub_characters=["Verity"]

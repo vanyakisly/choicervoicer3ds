@@ -1,61 +1,55 @@
 CUSTOM VOICE AND DUB PACKS FOR THE OLD 3DS BUILD
 
-Put each complete The Choicer Voicer voice/dub pack in its own folder here:
+Put complete The Choicer Voicer packs somewhere under this folder. Each dub pack
+must be a DIRECTORY containing dub_video.ogv (the GitHub build creates
+dub_video.tcv) plus timestamped line audio and metadata. The native browser now
+searches recursively, so both layouts are supported:
 
-  packs_voice/<Pack Name>/
-    _pack_info.ini          optional
-    _icon.png               optional
-    01_LineName.wav/mp3/ogg
-    01_LineName.ini/txt     optional clip metadata
-    dub_video.ogv           required for Dub Mode
-    _backing_track.ogg      optional
+  packs_voice/<Pack Name>/dub_video.ogv
+  packs_voice/<Archive or Collection>/<Pack Name>/dub_video.ogv
 
-Keep the pack's folder name and internal file names intact. Dub clips should have
-matching .ini/.cfg/.txt metadata containing e.g.:
+The directory containing dub_video.ogv is the pack root. The pack's line files
+can be at that level or inside subdirectories. Common files include:
+
+  _pack_info.ini             pack title/icon metadata (optional)
+  _icon.png                  pack icon (optional)
+  001_Verity.wav             audio line
+  001_Verity.jpg             line artwork (optional)
+  001_Verity.txt             caption and timestamp metadata
+  dub_video.ogv              source video, required for Dub Mode
+  _backing_track.mp3/ogg     optional backing track
+
+A line metadata file can look like this:
 
   [data]
-  caption="Wait, that was not the plan."
-  dub_timestamps=[1.866]
-  dub_characters=["Narrator"]
+  caption="Hey, it's me!"
+  image="001_Verity.jpg"
+  dub_timestamps=[1.695]
+  dub_characters=["Verity"]
 
-The GitHub Actions build copies these packs into the SD install artifact. It
-preserves dub_video.ogv but also creates dub_video.tcv, a compact Old-3DS video
-stream sampled at 160x90, 10 fps with RGB565 pixels, keyframes and zlib-compressed
-deltas. WAV/MP3/OGG sources receive normalized `.3ds.wav` PCM16 companions (22.05 kHz mono for lines, stereo for `_backing_track`) for the native audio player. Original source media and metadata are preserved. PNG/JPG/JPEG/WebP/BMP clip art receives `.tcvr` RGBA companions for the 3DS renderer.
+The example pack `verity song/` is included here to verify the real format: it
+contains 46 timestamped line clips, clip artwork, `_pack_info.ini`, the original
+OGV and a backing track. The pack browser excludes voice-only directories that
+do not contain a dub video.
 
-You can also prepare packs locally (Python 3 + ffmpeg required):
-  python tools/prepare_3ds_dub_packs.py --tree packs_voice
+The GitHub Actions build keeps source media and metadata, then generates
+`dub_video.tcv` (160x90, 10 fps), `.3ds.wav` PCM16 companions for supported line
+and backing audio, and `.tcvr` artwork for the Old 3DS runtime. These generated
+files are consumed by the native player.
 
-The converter never edits the original OGV file. Keep an original backup anyway.
+HOW TO USE ON OLD 3DS
 
-HOW TO CHOOSE AND PLAY A DUB ON OLD 3DS
+1. Copy the entire pack folder structure to
+   SD:/3ds/The Choicer Voicer/packs_voice/ . Keep the directory names intact.
+2. Re-run the GitHub Actions build whenever you add/change packs, then copy the
+   SD install artifact to the SD card. This generates the `.tcv` video and media
+   companions required by the native app.
+3. Launch the homebrew, choose PLAY > DUB MODE, pick the pack from the list,
+   then select USE. Packs without a video or without timestamped clip metadata
+   are not usable in Dub Mode.
+4. On the bottom screen press START + RECORD for each line; NEXT changes line.
+   WATCH DUB plays the video and your recorded takes at the pack timestamps.
+   SAVE DUB saves the per-line WAV takes and `session.ini` timeline manifest.
 
-1. Put the entire extracted dub pack folder directly under:
-     SD:/3ds/The Choicer Voicer/packs_voice/<Pack Name>/
-   Do not put it under luma/3ds or an extra nested folder.
-2. The pack must contain dub_video.tcv (created automatically by the GitHub
-   install build from dub_video.ogv) and line audio with .ini/.txt metadata
-   containing dub_timestamps. A normal voice-only pack will not appear in the
-   Dub Mode list.
-3. Launch the homebrew, choose PLAY > DUB MODE. Dub packs are shown in a list.
-   Tap a row with the stylus and press USE, or navigate with D-pad and A.
-4. On the bottom screen press START + RECORD for each line. The source line
-   plays as a timing guide while the microphone records. Press STOP & SAVE or
-   NEXT; the take is saved automatically for that timestamp. Move through the
-   lines using NEXT.
-5. WATCH DUB replays the compressed video and overlays only the takes you
-   recorded, at their original dub_timestamps. Lines not recorded are silent
-   rather than replaced by the original guide voice. SAVE DUB writes a session
-   manifest alongside the individual WAV takes. This native SAVE DUB creates a
-recording session package; it does not encode a new MP4/OGV video file on the
-3DS itself.
-6. Re-run the GitHub Actions build after adding/changing packs in the repository
-   root's packs_voice/ folder, then extract the resulting SD install archive to
-   the SD root. This converts video to 160x90 RGB565 at 10 FPS and normalizes
-   line audio to PCM16 WAV for the Old 3DS runtime.
-
-The native UI is capped to render at most 30 FPS (every other 60 Hz VBlank);
-video is decoded at 10 FPS to limit CPU load. Actual sustained speed depends on
-pack complexity and the Old 3DS hardware, so the cap is not a guarantee that
-all scenes will maintain 30 FPS. Each take is limited by the recording-duration
-setting (maximum 8 seconds in this build).
+The Old 3DS app does not yet render a newly merged video file on-device; it
+plays the compressed source video and overlays the saved voice takes.

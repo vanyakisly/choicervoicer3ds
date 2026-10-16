@@ -1,0 +1,6 @@
+[data]
+
+caption="dont be so scared. love me"
+image="042_Verity.jpg"
+dub_timestamps=[102.105]
+dub_characters=["Verity"]

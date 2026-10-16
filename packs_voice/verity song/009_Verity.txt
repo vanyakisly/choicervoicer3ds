@@ -1,0 +1,6 @@
+[data]
+
+caption="oh oui oui oui"
+image="009_Verity.jpg"
+dub_timestamps=[20.130]
+dub_characters=["Verity"]

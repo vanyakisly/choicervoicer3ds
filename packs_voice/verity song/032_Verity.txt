@@ -1,0 +1,6 @@
+[data]
+
+caption="is anybody home"
+image="032_Verity.jpg"
+dub_timestamps=[75.905]
+dub_characters=["Verity"]

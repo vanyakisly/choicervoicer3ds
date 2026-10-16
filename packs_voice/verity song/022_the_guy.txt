@@ -1,0 +1,6 @@
+[data]
+
+caption="why's the door locked up so tight?"
+image="022_the_guy.jpg"
+dub_timestamps=[57.249]
+dub_characters=["the guy"]

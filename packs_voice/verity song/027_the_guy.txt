@@ -1,0 +1,6 @@
+[data]
+
+caption="why do you know where i sleep?"
+image="027_the_guy.jpg"
+dub_timestamps=[65.877]
+dub_characters=["the guy"]

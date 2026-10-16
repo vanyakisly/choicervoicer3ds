@@ -49,6 +49,9 @@ jobs:
           test -f tools/test_screen_flush.c
           test -f tools/build_3ds_in_container.sh
           test -f packs_voice/README.txt
+          test -f "packs_voice/verity song/_pack_info.ini"
+          test -f "packs_voice/verity song/dub_video.ogv"
+          test -f "packs_voice/verity song/001_Verity.txt"
           sh -n tools/build_3ds_in_container.sh
           if grep -Eq '(^|[[:space:]])(dkp-pacman|pacman)[[:space:]]+-Sy' .github/workflows/build-3ds.yml tools/build_3ds_in_container.sh; then
             echo "Unexpected devkitPro package-database refresh found; this build uses the SDK image and pinned source fallback." >&2
@@ -160,8 +163,10 @@ jobs:
           This is a native compatibility port, not the original Godot 4 desktop
           executable. The original graphic/assets/model trees, project audio,
           converted PCM companions, default packs, and any custom packs placed in
-          the source repository root's packs_voice/ folder are included. Dub packs
-          are preprocessed into 160x90 RGB565 TCV video at 10 fps while preserving
+          the source repository root's packs_voice/ folder are included. The native
+          pack browser searches recursively for pack folders containing dub_video.ogv
+          or dub_video.tcv, so an archive's extracted parent folder is accepted too.
+          Dub packs are preprocessed into 160x90 RGB565 TCV video at 10 fps while preserving
           the source dub_video.ogv and the original per-line timestamps.
           Make a backup of your SD card before copying files.
           EOF

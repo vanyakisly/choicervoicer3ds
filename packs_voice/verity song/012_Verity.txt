@@ -1,0 +1,6 @@
+[data]
+
+caption="all day!"
+image="012_Verity.jpg"
+dub_timestamps=[31.671]
+dub_characters=["Verity"]

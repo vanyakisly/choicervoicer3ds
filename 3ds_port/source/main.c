@@ -145,7 +145,8 @@ typedef struct {
 
 typedef struct {
     char name[MAX_NAME];
-    int voice_index;             /* index in the normal, alphabetically sorted packs_voice list */
+    char path[512];              /* exact folder holding this pack's video and line files */
+    int voice_index;             /* top-level packs_voice index, for save compatibility */
     int clip_count;              /* timestamp occurrences, not unique audio files */
     bool has_ogv;
     bool has_tcv;
@@ -275,8 +276,10 @@ static bool active_dub_pack = false;
 static bool dub_replay_active = false;
 static int dub_replay_next_clip = 0;
 static uint64_t dub_replay_start_ms = 0;
-static char active_pack_dir[384] = "";
+static char active_pack_dir[512] = "";
 static char active_pack_name[MAX_NAME] = "";
+static char pending_dub_pack_path[512] = "";
+static char pending_dub_pack_name[MAX_NAME] = "";
 static TcvVideo dub_video;
 static const char *pack_folders[] = {
     "packs_voice", "packs_player", "packs_host", "packs_judges", "packs_studio", "packs_menu", "packs_twitch"
@@ -1761,13 +1764,13 @@ static void page_cinema(void) {
 }
 
 static void page_dub_pack_list(void) {
-    ui_common_top("CHOOSE A DUB PACK", "Only video packs from packs_voice are shown", 3);
+    ui_common_top("CHOOSE A DUB PACK", "Searches pack folders inside packs_voice", 3);
     bottom_header("DUB PACK LIST", "* = needs PC conversion. Select a row, then USE.");
     c_rect_alpha(&top_canvas, 14, 62, 374, 145, UI_DARK_PANEL, 225);
-    c_text(&top_canvas, 24, 72, "SD:/3ds/The Choicer Voicer/packs_voice/", UI_CYAN, false, 350);
+    c_text(&top_canvas, 24, 72, "PACK ROOT: /3ds/The Choicer Voicer/packs_voice/", UI_CYAN, false, 350);
     if (dub_pack_count <= 0) {
         c_text(&top_canvas, 24, 106, "NO DUB PACKS FOUND", 0xFFFFD17D, true, 320);
-        c_text(&top_canvas, 24, 131, "Each pack needs dub_video.ogv and line files", UI_TEXT_LIGHT, false, 350);
+        c_text(&top_canvas, 24, 131, "A pack folder needs dub_video.ogv and line files", UI_TEXT_LIGHT, false, 350);
         c_text(&top_canvas, 24, 150, "with dub_timestamps in .ini/.txt metadata.", UI_TEXT_LIGHT, false, 350);
         c_text(&top_canvas, 24, 176, "Run the GitHub build to create dub_video.tcv.", UI_TEXT_LIGHT, false, 350);
     } else {
@@ -2168,30 +2171,67 @@ static int compare_dub_packs(const void *a, const void *b) {
     return strcasecmp(pa->name, pb->name);
 }
 
+static bool append_dub_pack(const char *voice_root, const char *pack_path,
+                            const char *relative, int top_index,
+                            DubPackItem *out, int out_cap, int *count) {
+    if (!voice_root || !pack_path || !relative || !out || !count || *count >= out_cap) return false;
+    char tcv[600], ogv[600];
+    int n = snprintf(tcv, sizeof(tcv), "%s/dub_video.tcv", pack_path);
+    if (n <= 0 || (size_t)n >= sizeof(tcv)) return false;
+    n = snprintf(ogv, sizeof(ogv), "%s/dub_video.ogv", pack_path);
+    if (n <= 0 || (size_t)n >= sizeof(ogv)) return false;
+    bool has_tcv = path_is_file(tcv), has_ogv = path_is_file(ogv);
+    if (!has_tcv && !has_ogv) return false;
+
+    DubPackItem item;
+    memset(&item, 0, sizeof(item));
+    snprintf(item.name, sizeof(item.name), "%.95s", relative);
+    snprintf(item.path, sizeof(item.path), "%.511s", pack_path);
+    item.voice_index = top_index;
+    item.has_tcv = has_tcv;
+    item.has_ogv = has_ogv;
+    item.clip_count = load_voice_clips(pack_path, true);
+    out[(*count)++] = item;
+    voice_clip_count = 0;
+    return true;
+}
+
+static void scan_dub_pack_tree(const char *voice_root, const char *dir,
+                               const char *relative, int depth, int top_index,
+                               DubPackItem *out, int out_cap, int *count) {
+    if (!voice_root || !dir || !relative || !out || !count || *count >= out_cap || depth > 6) return;
+    /* If a directory contains the video, that directory is the pack root.
+       Its voice clips can themselves live in subdirectories; load_voice_clips
+       already searches them recursively. Do not accidentally list nested media
+       subfolders as separate packs. */
+    if (append_dub_pack(voice_root, dir, relative, top_index, out, out_cap, count)) return;
+
+    DIR *d = opendir(dir);
+    if (!d) return;
+    struct dirent *entry;
+    while ((entry = readdir(d)) && *count < out_cap) {
+        if (entry->d_name[0] == '.') continue;
+        char child[512], child_relative[192];
+        int pn = snprintf(child, sizeof(child), "%s/%s", dir, entry->d_name);
+        int rn = snprintf(child_relative, sizeof(child_relative), "%s/%s", relative, entry->d_name);
+        if (pn <= 0 || (size_t)pn >= sizeof(child) || rn <= 0 || (size_t)rn >= sizeof(child_relative)) continue;
+        struct stat st;
+        if (stat(child, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
+        scan_dub_pack_tree(voice_root, child, child_relative, depth + 1, top_index, out, out_cap, count);
+    }
+    closedir(d);
+}
+
 static int scan_dub_pack_root(const char *voice_root, DubPackItem *out, int out_cap) {
     if (!voice_root || !out || out_cap <= 0) return 0;
     ItemList dirs;
     list_subdirectories(voice_root, &dirs);
     int count = 0;
     for (int i = 0; i < dirs.count && count < out_cap; ++i) {
-        char pack[512], tcv[560], ogv[560];
-        int n = snprintf(pack, sizeof(pack), "%s/%s", voice_root, dirs.items[i].name);
-        if (n <= 0 || (size_t)n >= sizeof(pack)) continue;
-        n = snprintf(tcv, sizeof(tcv), "%s/dub_video.tcv", pack);
-        if (n <= 0 || (size_t)n >= sizeof(tcv)) continue;
-        n = snprintf(ogv, sizeof(ogv), "%s/dub_video.ogv", pack);
-        if (n <= 0 || (size_t)n >= sizeof(ogv)) continue;
-        bool has_tcv = path_is_file(tcv);
-        bool has_ogv = path_is_file(ogv);
-        /* Voice-only packs are not presented as dub packs. */
-        if (!has_tcv && !has_ogv) continue;
-        DubPackItem item; memset(&item, 0, sizeof(item));
-        snprintf(item.name, sizeof(item.name), "%.95s", dirs.items[i].name);
-        item.voice_index = i;
-        item.has_tcv = has_tcv;
-        item.has_ogv = has_ogv;
-        item.clip_count = load_voice_clips(pack, true);
-        out[count++] = item;
+        char first_level[512];
+        int n = snprintf(first_level, sizeof(first_level), "%s/%s", voice_root, dirs.items[i].name);
+        if (n <= 0 || (size_t)n >= sizeof(first_level)) continue;
+        scan_dub_pack_tree(voice_root, first_level, dirs.items[i].name, 0, i, out, out_cap, &count);
     }
     voice_clip_count = 0;
     qsort(out, (size_t)count, sizeof(out[0]), compare_dub_packs);
@@ -2208,11 +2248,11 @@ static void open_dub_pack_browser(Page return_page) {
     selected = 0;
     page = PAGE_DUB_PACK_LIST;
     if (dub_pack_count == 0)
-        set_message("No dub videos found. Put packs in packs_voice/<Pack>/ with dub_video.ogv and timestamped line clips.");
+        set_message("No dub videos found. Put a pack folder anywhere under packs_voice/ with dub_video.ogv and timestamped line clips.");
 }
 
 static void begin_selected_dub_pack(void) {
-    if (dub_pack_count <= 0) { set_message("No dub packs found in packs_voice/"); return; }
+    if (dub_pack_count <= 0) { set_message("No dub pack folders found under packs_voice/"); return; }
     dub_pack_selected = clamp_int(dub_pack_selected, 0, dub_pack_count - 1);
     DubPackItem *item = &dub_pack_items[dub_pack_selected];
     if (item->clip_count <= 0) {
@@ -2220,11 +2260,17 @@ static void begin_selected_dub_pack(void) {
         return;
     }
     if (!item->has_tcv) {
-        set_message("This dub needs conversion: put it in repo packs_voice/ and run the GitHub build.");
+        set_message("This pack needs conversion: rebuild after adding the pack folder under packs_voice/.");
         return;
     }
     game.mode = 1;
     game.voice = item->voice_index;
+    if (snprintf(pending_dub_pack_path, sizeof(pending_dub_pack_path), "%s", item->path) >= (int)sizeof(pending_dub_pack_path)) {
+        pending_dub_pack_path[0] = '\0';
+        set_message("Selected pack path is too long");
+        return;
+    }
+    snprintf(pending_dub_pack_name, sizeof(pending_dub_pack_name), "%.95s", item->name);
     save_state();
     begin_match();
 }
@@ -2566,21 +2612,34 @@ static void play_judge_score_sfx(void) {
 }
 
 static void begin_match(void) {
-    char dir[384], video_path[512];
+    char dir[512], video_path[560];
+    bool use_pending_dub_path = (game.mode == 1 && pending_dub_pack_path[0] != '\0');
+    char selected_dub_name[MAX_NAME] = "";
     if (recording) finish_recording();
     dub_replay_active = false;
     stop_dub_overlay_audio();
     tcv_close(&dub_video);
     active_dub_pack = false;
     active_pack_dir[0] = active_pack_name[0] = '\0';
-    if (!get_pack_dir(0, game.voice, dir, sizeof(dir))) {
+    if (use_pending_dub_path) {
+        int copied = snprintf(dir, sizeof(dir), "%.511s", pending_dub_pack_path);
+        snprintf(selected_dub_name, sizeof(selected_dub_name), "%.95s", pending_dub_pack_name);
+        pending_dub_pack_path[0] = pending_dub_pack_name[0] = '\0';
+        if (copied <= 0 || (size_t)copied >= sizeof(dir)) {
+            set_message("Selected dub pack path is too long"); return;
+        }
+    } else if (!get_pack_dir(0, game.voice, dir, sizeof(dir))) {
         set_message("Selected voice pack folder is missing"); return;
     }
-    snprintf(active_pack_dir, sizeof(active_pack_dir), "%s", dir);
-    ItemList packs; list_pack_dir(0, &packs);
-    if (game.voice >= 0 && game.voice < packs.count)
-        snprintf(active_pack_name, sizeof(active_pack_name), "%.95s", packs.items[game.voice].name);
-    else snprintf(active_pack_name, sizeof(active_pack_name), "Voice Pack");
+    snprintf(active_pack_dir, sizeof(active_pack_dir), "%.511s", dir);
+    if (use_pending_dub_path) {
+        snprintf(active_pack_name, sizeof(active_pack_name), "%.95s", selected_dub_name);
+    } else {
+        ItemList packs; list_pack_dir(0, &packs);
+        if (game.voice >= 0 && game.voice < packs.count)
+            snprintf(active_pack_name, sizeof(active_pack_name), "%.95s", packs.items[game.voice].name);
+        else snprintf(active_pack_name, sizeof(active_pack_name), "Voice Pack");
+    }
 
     if (game.mode == 1) {
         int n = snprintf(video_path, sizeof(video_path), "%s/dub_video.tcv", dir);
@@ -2588,7 +2647,7 @@ static void begin_match(void) {
             char ogv[512]; snprintf(ogv, sizeof(ogv), "%s/dub_video.ogv", dir);
             FILE *original = fopen(ogv, "rb");
             if (original) { fclose(original); set_message("Dub video needs PC conversion: run prepare_3ds_dub_packs.py"); }
-            else set_message("Dub mode needs a pack containing dub_video.ogv and timestamped clips");
+            else set_message("Dub mode needs a pack folder with dub_video.ogv and timestamped clips");
             page = PAGE_SETUP; selected = 0; return;
         }
         voice_clip_count = load_voice_clips(dir, true);

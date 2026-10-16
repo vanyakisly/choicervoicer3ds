@@ -1,0 +1,6 @@
+[data]
+
+caption="come be my friend"
+image="041_Verity.jpg"
+dub_timestamps=[100.105]
+dub_characters=["Verity"]
