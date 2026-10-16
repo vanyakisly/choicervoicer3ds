@@ -107,3 +107,8 @@ Build dependency note: GitHub Actions deliberately avoids refreshing devkitPro p
 ## Recording UI and Watch Dub (v17)
 
 While recording, the lower-screen waveform follows recent completed microphone PCM samples in real time. The status strip displays recording elapsed time, then an explicit stop/save result when recording ends. The trace freezes on the captured take after stopping. Watch Dub renders the actual pack video from `dub_video.tcv` in the top screen, plays the backing track when present, and overlays recorded WAV takes by timestamp. Built-in media stays embedded in RomFS; only `/3ds/TheChoicerVoicer3DS.3dsx` and its `.smdh` are needed for installation. Saves and recordings use `/3ds/TheChoicerVoicer3DS_User/`, and no files need to be added to or replaced in `/3ds/The Choicer Voicer/`.
+
+
+## Pack browser stability (v18)
+
+The prior scanner used a local array of 64 `DubPackItem` records (39,680 bytes) on the application stack, which could overflow when opening the Dub Pack browser. This is now static storage. Pack and voice-line directory discovery also use bounded iterative directory stacks (maximum 512 opened directories per scan) and release all directory handles. Large `ItemList` locals were moved out of the menu/selection call path. The host regression test exercises the same multi-root scanner under a restricted 64 KiB stack.

@@ -22,7 +22,16 @@ assert '#define USER_ROOT "sdmc:/3ds/TheChoicerVoicer3DS_User"' in SOURCE
 assert 'static int scan_all_dub_pack_roots(' in SOURCE
 assert 'USER_ROOT "/packs_voice"' in SOURCE
 assert 'LEGACY_ROOT "/packs_voice"' in SOURCE
-assert 'scan_dub_pack_root(roots[r], scratch, MAX_ITEMS)' in SOURCE
+assert 'scan_dub_pack_root(roots[r], dub_pack_scan_scratch, MAX_ITEMS)' in SOURCE
+assert 'static DubPackItem dub_pack_scan_scratch[MAX_ITEMS]' in SOURCE
+assert 'DubPackItem scratch[MAX_ITEMS]' not in SOURCE
+assert 'static DubScanFrame dub_scan_frames[MAX_DUB_SCAN_DEPTH + 1]' in SOURCE
+assert 'static VoiceScanFrame voice_scan_frames[MAX_VOICE_SCAN_DEPTH + 1]' in SOURCE
+assert 'scan_voice_dir(pack_root, path, rel' not in SOURCE
+assert 'scan_dub_pack_tree(voice_root, child, child_relative' not in SOURCE
+assert 'MAX_DUB_SCAN_DIRS 512u' in SOURCE
+assert 'dub_pack_scan_dirs_visited = 0' in SOURCE
+assert 'MAX_VOICE_SCAN_DIRS 512u' in SOURCE
 assert 'static void scan_dub_pack_tree(' in SOURCE
 assert 'snprintf(pending_dub_pack_path, sizeof(pending_dub_pack_path), "%s", item->path)' in SOURCE
 assert 'use_pending_dub_path' in SOURCE

@@ -158,6 +158,28 @@ typedef struct {
     bool has_tcv;
 } DubPackItem;
 
+/* Explicit directory stacks avoid deep C recursion on the Old 3DS's small
+   default thread stack. Each scan closes every DIR* it opens before returning. */
+#define MAX_DUB_SCAN_DEPTH 6
+#define MAX_VOICE_SCAN_DEPTH 5
+#define MAX_DUB_SCAN_DIRS 512u
+#define MAX_VOICE_SCAN_DIRS 512u
+
+typedef struct {
+    DIR *dir;
+    char path[512];
+    char relative[192];
+    int depth;
+    int top_index;
+} DubScanFrame;
+
+typedef struct {
+    DIR *dir;
+    char path[512];
+    char relative[192];
+    int depth;
+} VoiceScanFrame;
+
 typedef struct {
     FILE *file;
     uint16_t width, height, fps, key_interval;
@@ -206,6 +228,16 @@ static int pack_type = 0;
 static int pack_selected = 0;
 static int pack_scroll_offset = 0;
 static DubPackItem dub_pack_items[MAX_ITEMS];
+/* ItemList is ~6 KiB and DubPackItem[MAX_ITEMS] is ~40 KiB; neither belongs
+   on the 3DS's small application stack. These shared buffers are safe because
+   the UI and scanners run synchronously on the main thread. */
+static DubPackItem dub_pack_scan_scratch[MAX_ITEMS];
+static ItemList dub_pack_root_dirs;
+static ItemList general_pack_scratch;
+static ItemList recordings_list_scratch;
+static DubScanFrame dub_scan_frames[MAX_DUB_SCAN_DEPTH + 1];
+static VoiceScanFrame voice_scan_frames[MAX_VOICE_SCAN_DEPTH + 1];
+static unsigned dub_pack_scan_dirs_visited = 0;
 static int dub_pack_count = 0;
 static int dub_pack_selected = 0;
 static int dub_pack_scroll_offset = 0;
@@ -2038,7 +2070,8 @@ static void canvas_flush(Canvas *c, gfxScreen_t screen, gfx3dSide_t side) {
 static void go_home(void) { page = PAGE_HOME; selected = 0; }
 
 static int pack_count_for_type(int type) {
-    ItemList items; list_pack_dir(type, &items); return items.count > 0 ? items.count : 1;
+    list_pack_dir(type, &general_pack_scratch);
+    return general_pack_scratch.count > 0 ? general_pack_scratch.count : 1;
 }
 
 static void normalize_pack_indices(void) {
@@ -2073,16 +2106,15 @@ static void assign_selected_pack(void) {
 }
 
 static bool get_pack_dir(int type, int index, char *out, size_t out_size) {
-    ItemList items;
     if (!out || out_size == 0) return false;
     out[0] = '\0';
-    list_pack_dir(type, &items);
-    if (index < 0 || index >= items.count) return false;
+    list_pack_dir(type, &general_pack_scratch);
+    if (index < 0 || index >= general_pack_scratch.count) return false;
     const char *bases[] = { USER_ROOT, LEGACY_ROOT, ROOT };
     const char *folder = pack_folders[clamp_int(type, 0, 6)];
     for (size_t i = 0; i < sizeof(bases)/sizeof(bases[0]); ++i) {
         char candidate[600];
-        int n = snprintf(candidate, sizeof(candidate), "%s/%s/%s", bases[i], folder, items.items[index].name);
+        int n = snprintf(candidate, sizeof(candidate), "%s/%s/%s", bases[i], folder, general_pack_scratch.items[index].name);
         if (n <= 0 || (size_t)n >= sizeof(candidate) || !path_is_directory(candidate)) continue;
         if (snprintf(out, out_size, "%s", candidate) >= (int)out_size) { out[0] = '\0'; return false; }
         return true;
@@ -2235,17 +2267,48 @@ static int compare_voice_clips(const void *a, const void *b) {
 }
 
 static void scan_voice_dir(const char *pack_root, const char *dir, const char *relative, int depth, bool require_timestamp) {
-    if (depth > 5 || voice_clip_count >= MAX_VOICE_CLIPS) return;
-    DIR *d = opendir(dir); if (!d) return;
-    struct dirent *entry;
-    while ((entry = readdir(d)) && voice_clip_count < MAX_VOICE_CLIPS) {
+    if (!pack_root || !dir || !relative || depth < 0 || depth > MAX_VOICE_SCAN_DEPTH ||
+        voice_clip_count >= MAX_VOICE_CLIPS) return;
+
+    /* Iterative depth-first scan: the previous recursive implementation used
+       >12 KiB per call at -O2 and could overflow the Old 3DS app stack for a
+       nested pack. The fixed global stack is bounded and all handles are closed. */
+    memset(voice_scan_frames, 0, sizeof(voice_scan_frames));
+    snprintf(voice_scan_frames[0].path, sizeof(voice_scan_frames[0].path), "%.511s", dir);
+    snprintf(voice_scan_frames[0].relative, sizeof(voice_scan_frames[0].relative), "%.191s", relative);
+    voice_scan_frames[0].depth = depth;
+    voice_scan_frames[0].dir = opendir(voice_scan_frames[0].path);
+    if (!voice_scan_frames[0].dir) return;
+
+    int sp = 0;
+    unsigned scanned_dirs = 1;
+    while (sp >= 0 && voice_clip_count < MAX_VOICE_CLIPS && scanned_dirs <= MAX_VOICE_SCAN_DIRS) {
+        VoiceScanFrame *frame = &voice_scan_frames[sp];
+        struct dirent *entry = readdir(frame->dir);
+        if (!entry) {
+            closedir(frame->dir); frame->dir = NULL; --sp; continue;
+        }
         if (entry->d_name[0] == '.' || entry->d_name[0] == '_') continue;
+
         char path[512], rel[192];
-        int pn = snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
-        int rn = relative && *relative ? snprintf(rel, sizeof(rel), "%s/%s", relative, entry->d_name) : snprintf(rel, sizeof(rel), "%s", entry->d_name);
+        int pn = snprintf(path, sizeof(path), "%s/%s", frame->path, entry->d_name);
+        int rn = frame->relative[0] ? snprintf(rel, sizeof(rel), "%s/%s", frame->relative, entry->d_name)
+                                    : snprintf(rel, sizeof(rel), "%s", entry->d_name);
         if (pn <= 0 || (size_t)pn >= sizeof(path) || rn <= 0 || (size_t)rn >= sizeof(rel)) continue;
-        struct stat st; if (stat(path, &st) != 0) continue;
-        if (S_ISDIR(st.st_mode)) { scan_voice_dir(pack_root, path, rel, depth + 1, require_timestamp); continue; }
+        struct stat st;
+        if (stat(path, &st) != 0) continue;
+        if (S_ISDIR(st.st_mode)) {
+            if (frame->depth >= MAX_VOICE_SCAN_DEPTH || sp + 1 > MAX_VOICE_SCAN_DEPTH ||
+                scanned_dirs >= MAX_VOICE_SCAN_DIRS) continue;
+            VoiceScanFrame *child = &voice_scan_frames[sp + 1];
+            memset(child, 0, sizeof(*child));
+            snprintf(child->path, sizeof(child->path), "%.511s", path);
+            snprintf(child->relative, sizeof(child->relative), "%.191s", rel);
+            child->depth = frame->depth + 1;
+            child->dir = opendir(child->path);
+            if (child->dir) { ++sp; ++scanned_dirs; }
+            continue;
+        }
         if (!S_ISREG(st.st_mode) || !has_ext(entry->d_name, ".wav")) continue;
         bool native_companion = has_ext(entry->d_name, ".3ds.wav");
         char canonical_leaf[256];
@@ -2255,7 +2318,7 @@ static void scan_voice_dir(const char *pack_root, const char *dir, const char *r
             memcpy(canonical_leaf, entry->d_name, leaf_len);
             memcpy(canonical_leaf + leaf_len, ".wav", 5);
         } else {
-            /* Prefer the normalized companion, avoiding duplicates and RAM spikes. */
+            /* Prefer the normalized companion, avoiding duplicate clips and RAM spikes. */
             char companion[512];
             int cn = snprintf(companion, sizeof(companion), "%.*s.3ds.wav",
                               (int)(strlen(path) - strlen(".wav")), path);
@@ -2266,13 +2329,13 @@ static void scan_voice_dir(const char *pack_root, const char *dir, const char *r
             snprintf(canonical_leaf, sizeof(canonical_leaf), "%.251s", entry->d_name);
         }
         char canonical_rel[192];
-        int cr = relative && *relative ? snprintf(canonical_rel, sizeof(canonical_rel), "%s/%s", relative, canonical_leaf)
-                                       : snprintf(canonical_rel, sizeof(canonical_rel), "%s", canonical_leaf);
+        int cr = frame->relative[0] ? snprintf(canonical_rel, sizeof(canonical_rel), "%s/%s", frame->relative, canonical_leaf)
+                                    : snprintf(canonical_rel, sizeof(canonical_rel), "%s", canonical_leaf);
         if (cr <= 0 || (size_t)cr >= sizeof(canonical_rel)) continue;
         NativeVoiceClip clip; memset(&clip, 0, sizeof(clip));
-        snprintf(clip.path, sizeof(clip.path), "%s", path);
-        snprintf(clip.relative, sizeof(clip.relative), "%s", canonical_rel);
-        snprintf(clip.stem, sizeof(clip.stem), "%s", canonical_rel);
+        snprintf(clip.path, sizeof(clip.path), "%.383s", path);
+        snprintf(clip.relative, sizeof(clip.relative), "%.191s", canonical_rel);
+        snprintf(clip.stem, sizeof(clip.stem), "%.127s", canonical_rel);
         char *dot = strrchr(clip.stem, '.'); if (dot) *dot = '\0';
         char stem_path[512]; int sn = snprintf(stem_path, sizeof(stem_path), "%s/%s", pack_root, clip.stem);
         if (sn <= 0 || (size_t)sn >= sizeof(stem_path)) continue;
@@ -2284,8 +2347,6 @@ static void scan_voice_dir(const char *pack_root, const char *dir, const char *r
             snprintf(clip.caption, sizeof(clip.caption), "%.159s", leaf);
         }
         if (require_timestamp) {
-            /* Godot packs allow an array of timestamps for one audio clip. Add
-               one timeline event per timestamp while retaining the source path. */
             for (uint8_t ti = 0; ti < clip.timestamp_count && voice_clip_count < MAX_VOICE_CLIPS; ++ti) {
                 NativeVoiceClip event = clip;
                 event.timestamp = clip.timestamps[ti];
@@ -2297,7 +2358,11 @@ static void scan_voice_dir(const char *pack_root, const char *dir, const char *r
             voice_clips[voice_clip_count++] = clip;
         }
     }
-    closedir(d);
+    while (sp >= 0) {
+        if (voice_scan_frames[sp].dir) closedir(voice_scan_frames[sp].dir);
+        voice_scan_frames[sp].dir = NULL;
+        --sp;
+    }
 }
 
 static int load_voice_clips(const char *pack_dir, bool require_timestamps) {
@@ -2375,39 +2440,69 @@ static bool append_dub_pack(const char *voice_root, const char *pack_path,
 static void scan_dub_pack_tree(const char *voice_root, const char *dir,
                                const char *relative, int depth, int top_index,
                                DubPackItem *out, int out_cap, int *count) {
-    if (!voice_root || !dir || !relative || !out || !count || *count >= out_cap || depth > 6) return;
-    /* If a directory contains the video, that directory is the pack root.
-       Its voice clips can themselves live in subdirectories; load_voice_clips
-       already searches them recursively. Do not accidentally list nested media
-       subfolders as separate packs. */
-    if (append_dub_pack(voice_root, dir, relative, top_index, out, out_cap, count)) return;
+    if (!voice_root || !dir || !relative || !out || !count || *count >= out_cap ||
+        depth < 0 || depth > MAX_DUB_SCAN_DEPTH || dub_pack_scan_dirs_visited >= MAX_DUB_SCAN_DIRS) return;
+    /* One directory stack replaces recursive traversal: even deeply nested
+       user folders cannot consume the small application stack. */
+    if (append_dub_pack(voice_root, dir, relative, top_index, out, out_cap, count)) {
+        ++dub_pack_scan_dirs_visited;
+        return;
+    }
+    memset(dub_scan_frames, 0, sizeof(dub_scan_frames));
+    snprintf(dub_scan_frames[0].path, sizeof(dub_scan_frames[0].path), "%.511s", dir);
+    snprintf(dub_scan_frames[0].relative, sizeof(dub_scan_frames[0].relative), "%.191s", relative);
+    dub_scan_frames[0].depth = depth;
+    dub_scan_frames[0].top_index = top_index;
+    dub_scan_frames[0].dir = opendir(dub_scan_frames[0].path);
+    if (!dub_scan_frames[0].dir) return;
 
-    DIR *d = opendir(dir);
-    if (!d) return;
-    struct dirent *entry;
-    while ((entry = readdir(d)) && *count < out_cap) {
+    int sp = 0;
+    ++dub_pack_scan_dirs_visited;
+    while (sp >= 0 && *count < out_cap && dub_pack_scan_dirs_visited <= MAX_DUB_SCAN_DIRS) {
+        DubScanFrame *frame = &dub_scan_frames[sp];
+        struct dirent *entry = readdir(frame->dir);
+        if (!entry) {
+            closedir(frame->dir); frame->dir = NULL; --sp; continue;
+        }
         if (entry->d_name[0] == '.') continue;
         char child[512], child_relative[192];
-        int pn = snprintf(child, sizeof(child), "%s/%s", dir, entry->d_name);
-        int rn = snprintf(child_relative, sizeof(child_relative), "%s/%s", relative, entry->d_name);
+        int pn = snprintf(child, sizeof(child), "%s/%s", frame->path, entry->d_name);
+        int rn = snprintf(child_relative, sizeof(child_relative), "%s/%s", frame->relative, entry->d_name);
         if (pn <= 0 || (size_t)pn >= sizeof(child) || rn <= 0 || (size_t)rn >= sizeof(child_relative)) continue;
         struct stat st;
         if (stat(child, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
-        scan_dub_pack_tree(voice_root, child, child_relative, depth + 1, top_index, out, out_cap, count);
+        if (dub_pack_scan_dirs_visited >= MAX_DUB_SCAN_DIRS) continue;
+        if (append_dub_pack(voice_root, child, child_relative, frame->top_index, out, out_cap, count)) {
+            ++dub_pack_scan_dirs_visited;
+            continue;
+        }
+        if (frame->depth >= MAX_DUB_SCAN_DEPTH || sp + 1 > MAX_DUB_SCAN_DEPTH) continue;
+        DubScanFrame *next = &dub_scan_frames[sp + 1];
+        memset(next, 0, sizeof(*next));
+        snprintf(next->path, sizeof(next->path), "%.511s", child);
+        snprintf(next->relative, sizeof(next->relative), "%.191s", child_relative);
+        next->depth = frame->depth + 1;
+        next->top_index = frame->top_index;
+        next->dir = opendir(next->path);
+        if (next->dir) { ++sp; ++dub_pack_scan_dirs_visited; }
     }
-    closedir(d);
+    while (sp >= 0) {
+        if (dub_scan_frames[sp].dir) closedir(dub_scan_frames[sp].dir);
+        dub_scan_frames[sp].dir = NULL;
+        --sp;
+    }
 }
 
 static int scan_dub_pack_root(const char *voice_root, DubPackItem *out, int out_cap) {
     if (!voice_root || !out || out_cap <= 0) return 0;
-    ItemList dirs;
-    list_subdirectories(voice_root, &dirs);
+    list_subdirectories(voice_root, &dub_pack_root_dirs);
+    dub_pack_scan_dirs_visited = 0;
     int count = 0;
-    for (int i = 0; i < dirs.count && count < out_cap; ++i) {
+    for (int i = 0; i < dub_pack_root_dirs.count && count < out_cap; ++i) {
         char first_level[512];
-        int n = snprintf(first_level, sizeof(first_level), "%s/%s", voice_root, dirs.items[i].name);
+        int n = snprintf(first_level, sizeof(first_level), "%s/%s", voice_root, dub_pack_root_dirs.items[i].name);
         if (n <= 0 || (size_t)n >= sizeof(first_level)) continue;
-        scan_dub_pack_tree(voice_root, first_level, dirs.items[i].name, 0, i, out, out_cap, &count);
+        scan_dub_pack_tree(voice_root, first_level, dub_pack_root_dirs.items[i].name, 0, i, out, out_cap, &count);
     }
     voice_clip_count = 0;
     qsort(out, (size_t)count, sizeof(out[0]), compare_dub_packs);
@@ -2422,15 +2517,15 @@ static int scan_all_dub_pack_roots(DubPackItem *out, int out_cap) {
         ROOT "/packs_voice"
     };
     int total = 0;
-    DubPackItem scratch[MAX_ITEMS];
+    /* Never put the ~40 KiB DubPackItem[64] on the application stack. */
     for (size_t r = 0; r < sizeof(roots)/sizeof(roots[0]) && total < out_cap; ++r) {
-        int n = scan_dub_pack_root(roots[r], scratch, MAX_ITEMS);
+        int n = scan_dub_pack_root(roots[r], dub_pack_scan_scratch, MAX_ITEMS);
         for (int i = 0; i < n && total < out_cap; ++i) {
             bool duplicate = false;
             for (int j = 0; j < total; ++j) {
-                if (strcasecmp(out[j].name, scratch[i].name) == 0) { duplicate = true; break; }
+                if (strcasecmp(out[j].name, dub_pack_scan_scratch[i].name) == 0) { duplicate = true; break; }
             }
-            if (!duplicate) out[total++] = scratch[i];
+            if (!duplicate) out[total++] = dub_pack_scan_scratch[i];
         }
     }
     qsort(out, (size_t)total, sizeof(out[0]), compare_dub_packs);
@@ -2884,9 +2979,9 @@ static void begin_match(void) {
     if (use_pending_dub_path) {
         snprintf(active_pack_name, sizeof(active_pack_name), "%.95s", selected_dub_name);
     } else {
-        ItemList packs; list_pack_dir(0, &packs);
-        if (game.voice >= 0 && game.voice < packs.count)
-            snprintf(active_pack_name, sizeof(active_pack_name), "%.95s", packs.items[game.voice].name);
+        list_pack_dir(0, &general_pack_scratch);
+        if (game.voice >= 0 && game.voice < general_pack_scratch.count)
+            snprintf(active_pack_name, sizeof(active_pack_name), "%.95s", general_pack_scratch.items[game.voice].name);
         else snprintf(active_pack_name, sizeof(active_pack_name), "Voice Pack");
     }
 
@@ -3025,10 +3120,10 @@ static void watch_latest_dub(void) {
         snprintf(game.last_recording, sizeof(game.last_recording), "%s", latest);
         set_message("Playing saved dub"); return;
     }
-    ItemList l; list_dir(REC_DIR, &l);
-    for (int i=l.count-1; i>=0; --i) {
-        if (has_ext(l.items[i].name, ".wav")) {
-            char path[384]; snprintf(path, sizeof(path), "%s/%s", REC_DIR, l.items[i].name);
+    list_dir(REC_DIR, &recordings_list_scratch);
+    for (int i=recordings_list_scratch.count-1; i>=0; --i) {
+        if (has_ext(recordings_list_scratch.items[i].name, ".wav")) {
+            char path[384]; snprintf(path, sizeof(path), "%s/%s", REC_DIR, recordings_list_scratch.items[i].name);
             if (play_wav_file(path)) { snprintf(game.last_recording, sizeof(game.last_recording), "%s", path); set_message("Playing saved dub"); return; }
         }
     }
@@ -3206,7 +3301,7 @@ static void activate_menu(int id) {
                 remove(SAVE_FILE); load_state();
                 if (setup_storage()) set_message("Native settings reset"); else set_message("Could not reset settings");
             }
-            else if (id==2) { ItemList l; list_dir(REC_DIR,&l); set_message(l.count?"Recordings are in recordings/":"No recordings yet"); }
+            else if (id==2) { list_dir(REC_DIR, &recordings_list_scratch); set_message(recordings_list_scratch.count?"Recordings are in recordings/":"No recordings yet"); }
             else if (id==3) { page=PAGE_PACKS; selected=0; }
             else if (id==4) go_home();
             break;

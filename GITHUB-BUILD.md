@@ -28,3 +28,8 @@ The native port uses zlib for the compressed video-frame format. The workflow av
 ### v17 recording and playback feedback
 
 The bottom screen includes a live sample-derived microphone waveform and a dedicated recording status strip. It explicitly reports when recording stops and whether the take was saved. Dub Cinema renders the actual selected dub video while Watch Dub is active and overlays saved takes at their timestamps. All default assets/packs remain embedded in the `.3dsx`; the SD card still only needs the app files under `/3ds/`, and the old `The Choicer Voicer` folder is not required or modified.
+
+
+### v18 — Dub pack selection crash fix
+
+The native pack scanner uses static bounded scratch buffers instead of large stack-local arrays, and iterative DFS for pack and clip discovery instead of recursive calls. GitHub Actions exercises user/legacy/embedded roots under a 64 KiB host stack limit on Linux and checks stack-frame reports before the ARM build.

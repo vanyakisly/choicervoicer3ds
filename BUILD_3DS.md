@@ -29,3 +29,8 @@ On v17, the lower screen draws a live, scrolling waveform from actual completed 
 To convert a pack locally before copying it to the SD card, install Python 3, Pillow and FFmpeg, then run `python tools/prepare_3ds_dub_packs.py --tree packs_voice`. The GitHub workflow runs a synthetic video/audio/image test and a host-side regression test of the actual C metadata scanner before attempting the devkitARM build.
 
 This is a hardware-adapted native port, not an execution of Godot scenes on the 3DS. It targets the original pack structures, but the completed ARM build and physical-device behavior still need validation from the GitHub Actions build and on an Old 3DS.
+
+
+## v18 — Pack selector crash fix
+
+The dub browser no longer allocates its 64-item (~39.7 KiB) scratch array on the main stack. Pack/voice directory scanning now uses bounded iterative directory stacks and a 512-directory scan budget, and menu code reuses static item-list scratch buffers. The GitHub host regression test runs the actual multi-root scanner with a 64 KiB stack limit on Linux and checks compiler-measured frame sizes.

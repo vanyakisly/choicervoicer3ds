@@ -5,6 +5,10 @@ import shutil
 import subprocess
 import tempfile
 from pathlib import Path
+try:
+    import resource
+except ImportError:  # Windows does not expose setrlimit; source stack checks still run.
+    resource = None
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -47,7 +51,7 @@ def main() -> None:
         (voice_only / "hello.3ds.wav").write_bytes(b"voice fixture")
         nested = make_nested_verity_style_pack(base)
         exe = base / "test_dub_pack_browser"
-        cmd = [cc, "-std=gnu11", "-O0", "-ffunction-sections", "-fdata-sections",
+        cmd = [cc, "-std=gnu11", "-O2", "-fstack-usage", "-ffunction-sections", "-fdata-sections",
                "-Wno-implicit-function-declaration", "-Wno-int-conversion",
                "-Wno-pointer-to-int-cast", "-Wno-incompatible-pointer-types",
                "-Wno-unused-parameter", "-Wno-unused-function",
@@ -56,10 +60,58 @@ def main() -> None:
                "-Wl,--gc-sections", "-lz", "-lm", "-o", str(exe)]
         subprocess.run(cmd, check=True)
         subprocess.run([str(exe), str(base)], check=True)
+        # Exercise the exact multi-root entrypoint used when the user opens the
+        # pack browser. Keep all fixtures relative to that process's cwd because
+        # the 3DS paths are literal sdmc:/ and romfs:/ prefixes in the native code.
+        roots = [
+            (base / "sdmc:" / "3ds" / "TheChoicerVoicer3DS_User" / "packs_voice", "Nested Pack", True),
+            (base / "sdmc:" / "3ds" / "The Choicer Voicer" / "packs_voice", "Legacy Pack", False),
+            (base / "romfs:" / "tcv" / "packs_voice", "Embedded Pack", False),
+        ]
+        for root, pack_name, nested_folder in roots:
+            root.mkdir(parents=True, exist_ok=True)
+            if nested_folder:
+                make_pack(root / "Collection", pack_name, "dub_video.tcv", "[1.0]")
+            else:
+                make_pack(root, pack_name, "dub_video.tcv", "[1.0]")
+        def limit_stack():
+            assert resource is not None
+            soft, hard = resource.getrlimit(resource.RLIMIT_STACK)
+            target = 64 * 1024
+            if hard != resource.RLIM_INFINITY:
+                target = min(target, hard)
+            resource.setrlimit(resource.RLIMIT_STACK, (target, hard))
+        run_kwargs = {"cwd": base, "check": True}
+        if resource is not None:
+            run_kwargs["preexec_fn"] = limit_stack
+        subprocess.run([str(exe), "--scan-all"], **run_kwargs)
+        # The app-side scan entry point must stay small enough for the 3DS
+        # stack; inspect GCC's measured function frame sizes to catch regressions.
+        usage_files = list(base.glob("*.su"))
+        if not usage_files:
+            raise SystemExit("GCC did not emit the requested -fstack-usage report")
+        usage_text = "\n".join(f.read_text(encoding="utf-8", errors="replace") for f in usage_files)
+        import re
+        def measured_frame(name: str) -> int:
+            rows = [line for line in usage_text.splitlines() if re.search(r":" + re.escape(name) + r"(?:\.|\s)", line)]
+            if not rows:
+                raise SystemExit(f"No GCC stack-usage row found for {name}")
+            return max(int(row.split("\t")[1]) for row in rows)
+        if measured_frame("scan_all_dub_pack_roots") > 1024:
+            raise SystemExit("scan_all_dub_pack_roots uses too much stack; keep scratch buffers static")
+        if measured_frame("scan_dub_pack_root") > 4096:
+            raise SystemExit("scan_dub_pack_root uses too much stack for Old 3DS")
+        if measured_frame("begin_match") > 4096:
+            raise SystemExit("begin_match uses too much stack for Old 3DS")
+        if measured_frame("activate_menu") > 2048:
+            raise SystemExit("activate_menu uses too much stack for Old 3DS")
+        if measured_frame("scan_voice_dir") > 16384:
+            raise SystemExit("scan_voice_dir uses too much stack for Old 3DS")
         # Also test the complete real example pack included with this updated source.
         actual_pack_root = ROOT / "packs_voice"
         subprocess.run([str(exe), str(actual_pack_root), "--verity-fixture"], check=True)
-    print("PASS: recursive Dub Pack discovery finds folder-based packs, parses the verity-song file pattern, filters voice-only folders, and keeps exact nested paths.")
+    stack_mode = "with a 64 KiB stack limit" if resource is not None else "with GCC stack-frame checks"
+    print(f"PASS: pack discovery works across user/legacy/embedded roots {stack_mode}, handles nested folders, and recognizes the 46-line verity-song pack.")
 
 
 if __name__ == "__main__":
