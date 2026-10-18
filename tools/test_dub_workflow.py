@@ -22,7 +22,13 @@ assert '#define USER_ROOT "sdmc:/3ds/TheChoicerVoicer3DS_User"' in SOURCE
 assert 'static int scan_all_dub_pack_roots(' in SOURCE
 assert 'USER_ROOT "/packs_voice"' in SOURCE
 assert 'LEGACY_ROOT "/packs_voice"' in SOURCE
-assert 'scan_dub_pack_root(roots[r], dub_pack_scan_scratch, MAX_ITEMS)' in SOURCE
+assert 'scan_dub_pack_root(external_roots[r], dub_pack_scan_scratch, MAX_ITEMS)' in SOURCE
+assert 'scan_embedded_dub_pack_catalog(dub_pack_scan_scratch, MAX_ITEMS)' in SOURCE
+assert 'if (embedded_count < 0)' in SOURCE
+assert 'static bool dub_pack_cache_valid = false' in SOURCE
+assert 'if (!dub_pack_cache_valid)' in SOURCE
+assert 'static ItemList pack_category_cache[7]' in SOURCE
+assert 'if (pack_category_cache_valid[cache_index])' in SOURCE
 assert 'static DubPackItem dub_pack_scan_scratch[MAX_ITEMS]' in SOURCE
 assert 'DubPackItem scratch[MAX_ITEMS]' not in SOURCE
 assert 'static DubScanFrame dub_scan_frames[MAX_DUB_SCAN_DEPTH + 1]' in SOURCE
@@ -91,4 +97,4 @@ assert "if (w == (int)v->width * 2 && h == (int)v->height * 2)" in SOURCE
 assert "uint32_t *argb_pixels" in SOURCE
 assert "if (redraw_pending)" in SOURCE
 assert 'R_SUCCEEDED(romfsInit())' in SOURCE
-print("PASS: embedded/custom pack roots, mic waveform, Watch/Save Dub, cached video colours, dirty redraw and 30 FPS render cap.")
+print("PASS: cached pack categories, embedded catalog and custom pack fallback, mic waveform, Watch/Save Dub, cached video colours, dirty redraw and 30 FPS render cap.")

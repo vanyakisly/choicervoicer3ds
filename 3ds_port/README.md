@@ -112,3 +112,9 @@ While recording, the lower-screen waveform follows recent completed microphone P
 ## Pack browser stability (v18)
 
 The prior scanner used a local array of 64 `DubPackItem` records (39,680 bytes) on the application stack, which could overflow when opening the Dub Pack browser. This is now static storage. Pack and voice-line directory discovery also use bounded iterative directory stacks (maximum 512 opened directories per scan) and release all directory handles. Large `ItemList` locals were moved out of the menu/selection call path. The host regression test exercises the same multi-root scanner under a restricted 64 KiB stack.
+
+## v23 — Startup and browsing load-time optimization
+
+The native app now loads only the fonts and a few first-screen images at launch. Other UI art is lazy-loaded on its first use, with a per-asset attempted-load flag so missing images do not trigger repeated file opens. Pack category lists are cached for the app session, and the dub-pack list is scanned once then reused when reopening the selector. During the GitHub build, `prepare_3ds_assets.py` generates `packs_voice/.tcv_pack_index.tsv` after all packs are converted. The index lists each embedded pack's relative folder and dialogue-event count, letting the 3DS discover immutable RomFS packs without recursively walking every media directory at runtime. The workflow validates the catalog against all generated TCV videos; an empty catalog is valid when no embedded dub packs are supplied.
+
+This does not require any migration or replacement of `SD:/3ds/The Choicer Voicer/`. Built-in data remains inside the `.3dsx`; saves, settings and takes continue under `SD:/3ds/TheChoicerVoicer3DS_User/`. Existing user/legacy pack roots remain optional fallbacks, and the old path is never written to. Expected benefit is shorter cold startup and much faster repeated visits to pack selection; absolute timings and sustained 30 FPS still require measurement on a physical Old 3DS.

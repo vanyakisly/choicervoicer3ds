@@ -22,18 +22,17 @@ def make_pack(root: Path, name: str, video: str, timestamps: str | None) -> None
         (pack / "Line.ini").write_text(f'[data]\ncaption="Line"\ndub_timestamps={timestamps}\n', encoding="utf-8")
 
 
-def make_nested_verity_style_pack(root: Path) -> Path:
-    # Mirrors the user's verity_song.zip layout: an extracted top-level folder,
-    # 001_Name.wav + 001_Name.jpg + 001_Name.txt, dub_video.ogv, and pack info.
-    pack = root / "Collection" / "verity song"
+def make_nested_example_pack(root: Path) -> Path:
+    # Generic extracted collection layout with an arbitrary pack and characters.
+    pack = root / "Collection" / "Alternate Voice Dub"
     pack.mkdir(parents=True)
     (pack / "dub_video.tcv").write_bytes(b"fixture converted video")
-    (pack / "_pack_info.ini").write_text('[data]\ntitle="verity song"\nicon="001_Verity.jpg"\n', encoding="utf-8")
-    (pack / "001_Verity.3ds.wav").write_bytes(b"normalized line audio")
-    (pack / "001_Verity.jpg").write_bytes(b"fixture art")
-    (pack / "001_Verity.txt").write_text('[data]\ncaption="Hey, its me, its Verity!"\nimage="001_Verity.jpg"\ndub_timestamps=[1.695]\ndub_characters=["Verity"]\n', encoding="utf-8")
-    (pack / "002_the_guy.3ds.wav").write_bytes(b"normalized line audio")
-    (pack / "002_the_guy.txt").write_text('[data]\ncaption="i got a question"\ndub_timestamps=[8.163]\ndub_characters=["the guy"]\n', encoding="utf-8")
+    (pack / "_pack_info.ini").write_text('[data]\ntitle="Alternate Voice Dub"\nicon="01_Riley.jpg"\n', encoding="utf-8")
+    (pack / "01_Riley.3ds.wav").write_bytes(b"normalized line audio")
+    (pack / "01_Riley.jpg").write_bytes(b"fixture art")
+    (pack / "01_Riley.txt").write_text('[data]\ncaption="A sample line"\nimage="01_Riley.jpg"\ndub_timestamps=[1.695]\ndub_characters=["Riley"]\n', encoding="utf-8")
+    (pack / "02_Alex.3ds.wav").write_bytes(b"normalized line audio")
+    (pack / "02_Alex.txt").write_text('[data]\ncaption="Another line"\ndub_timestamps=[8.163]\ndub_characters=["Alex"]\n', encoding="utf-8")
     return pack
 
 
@@ -44,12 +43,13 @@ def main() -> None:
     with tempfile.TemporaryDirectory(prefix="tcv-dub-browser-") as temp:
         base = Path(temp)
         make_pack(base, "Needs Convert", "dub_video.ogv", "[1.0]")
+        make_pack(base, "Alternate Video", "movie.MP4", "[1.25]")
         make_pack(base, "No Timestamps", "dub_video.tcv", None)
         make_pack(base, "Ready Dub", "dub_video.tcv", "[0.5, 2.25]")
         voice_only = base / "Voice Only"
         voice_only.mkdir()
         (voice_only / "hello.3ds.wav").write_bytes(b"voice fixture")
-        nested = make_nested_verity_style_pack(base)
+        nested = make_nested_example_pack(base)
         exe = base / "test_dub_pack_browser"
         cmd = [cc, "-std=gnu11", "-O2", "-fstack-usage", "-ffunction-sections", "-fdata-sections",
                "-Wno-implicit-function-declaration", "-Wno-int-conversion",
@@ -81,6 +81,12 @@ def main() -> None:
                 make_pack(root, pack_name, "dub_video.tcv", "[1.0]")
                 if pack_name == "Embedded Pack":
                     make_pack(root, "Shared Pack", "dub_video.tcv", "[1.0]")
+        # Simulate the prebuilt RomFS catalog. This allows the test to exercise
+        # the fast embedded lookup without scanning every embedded directory.
+        embedded_root = base / "romfs:" / "tcv" / "packs_voice"
+        (embedded_root / ".tcv_pack_index.tsv").write_text(
+            "Embedded Pack\t7\nShared Pack\t3\n", encoding="utf-8")
+        subprocess.run([str(exe), "--scan-catalog"], cwd=base, check=True)
         def limit_stack():
             assert resource is not None
             soft, hard = resource.getrlimit(resource.RLIMIT_STACK)
@@ -114,11 +120,13 @@ def main() -> None:
             raise SystemExit("activate_menu uses too much stack for Old 3DS")
         if measured_frame("scan_voice_dir") > 16384:
             raise SystemExit("scan_voice_dir uses too much stack for Old 3DS")
-        # Also test the complete real example pack included with this updated source.
+        # Check all source-tree packs generically, without relying on a particular
+        # sample title or fixed line count. This remains valid when packs_voice is
+        # replaced by a completely different set of user packs.
         actual_pack_root = ROOT / "packs_voice"
-        subprocess.run([str(exe), str(actual_pack_root), "--verity-fixture"], check=True)
+        subprocess.run([str(exe), str(actual_pack_root), "--repo-packs"], check=True)
     stack_mode = "with a 64 KiB stack limit" if resource is not None else "with GCC stack-frame checks"
-    print(f"PASS: pack discovery works across user/legacy/embedded roots {stack_mode}, handles nested folders, and recognizes the 46-line verity-song pack.")
+    print(f"PASS: pack discovery works across user/legacy/embedded roots {stack_mode}, handles nested folders and arbitrary pack names/line counts.")
 
 
 if __name__ == "__main__":

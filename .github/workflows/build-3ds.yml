@@ -39,6 +39,11 @@ jobs:
           test -f tools/prepare_3ds_dub_packs.py
           test -f tools/test_3ds_dub_packs.py
           test -f tools/test_asset_optimizer.py
+          test -f tools/test_load_optimization.py
+          test -f tools/export_dub_video.py
+          test -f tools/test_export_dub_video.py
+          test -f EXPORT-DUB-VIDEO-WINDOWS.bat
+          test -f EXPORT-FULL-DUB.md
           test -f tools/test_native_pack_loader.py
           test -f tools/test_dub_pack_browser.py
           test -f tools/test_dub_pack_browser.c
@@ -52,10 +57,7 @@ jobs:
           test -f tools/test_mic_init.c
           test -f tools/test_mic_repeat_workflow.py
           test -f tools/build_3ds_in_container.sh
-          test -f packs_voice/README.txt
-          test -f "packs_voice/verity song/_pack_info.ini"
-          test -f "packs_voice/verity song/dub_video.ogv"
-          test -f "packs_voice/verity song/001_Verity.txt"
+          test -d packs_voice
           sh -n tools/build_3ds_in_container.sh
           if grep -Eq '(^|[[:space:]])(dkp-pacman|pacman)[[:space:]]+-Sy' .github/workflows/build-3ds.yml tools/build_3ds_in_container.sh; then
             echo "Unexpected devkitPro package-database refresh found; this build uses the SDK image and pinned source fallback." >&2
@@ -76,6 +78,8 @@ jobs:
           set -euo pipefail
           python3 tools/test_3ds_dub_packs.py
           python3 tools/test_asset_optimizer.py
+          python3 tools/test_load_optimization.py
+          python3 tools/test_export_dub_video.py
 
       - name: Test the native C pack loader
         shell: bash
@@ -136,17 +140,14 @@ jobs:
           test -s "3ds_port/romfs/tcv/assets_native/font_small.rgba"
           test -s "3ds_port/romfs/tcv/audio/music/maintheme.wav"
           test -d "3ds_port/romfs/tcv/packs_voice"
+          test -f "3ds_port/romfs/tcv/packs_voice/.tcv_pack_index.tsv"
           test -d "3ds_port/romfs/tcv/packs_menu"
-          # The supplied verity example is the regression pack. It must be
-          # converted before embedding; runtime cannot decode OGV directly.
-          test -s "3ds_port/romfs/tcv/packs_voice/verity song/dub_video.tcv"
+          # Validate every converted dub video rather than a hard-coded example.
           python3 - <<'PYTCV'
           import struct
           from pathlib import Path
           root = Path("3ds_port/romfs/tcv/packs_voice")
           videos = sorted(root.rglob("dub_video.tcv"))
-          if not videos:
-              raise SystemExit("No converted dub_video.tcv files found in embedded packs_voice")
           for path in videos:
               data = path.read_bytes()[:20]
               if len(data) != 20 or data[:4] != b"TCV1":
@@ -154,7 +155,23 @@ jobs:
               _, width, height, fps, key, frames, index = struct.unpack("<4sHHHHII", data)
               if (width, height, fps, key, index) != (160, 90, 10, 10, 20) or frames < 1:
                   raise SystemExit(f"Invalid TCV header values: {path}")
-          print(f"PASS: {len(videos)} embedded dub video(s) have valid TCV headers.")
+          if videos:
+              print(f"PASS: all {len(videos)} embedded dub videos have valid TCV headers.")
+          else:
+              print("WARNING: no dub videos were bundled; the app will build but Dub Mode has no bundled packs.")
+          catalog = root / ".tcv_pack_index.tsv"
+          if not catalog.is_file():
+              raise SystemExit("Missing build-time dub-pack catalog; runtime pack loading would be slow")
+          records = [line.rstrip("\r\n").rsplit("\t", 1) for line in catalog.read_text(encoding="utf-8").splitlines() if line.strip()]
+          for rel, clips in records:
+              if not (root / rel / "dub_video.tcv").is_file():
+                  raise SystemExit(f"Dub catalog points to a missing video: {rel}")
+              if not clips.isdecimal():
+                  raise SystemExit(f"Dub catalog has an invalid line count: {rel}")
+          if len(records) != len(videos):
+              raise SystemExit(f"Dub catalog lists {len(records)} packs but {len(videos)} TCV videos exist")
+          print(f"PASS: cataloged {len(records)} embedded dub pack(s) for fast runtime discovery.")
+          print(f"Repository packs_voice contains {sum(1 for p in Path('packs_voice').rglob('*') if p.is_dir())} subdirectories.")
           PYTCV
           test -f "3ds_port/romfs/tcv/ROMFS-INFO.txt"
           test ! -d "3ds_port/romfs/tcv/source_assets"

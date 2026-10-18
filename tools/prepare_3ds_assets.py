@@ -11,7 +11,7 @@ import subprocess
 import wave
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
-from prepare_3ds_dub_packs import convert_audio_tree, convert_pack_images, prepare_tree as prepare_voice_packs
+from prepare_3ds_dub_packs import (AUDIO_EXTENSIONS, IMAGE_EXTENSIONS, convert_audio_tree, convert_pack_images, prepare_tree as prepare_voice_packs)
 
 SPRITES = {
     "logo_banner": ("graphic/image/cv_temp_preview_banner.png", (240, 90)),
@@ -163,32 +163,50 @@ def optimize_large_wavs(root: Path, minimum_bytes: int = 1024 * 1024) -> tuple[i
 
 
 def prune_runtime_files(runtime_root: Path) -> tuple[int, int]:
-    """Drop source-format duplicates after native companions have been made.
+    """Drop original-format duplicates only after native companions are verified.
 
-    The desktop source project remains untouched in the repository. The ROMFS
-    bundle only keeps files the native 3DS runtime actually reads, which avoids
-    carrying full-resolution art, source videos, and compressed audio duplicates
-    inside every build.
+    `.tcv-source-file` markers identify alternate-named source videos (e.g.
+    movie.mkv) that were transcoded to dub_video.tcv. We can remove those from
+    the embedded staging tree without touching the original repository source.
     """
     removed = 0
     bytes_removed = 0
+    root_resolved = runtime_root.resolve()
+    for marker in sorted(runtime_root.rglob('.tcv-source-file')):
+        try:
+            rel = marker.read_text(encoding='utf-8', errors='replace').strip().replace('\\', '/')
+            source = (marker.parent / rel).resolve()
+            source.relative_to(root_resolved)
+            if source.is_file() and source != marker.resolve():
+                size = source.stat().st_size
+                source.unlink()
+                removed += 1
+                bytes_removed += size
+            marker.unlink()
+            removed += 1
+        except (OSError, ValueError):
+            try:
+                marker.unlink()
+                removed += 1
+            except OSError:
+                pass
+
     for source in sorted((p for p in runtime_root.rglob('*') if p.is_file()), reverse=True):
         low = source.name.lower()
         remove = False
-        if source.suffix.lower() in ('.mp3', '.ogg'):
-            # Audio preparation writes same-stem WAV/3DS WAV files.
+        if source.suffix.casefold() in AUDIO_EXTENSIONS:
+            # Voice and non-voice conversion paths make WAV/native companions.
             candidates = [source.with_suffix('.wav'), source.with_name(source.stem + '.3ds.wav')]
-            remove = any(c.is_file() for c in candidates)
-        elif source.suffix.lower() == '.ogv':
+            remove = any(c.is_file() for c in candidates) and not low.endswith('.3ds.wav')
+        elif source.suffix.casefold() == '.ogv':
             remove = source.with_name('dub_video.tcv').is_file()
         elif low.endswith('.3ds.wav'):
             remove = False
-        elif source.suffix.lower() == '.wav':
+        elif source.suffix.casefold() == '.wav':
             remove = source.with_name(source.stem + '.3ds.wav').is_file()
-        elif source.suffix.lower() in ('.png', '.jpg', '.jpeg', '.webp', '.bmp'):
+        elif source.suffix.casefold() in IMAGE_EXTENSIONS:
             remove = source.with_suffix('.tcvr').is_file()
-        elif source.suffix.lower() == '.import':
-            # Godot editor import sidecars have no meaning to the native runtime.
+        elif source.suffix.casefold() == '.import':
             remove = True
         if remove:
             try:
@@ -199,6 +217,101 @@ def prune_runtime_files(runtime_root: Path) -> tuple[int, int]:
             except OSError:
                 pass
     return removed, bytes_removed
+
+
+def _native_timestamp_seconds(value: str) -> float | None:
+    value = value.strip().strip('[]()').strip().strip('\"\'')
+    if not value:
+        return None
+    try:
+        parts = value.split(':')
+        if len(parts) == 3:
+            seconds = float(parts[0]) * 3600.0 + float(parts[1]) * 60.0 + float(parts[2])
+        elif len(parts) == 2:
+            seconds = float(parts[0]) * 60.0 + float(parts[1])
+        elif len(parts) == 1:
+            seconds = float(parts[0])
+        else:
+            return None
+    except ValueError:
+        return None
+    return seconds if 0.0 <= seconds <= 86400.0 else None
+
+
+def _count_native_timestamps(stem: Path) -> int:
+    """Count timestamps the C runtime will accept for one normalized line."""
+    raw = None
+    for ext in ('.ini', '.cfg', '.txt'):
+        meta = stem.with_suffix(ext)
+        if not meta.is_file():
+            continue
+        try:
+            text = meta.read_text(encoding='utf-8-sig', errors='replace')
+        except OSError:
+            continue
+        # Native parser deliberately consumes the first existing sidecar. The
+        # converter has already merged non-native sidecars into canonical INI.
+        for line in text.splitlines():
+            stripped = line.strip()
+            if not stripped or stripped.startswith(('#', ';', '[')):
+                continue
+            sep = '=' if '=' in stripped else (':' if ':' in stripped else None)
+            if not sep:
+                continue
+            key, value = stripped.split(sep, 1)
+            if key.strip().casefold() in ('dub_timestamps', 'dub_timestamp'):
+                raw = value.strip()
+                break
+        break
+    if raw is not None:
+        value = raw.strip()
+        if value.startswith(('[', '(')):
+            value = value[1:]
+        value = value.rstrip('])} \t')
+        count = sum(1 for item in value.split(',') if _native_timestamp_seconds(item) is not None)
+        if count:
+            return count
+    # Match the C loader's final fallback: `clip_1-25.wav` means 1.25 s.
+    leaf = stem.name
+    pivot = leaf.rfind('_')
+    if pivot >= 0 and '-' in leaf[pivot + 1:]:
+        fallback = leaf[pivot + 1:].replace('-', '.')
+        if _native_timestamp_seconds(fallback) is not None:
+            return 1
+    return 0
+
+
+def write_embedded_dub_catalog(voice_root: Path) -> int:
+    """Write a tiny index so the 3DS doesn't recursively scan immutable RomFS.
+
+    Each record is relative-pack-path<TAB>number-of-timestamped-line-events.
+    Custom/legacy SD roots are still scanned as an optional fallback.
+    """
+    records: list[tuple[str, int]] = []
+    if voice_root.is_dir():
+        for video in sorted(voice_root.rglob('dub_video.tcv'), key=lambda p: str(p).casefold()):
+            rel_dir = video.parent.relative_to(voice_root)
+            if str(rel_dir) == '.':
+                continue
+            rel = rel_dir.as_posix()
+            parts = rel.split('/')
+            if len(rel) >= 192 or any(not part or part in ('.', '..') or part.startswith(('.', '_')) for part in parts):
+                continue
+            clip_count = 0
+            for audio in sorted(video.parent.rglob('*.3ds.wav'), key=lambda p: str(p).casefold()):
+                relative_audio = audio.relative_to(video.parent)
+                if any(part.startswith(('.', '_')) for part in relative_audio.parts):
+                    continue
+                stem = audio.with_name(audio.name[:-len('.3ds.wav')])
+                clip_count += _count_native_timestamps(stem)
+            records.append((rel, min(clip_count, 256)))
+    catalog = voice_root / '.tcv_pack_index.tsv'
+    catalog.parent.mkdir(parents=True, exist_ok=True)
+    with catalog.open('w', encoding='utf-8', newline='\n') as stream:
+        for relative, clip_count in records:
+            stream.write(f'{relative}\t{clip_count}\n')
+    print(f'Indexed {len(records)} embedded dub pack(s) in {catalog.name}; runtime scan avoids recursive RomFS walk.')
+    return len(records)
 
 
 def main() -> None:
@@ -259,8 +372,8 @@ def main() -> None:
             optimize_large_wavs(destination)
             convert_pack_images(destination)
 
-    # Real dub packs are still stored in packs_voice. Keep the original OGV
-    # source and create native-friendly TCV video plus WAV companions for clips.
+    # Real dub packs are kept under packs_voice. Transcode common video containers
+    # and normalize the line audio/metadata into the native TCV + PCM format.
     prepare_voice_packs(out / "packs_voice", transcode_audio=True)
     optimized_voice, voice_bytes_saved = optimize_large_wavs(out / "packs_voice")
     # prepare_voice_packs produces PCM16/22.05-kHz companions directly, so no
@@ -271,6 +384,9 @@ def main() -> None:
     # ROMFS. They remain in the source repository; the 3DS runtime only needs
     # the compact native sprites, converted PCM audio, metadata, and TCV clips.
     removed_count, removed_bytes = prune_runtime_files(out)
+    # Build a static catalog after conversion/pruning. RomFS is read-only, so
+    # the app can load this small index instead of statting every embedded file.
+    embedded_dub_count = write_embedded_dub_catalog(out / "packs_voice")
     (out / "ROMFS-INFO.txt").write_text(
         "The Choicer Voicer — embedded Old 3DS runtime data\n\n"
         "This tree is embedded read-only inside TheChoicerVoicer3DS.3dsx.\n"
@@ -285,6 +401,7 @@ def main() -> None:
     print("Converted compressed audio to mono PCM16; large WAVs are reduced to 16-kHz so they fit the 4-MiB playback cap")
     print(f"Optimized {optimized_audio + optimized_voice} large WAVs; saved {audio_bytes_saved + voice_bytes_saved:,} bytes")
     print(f"Pruned {removed_count} duplicate/source files ({removed_bytes:,} bytes) from runtime data")
+    print(f"Indexed {embedded_dub_count} embedded dub pack(s)")
     print(f"Prepared compact embedded runtime tree at {out}")
 
 

@@ -9,8 +9,9 @@ import zlib
 from pathlib import Path
 from prepare_3ds_dub_packs import (
     HEADER, FRAME_HEADER, FRAME_BYTES, FLAG_KEY, FLAG_RAW, convert_video,
-    prepare_voice_pack_audio, convert_pack_images,
+    prepare_voice_pack_audio, convert_pack_images, prepare_tree, normalize_pack_metadata,
 )
+from prepare_3ds_assets import prune_runtime_files
 from PIL import Image
 
 
@@ -120,7 +121,81 @@ def main() -> None:
         im_magic, im_w, im_h = struct.unpack_from('<4sHH', tcvr)
         assert im_magic == b'TCVR' and im_w == 256 and im_h <= 256
         assert len(tcvr) == 8 + im_w * im_h * 4
-        print(f'PASS: {frames} indexed TCV frames decoded; WAV/OGG/backing-track audio normalized to mono; JPG companion created.')
+
+        # Exercise the generalized pack pipeline with a case-variant MKV file
+        # (not named dub_video.ogv), FLAC dialogue, JSON alias metadata, and TIFF art.
+        alt_pack = root / 'packs_voice' / 'Nested Collection' / 'Alternate Format Pack'
+        alt_pack.mkdir(parents=True)
+        movie = alt_pack / 'movie.MKV'
+        subprocess.run([
+            ffmpeg, '-hide_banner', '-loglevel', 'error', '-y',
+            '-f', 'lavfi', '-i', 'testsrc2=size=320x180:rate=12', '-t', '1.2',
+            '-an', '-c:v', 'mpeg4', '-pix_fmt', 'yuv420p', '-f', 'matroska', str(movie),
+        ], check=True)
+        flac = alt_pack / '01_Line.FLAC'
+        subprocess.run([
+            ffmpeg, '-hide_banner', '-loglevel', 'error', '-y',
+            '-f', 'lavfi', '-i', 'sine=frequency=550:duration=0.3', '-c:a', 'flac', str(flac),
+        ], check=True)
+        Image.new('RGB', (80, 60), (20, 150, 80)).save(alt_pack / '01_Line.TIFF')
+        (alt_pack / '01_Line.JSON').write_text(
+            '{"text":"Alternate-format line","timestamp":"00:00:00.500",'
+            '"speaker":"Test Speaker","thumbnail":"01_Line.TIFF"}', encoding='utf-8')
+
+        # A pack can keep the source video in a media subfolder and use simple YAML metadata.
+        nested_pack = root / 'packs_voice' / 'Nested Video Pack'
+        nested_pack.mkdir(parents=True)
+        video_dir = nested_pack / 'media'
+        video_dir.mkdir()
+        nested_movie = video_dir / 'scene.mkv'
+        subprocess.run([
+            ffmpeg, '-hide_banner', '-loglevel', 'error', '-y',
+            '-f', 'lavfi', '-i', 'color=c=blue:size=320x180:rate=12', '-t', '1.0',
+            '-an', '-c:v', 'mpeg4', '-pix_fmt', 'yuv420p', '-f', 'matroska', str(nested_movie),
+        ], check=True)
+        nested_audio = nested_pack / '01_Nested.wav'
+        subprocess.run([
+            ffmpeg, '-hide_banner', '-loglevel', 'error', '-y',
+            '-f', 'lavfi', '-i', 'sine=frequency=410:duration=0.25', '-c:a', 'pcm_s16le', str(nested_audio),
+        ], check=True)
+        (nested_pack / '01_Nested.YML').write_text('caption: Nested line\nstart_time: 00:00:00.400\nspeaker: Nested Speaker\n', encoding='utf-8')
+        videos, normalized_audio = prepare_tree(root / 'packs_voice')
+        # Every unrelated pack gets its own converted artifact; no title is special-cased.
+        expected_pack_dirs = (pack, alt_pack, nested_pack)
+        for expected_pack in expected_pack_dirs:
+            assert (expected_pack / 'dub_video.tcv').is_file(), f'pack was not prepared: {expected_pack.relative_to(root)}'
+            assert check_video(expected_pack / 'dub_video.tcv') >= 1
+        assert videos >= 2, 'expected the generalized pack pipeline to convert alternate and nested non-OGV videos'
+        converted_movie = alt_pack / 'dub_video.tcv'
+        assert converted_movie.is_file() and check_video(converted_movie) >= 10
+        assert (alt_pack / '01_Line.3ds.wav').is_file()
+        assert (alt_pack / '01_Line.tcvr').is_file()
+        normalized_ini = (alt_pack / '01_Line.ini').read_text(encoding='utf-8')
+        assert 'caption="Alternate-format line"' in normalized_ini
+        assert 'dub_timestamps=["00:00:00.500"]' in normalized_ini
+        assert (alt_pack / '.tcv-source-file').read_text().strip() == 'movie.MKV'
+        assert (nested_pack / 'dub_video.tcv').is_file() and check_video(nested_pack / 'dub_video.tcv') >= 10
+        assert 'dub_timestamps=[\"00:00:00.400\"]' in (nested_pack / '01_Nested.ini').read_text(encoding='utf-8')
+        assert (nested_pack / '.tcv-source-file').read_text().strip() == 'media/scene.mkv'
+        # The ROMFS pruning step removes transcoded originals, but keeps runtime files.
+        removed, bytes_removed = prune_runtime_files(root / 'packs_voice')
+        assert not movie.exists(), 'alternate source video should be pruned after conversion for embedding'
+        assert not flac.exists(), 'source FLAC should be pruned once its PCM companion exists'
+        assert converted_movie.is_file() and (alt_pack / '01_Line.3ds.wav').is_file()
+
+        # A timed dub cannot be silently packaged without any video source.
+        bad_root = root / 'missing-video-packs'
+        bad_pack = bad_root / 'Broken Dub'
+        bad_pack.mkdir(parents=True)
+        shutil.copy2(pack / '02_ExistingLine.3ds.wav', bad_pack / 'Line.wav')
+        (bad_pack / 'Line.ini').write_text('[data]\ndub_timestamps=[0.5]\ncaption=Broken pack\n', encoding='utf-8')
+        try:
+            prepare_tree(bad_root)
+        except RuntimeError as exc:
+            assert 'timestamped dialogue exists, but no video was found' in str(exc)
+        else:
+            raise AssertionError('timed dub without video must produce a clear build error')
+        print(f'PASS: multiple independently named packs converted to TCV; FLAC/OGG/WAV normalized; JSON timestamp aliases and TIFF artwork work; staged source media pruned safely ({removed} files, {bytes_removed:,} bytes).')
 
 
 if __name__ == '__main__':

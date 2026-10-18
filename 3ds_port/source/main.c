@@ -155,7 +155,7 @@ typedef struct {
     char path[512];              /* exact folder holding this pack's video and line files */
     int voice_index;             /* top-level packs_voice index, for save compatibility */
     int clip_count;              /* timestamp occurrences, not unique audio files */
-    bool has_ogv;
+    bool has_source_video;
     bool has_tcv;
 } DubPackItem;
 
@@ -224,6 +224,12 @@ static const char *sprite_files[SPR_COUNT] = {
 static Page page = PAGE_HOME;
 static GameState game;
 static ItemList last_packs;
+/* Pack categories are immutable for an app session in this read-only RomFS.
+   Cache their directory lists so page redraws and selection changes never
+   repeat SD/RomFS directory walks. */
+static ItemList pack_category_cache[7];
+static bool pack_category_cache_valid[7] = {false, false, false, false, false, false, false};
+static bool dub_pack_cache_valid = false;
 static int selected = 0;
 static int pack_type = 0;
 static int pack_selected = 0;
@@ -252,6 +258,9 @@ static char game_subtitle[160] = "";
 static Canvas top_canvas = {400, 240, NULL};
 static Canvas bottom_canvas = {320, 240, NULL};
 static Sprite sprites[SPR_COUNT];
+/* Load secondary UI art on first use. Startup only needs the fonts and home
+   splash; settings/help/credits art can wait until those pages are visited. */
+static bool sprite_load_attempted[SPR_COUNT];
 static Sprite active_clip_art;
 static TouchButton touch_buttons[24];
 static int touch_button_count = 0;
@@ -598,10 +607,17 @@ static void add_pack_names_from_root(const char *base, const char *folder, ItemL
 }
 
 static void list_pack_dir(int type, ItemList *out) {
+    if (!out) return;
+    int cache_index = clamp_int(type, 0, 6);
+    if (pack_category_cache_valid[cache_index]) {
+        *out = pack_category_cache[cache_index];
+        return;
+    }
     memset(out, 0, sizeof(*out));
-    const char *folder = pack_folders[clamp_int(type, 0, 6)];
+    const char *folder = pack_folders[cache_index];
     /* Optional user packs first, then backwards-compatible old packs, then
-       built-in read-only packs embedded in the application. */
+       built-in read-only packs embedded in the application. One filesystem
+       walk per category per app session; repeated redraws use the cached list. */
     add_pack_names_from_root(USER_ROOT, folder, out);
     add_pack_names_from_root(LEGACY_ROOT, folder, out);
     add_pack_names_from_root(ROOT, folder, out);
@@ -610,6 +626,8 @@ static void list_pack_dir(int type, ItemList *out) {
         snprintf(out->items[0].name, MAX_NAME, "Default (embedded)");
         out->count = 1;
     }
+    pack_category_cache[cache_index] = *out;
+    pack_category_cache_valid[cache_index] = true;
 }
 
 static bool has_ext(const char *s, const char *ext) {
@@ -1311,11 +1329,14 @@ static void c_circle(Canvas *c, int cx, int cy, int radius, uint32_t color) {
     }
 }
 
-static bool load_sprite(Sprite *sp, const char *filename) {
-    if (!sp || !filename) return false;
+static bool load_sprite_id(int id) {
+    if (id < 0 || id >= SPR_COUNT) return false;
+    if (sprite_load_attempted[id]) return sprites[id].rgba != NULL;
+    sprite_load_attempted[id] = true; /* failed/missing assets are not reopened every frame */
+    Sprite *sp = &sprites[id];
     memset(sp, 0, sizeof(*sp));
     char path[384];
-    snprintf(path, sizeof(path), "%s/assets_native/%s", ROOT, filename);
+    snprintf(path, sizeof(path), "%s/assets_native/%s", ROOT, sprite_files[id]);
     FILE *f = fopen(path, "rb");
     if (!f) return false;
     uint8_t header[8];
@@ -1353,12 +1374,19 @@ static bool load_pack_sprite_path(Sprite *sp, const char *path) {
 }
 
 static void load_ui_assets(void) {
-    for (int i = 0; i < SPR_COUNT; ++i) (void)load_sprite(&sprites[i], sprite_files[i]);
+    /* Load only what the first menu needs. Remaining art is loaded on first
+       display through c_sprite(), shortening the cold-start delay. */
+    (void)load_sprite_id(SPR_FONT_SMALL);
+    (void)load_sprite_id(SPR_FONT_LARGE);
+    (void)load_sprite_id(SPR_LOGO_BANNER);
+    (void)load_sprite_id(SPR_HOST);
+    (void)load_sprite_id(SPR_DEV_LOGO);
 }
 
 static void free_ui_assets(void) {
     for (int i = 0; i < SPR_COUNT; ++i) {
         free(sprites[i].rgba); sprites[i].rgba = NULL; sprites[i].w = sprites[i].h = 0;
+        sprite_load_attempted[i] = false;
     }
 }
 
@@ -1387,6 +1415,7 @@ static void c_sprite_alpha(Canvas *c, const Sprite *sp, int x, int y, int w, int
 
 static void c_sprite(Canvas *c, int id, int x, int y, int w, int h) {
     if (id < 0 || id >= SPR_COUNT) return;
+    if (!sprite_load_attempted[id]) (void)load_sprite_id(id);
     c_sprite_alpha(c, &sprites[id], x, y, w, h, 255);
 }
 
@@ -2004,9 +2033,9 @@ static void page_dub_pack_list(void) {
     c_text(&top_canvas, 24, 72, "BUILT-IN PACKS EMBEDDED; CUSTOM PACKS: /3ds/TheChoicerVoicer3DS_User/packs_voice/", UI_CYAN, false, 350);
     if (dub_pack_count <= 0) {
         c_text(&top_canvas, 24, 106, "NO DUB PACKS FOUND", 0xFFFFD17D, true, 320);
-        c_text(&top_canvas, 24, 131, "A pack folder needs dub_video.ogv and line files", UI_TEXT_LIGHT, false, 350);
-        c_text(&top_canvas, 24, 150, "with dub_timestamps in .ini/.txt metadata.", UI_TEXT_LIGHT, false, 350);
-        c_text(&top_canvas, 24, 176, "Run the GitHub build to create dub_video.tcv.", UI_TEXT_LIGHT, false, 350);
+        c_text(&top_canvas, 24, 131, "A pack needs a converted video and timestamped line audio", UI_TEXT_LIGHT, false, 350);
+        c_text(&top_canvas, 24, 150, "with timestamps in sidecar metadata.", UI_TEXT_LIGHT, false, 350);
+        c_text(&top_canvas, 24, 176, "Supported source videos convert during the GitHub build.", UI_TEXT_LIGHT, false, 350);
     } else {
         dub_pack_selected = clamp_int(dub_pack_selected, 0, dub_pack_count - 1);
         int visible = dub_pack_count < 4 ? dub_pack_count : 4;
@@ -2448,17 +2477,62 @@ static int compare_dub_packs(const void *a, const void *b) {
     return strcasecmp(pa->name, pb->name);
 }
 
+static bool native_video_source_name(const char *name) {
+    if (!name || !*name) return false;
+    const char *dot = strrchr(name, '.');
+    if (!dot || dot == name || !dot[1]) return false;
+    size_t stem_len = (size_t)(dot - name);
+    const char *non_video_exts[] = {".tcv", ".wav", ".mp3", ".flac", ".m4a", ".aac", ".opus", ".wma",
+                                    ".aiff", ".aif", ".caf", ".ac3", ".amr", ".mp2", ".mka", ".weba",
+                                    ".ape", ".tta", ".wv", ".oga", ".ra", ".voc", ".au", ".snd",
+                                    ".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tif", ".tiff",
+                                    ".ini", ".cfg", ".txt", ".json", ".yaml", ".yml", ".srt", ".vtt", ".sub"};
+    bool blocked = false;
+    for (size_t i = 0; i < sizeof(non_video_exts) / sizeof(non_video_exts[0]); ++i) {
+        if (strcasecmp(dot, non_video_exts[i]) == 0) { blocked = true; break; }
+    }
+    const char *stems[] = {"dub_video", "dubvideo", "source_video", "sourcevideo", "video", "movie", "clip"};
+    if (!blocked) {
+        for (size_t i = 0; i < sizeof(stems) / sizeof(stems[0]); ++i)
+            if (strlen(stems[i]) == stem_len && strncasecmp(name, stems[i], stem_len) == 0) return true;
+    }
+    /* Common non-OGV containers; generic .ogg is deliberately excluded because
+       it is frequently an audio clip. It is accepted when named dub_video.ogg. */
+    const char *exts[] = {".ogv", ".mp4", ".m4v", ".mov", ".mkv", ".webm", ".avi", ".wmv",
+                          ".flv", ".mpeg", ".mpg", ".m2v", ".3gp", ".3g2", ".ts", ".mts",
+                          ".m2ts", ".vob", ".asf", ".mxf", ".dv", ".y4m", ".nut"};
+    for (size_t i = 0; i < sizeof(exts) / sizeof(exts[0]); ++i)
+        if (strcasecmp(dot, exts[i]) == 0) return true;
+    return false;
+}
+
+static bool pack_has_source_video(const char *pack_path) {
+    DIR *dir = pack_path ? opendir(pack_path) : NULL;
+    if (!dir) return false;
+    bool found = false;
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_name[0] == '.') continue;
+        if (!native_video_source_name(entry->d_name)) continue;
+        char path[600];
+        int n = snprintf(path, sizeof(path), "%s/%s", pack_path, entry->d_name);
+        if (n <= 0 || (size_t)n >= sizeof(path)) continue;
+        if (path_is_file(path)) { found = true; break; }
+    }
+    closedir(dir);
+    return found;
+}
+
 static bool append_dub_pack(const char *voice_root, const char *pack_path,
                             const char *relative, int top_index,
                             DubPackItem *out, int out_cap, int *count) {
     if (!voice_root || !pack_path || !relative || !out || !count || *count >= out_cap) return false;
-    char tcv[600], ogv[600];
+    char tcv[600];
     int n = snprintf(tcv, sizeof(tcv), "%s/dub_video.tcv", pack_path);
     if (n <= 0 || (size_t)n >= sizeof(tcv)) return false;
-    n = snprintf(ogv, sizeof(ogv), "%s/dub_video.ogv", pack_path);
-    if (n <= 0 || (size_t)n >= sizeof(ogv)) return false;
-    bool has_tcv = path_is_file(tcv), has_ogv = path_is_file(ogv);
-    if (!has_tcv && !has_ogv) return false;
+    bool has_tcv = path_is_file(tcv);
+    bool has_source_video = pack_has_source_video(pack_path);
+    if (!has_tcv && !has_source_video) return false;
 
     DubPackItem item;
     memset(&item, 0, sizeof(item));
@@ -2466,7 +2540,7 @@ static bool append_dub_pack(const char *voice_root, const char *pack_path,
     snprintf(item.path, sizeof(item.path), "%.511s", pack_path);
     item.voice_index = top_index;
     item.has_tcv = has_tcv;
-    item.has_ogv = has_ogv;
+    item.has_source_video = has_source_video;
     item.clip_count = load_voice_clips(pack_path, true);
     out[(*count)++] = item;
     voice_clip_count = 0;
@@ -2545,8 +2619,8 @@ static int scan_dub_pack_root(const char *voice_root, DubPackItem *out, int out_
     return count;
 }
 
-/* Treat common filesystem slug differences as the same pack title so an old
-   `verity_song` SD folder cannot shadow the embedded `verity song` build pack. */
+/* Treat common filesystem slug differences as the same pack title so duplicate
+   copies of any pack (spaces/underscores/hyphens) resolve consistently. */
 static bool dub_pack_names_match(const char *a, const char *b) {
     if (!a || !b) return false;
     for (;;) {
@@ -2558,41 +2632,102 @@ static bool dub_pack_names_match(const char *a, const char *b) {
     }
 }
 
-static int scan_all_dub_pack_roots(DubPackItem *out, int out_cap) {
-    if (!out || out_cap <= 0) return 0;
-    const char *roots[] = {
-        USER_ROOT "/packs_voice",
-        LEGACY_ROOT "/packs_voice",
-        ROOT "/packs_voice"
-    };
-    int total = 0;
-    /* Never put the ~40 KiB DubPackItem[64] on the application stack. */
-    for (size_t r = 0; r < sizeof(roots)/sizeof(roots[0]) && total < out_cap; ++r) {
-        int n = scan_dub_pack_root(roots[r], dub_pack_scan_scratch, MAX_ITEMS);
-        for (int i = 0; i < n && total < out_cap; ++i) {
-            int duplicate_at = -1;
-            for (int j = 0; j < total; ++j) {
-                if (dub_pack_names_match(out[j].name, dub_pack_scan_scratch[i].name)) {
-                    duplicate_at = j;
-                    break;
-                }
-            }
-            if (duplicate_at < 0) {
-                out[total++] = dub_pack_scan_scratch[i];
-            } else {
-                /* A raw legacy/SD copy may have the same name as the converted
-                   embedded build pack. Never let that unconverted copy hide a
-                   ready pack. Keep user-root priority when both candidates are
-                   equally capable, so converted custom packs still override
-                   the built-in pack of the same name. */
-                DubPackItem *current = &out[duplicate_at];
-                DubPackItem *candidate = &dub_pack_scan_scratch[i];
-                if (dub_pack_quality(candidate) < dub_pack_quality(current)) {
-                    *current = *candidate;
-                }
-            }
+static bool safe_catalog_relative(const char *relative) {
+    if (!relative || !*relative || *relative == '/' || *relative == '\\' ||
+        strchr(relative, '\\') || strchr(relative, ':')) return false;
+    const char *part = relative;
+    for (const char *p = relative;; ++p) {
+        if (*p == '/' || *p == '\0') {
+            size_t n = (size_t)(p - part);
+            if (n == 0 || (n == 1 && part[0] == '.') ||
+                (n == 2 && part[0] == '.' && part[1] == '.')) return false;
+            if (*p == '\0') break;
+            part = p + 1;
         }
     }
+    return true;
+}
+
+/* Returns -1 only when the catalog is absent (older builds); an existing but
+   empty catalog is valid and avoids an unnecessary full RomFS crawl. */
+static int scan_embedded_dub_pack_catalog(DubPackItem *out, int out_cap) {
+    if (!out || out_cap <= 0) return 0;
+    char catalog_path[384];
+    int path_len = snprintf(catalog_path, sizeof(catalog_path), "%s/packs_voice/.tcv_pack_index.tsv", ROOT);
+    if (path_len <= 0 || (size_t)path_len >= sizeof(catalog_path)) return -1;
+    FILE *f = fopen(catalog_path, "rb");
+    if (!f) return -1;
+    int count = 0;
+    char line[320];
+    while (count < out_cap && fgets(line, sizeof(line), f)) {
+        size_t len = strlen(line);
+        while (len && (line[len-1] == '\r' || line[len-1] == '\n')) line[--len] = '\0';
+        if (!len || line[0] == '#') continue;
+        char *tab = strrchr(line, '\t');
+        if (!tab) continue;
+        *tab++ = '\0';
+        if (!safe_catalog_relative(line)) continue;
+        errno = 0; char *end = NULL; long clips = strtol(tab, &end, 10);
+        if (errno == ERANGE || end == tab || (*end && *end != '\r' && *end != '\n') || clips < 0) continue;
+        if (clips > MAX_VOICE_CLIPS) clips = MAX_VOICE_CLIPS;
+        char pack_path[512], tcv_path[600];
+        int pn = snprintf(pack_path, sizeof(pack_path), "%s/packs_voice/%s", ROOT, line);
+        int tn = snprintf(tcv_path, sizeof(tcv_path), "%s/dub_video.tcv", pack_path);
+        if (pn <= 0 || (size_t)pn >= sizeof(pack_path) || tn <= 0 ||
+            (size_t)tn >= sizeof(tcv_path) || !path_is_file(tcv_path)) continue;
+        DubPackItem *item = &out[count++];
+        memset(item, 0, sizeof(*item));
+        snprintf(item->name, sizeof(item->name), "%.95s", line);
+        snprintf(item->path, sizeof(item->path), "%.511s", pack_path);
+        item->voice_index = 0;
+        item->clip_count = (int)clips;
+        item->has_tcv = true;
+        item->has_source_video = false;
+    }
+    fclose(f);
+    qsort(out, (size_t)count, sizeof(out[0]), compare_dub_packs);
+    return count;
+}
+
+static int merge_dub_candidates(DubPackItem *out, int total, const DubPackItem *candidates,
+                                int candidate_count, int out_cap) {
+    for (int i = 0; i < candidate_count && total < out_cap; ++i) {
+        int duplicate_at = -1;
+        for (int j = 0; j < total; ++j) {
+            if (dub_pack_names_match(out[j].name, candidates[i].name)) {
+                duplicate_at = j;
+                break;
+            }
+        }
+        if (duplicate_at < 0) {
+            out[total++] = candidates[i];
+        } else {
+            /* A raw user/legacy copy must not hide an embedded ready version;
+               if equally ready, preserve the higher-priority earlier root. */
+            DubPackItem *current = &out[duplicate_at];
+            const DubPackItem *candidate = &candidates[i];
+            if (dub_pack_quality(candidate) < dub_pack_quality(current)) *current = *candidate;
+        }
+    }
+    return total;
+}
+
+static int scan_all_dub_pack_roots(DubPackItem *out, int out_cap) {
+    if (!out || out_cap <= 0) return 0;
+    int total = 0;
+    /* Custom/legacy SD packs remain optional fallbacks. These roots are small
+       and scanned once; immutable embedded packs use the build-time catalog. */
+    const char *external_roots[] = { USER_ROOT "/packs_voice", LEGACY_ROOT "/packs_voice" };
+    for (size_t r = 0; r < sizeof(external_roots)/sizeof(external_roots[0]) && total < out_cap; ++r) {
+        int n = scan_dub_pack_root(external_roots[r], dub_pack_scan_scratch, MAX_ITEMS);
+        total = merge_dub_candidates(out, total, dub_pack_scan_scratch, n, out_cap);
+    }
+    int embedded_count = scan_embedded_dub_pack_catalog(dub_pack_scan_scratch, MAX_ITEMS);
+    if (embedded_count < 0) {
+        /* Backwards-compatible fallback for builds made before the catalog. */
+        embedded_count = scan_dub_pack_root(ROOT "/packs_voice", dub_pack_scan_scratch, MAX_ITEMS);
+    }
+    total = merge_dub_candidates(out, total, dub_pack_scan_scratch, embedded_count, out_cap);
     qsort(out, (size_t)total, sizeof(out[0]), compare_dub_packs);
     voice_clip_count = 0;
     return total;
@@ -2600,13 +2735,19 @@ static int scan_all_dub_pack_roots(DubPackItem *out, int out_cap) {
 
 static void open_dub_pack_browser(Page return_page) {
     dub_pack_return_page = return_page;
-    dub_pack_count = scan_all_dub_pack_roots(dub_pack_items, MAX_ITEMS);
+    /* The embedded RomFS is immutable and the app has no in-app pack installer.
+       Scan once, then reuse the list on subsequent visits instead of repeating
+       hundreds of stat/open calls whenever the user reopens Dub Mode. */
+    if (!dub_pack_cache_valid) {
+        dub_pack_count = scan_all_dub_pack_roots(dub_pack_items, MAX_ITEMS);
+        dub_pack_cache_valid = true;
+    }
     dub_pack_selected = 0;
     dub_pack_scroll_offset = 0;
     selected = 0;
     page = PAGE_DUB_PACK_LIST;
     if (dub_pack_count == 0)
-        set_message("No dub videos found. Put a pack folder anywhere under packs_voice/ with dub_video.ogv and timestamped line clips.");
+        set_message("No dub videos found. Put a pack folder under packs_voice/ with a video and timestamped line clips; rebuild to convert it.");
 }
 
 static void begin_selected_dub_pack(void) {
@@ -2618,7 +2759,7 @@ static void begin_selected_dub_pack(void) {
         return;
     }
     if (!item->has_tcv) {
-        set_message("This pack needs conversion: rebuild after adding the pack folder under packs_voice/.");
+        set_message("This video is not converted for 3DS yet. Add the pack under repository packs_voice/ and rebuild in GitHub Actions.");
         return;
     }
     game.mode = 1;
@@ -3112,7 +3253,7 @@ static void begin_match(void) {
             char ogv[512]; snprintf(ogv, sizeof(ogv), "%s/dub_video.ogv", dir);
             FILE *original = fopen(ogv, "rb");
             if (original) { fclose(original); set_message("Dub video needs PC conversion: run prepare_3ds_dub_packs.py"); }
-            else set_message("Dub mode needs a pack folder with dub_video.ogv and timestamped clips");
+            else set_message("Dub mode needs a converted video plus timestamped line clips; add the pack to repository packs_voice/ and rebuild");
             page = PAGE_SETUP; selected = 0; return;
         }
         voice_clip_count = load_voice_clips(dir, true);
@@ -3211,7 +3352,7 @@ static void save_latest_dub(void) {
             set_message("Record at least one line before saving the dub session");
             return;
         }
-        set_message("Dub session saved: recorded takes + timestamp manifest");
+        set_message("Dub saved. Use EXPORT-DUB-VIDEO-WINDOWS.bat on PC for full MP4");
         return;
     }
     char latest[320]; snprintf(latest,sizeof(latest),"%s/dub_latest.wav",REC_DIR);
