@@ -4,7 +4,7 @@ from __future__ import annotations
 import tempfile
 import wave
 from pathlib import Path
-from prepare_3ds_assets import optimize_large_wavs
+from prepare_3ds_assets import optimize_large_wavs, prune_runtime_files
 
 
 def main() -> None:
@@ -28,7 +28,31 @@ def main() -> None:
             assert wav.getcomptype() == "NONE"
         assert path.stat().st_size < original_size
         assert saved == original_size - path.stat().st_size
-        print(f"PASS: large stereo WAV converted to mono PCM16/16 kHz; saved {saved:,} bytes.")
+
+        # Regression for compact asset staging: a WAV must not match itself as
+        # its own converted companion and be deleted by the pruning pass.
+        music_dir = root / "audio" / "music"
+        music_dir.mkdir(parents=True)
+        music = music_dir / "maintheme.wav"
+        with wave.open(str(music), "wb") as wav:
+            wav.setnchannels(1)
+            wav.setsampwidth(2)
+            wav.setframerate(16000)
+            wav.writeframes(b"\x00\x00" * 160)
+        compressed = music_dir / "converted.mp3"
+        compressed.write_bytes(b"fake-mp3-for-pruning-test")
+        companion = music_dir / "converted.wav"
+        with wave.open(str(companion), "wb") as wav:
+            wav.setnchannels(1)
+            wav.setsampwidth(2)
+            wav.setframerate(22050)
+            wav.writeframes(b"\x00\x00" * 160)
+
+        prune_runtime_files(root)
+        assert music.is_file(), "default WAV without a native companion must survive runtime pruning"
+        assert not compressed.exists(), "compressed source should be pruned when a separate WAV companion exists"
+        assert companion.is_file(), "normalized WAV companion must remain available to runtime"
+        print(f"PASS: large WAV optimization saved {saved:,} bytes; pruning preserves standalone default music and removes only verified duplicate audio sources.")
 
 
 if __name__ == "__main__":

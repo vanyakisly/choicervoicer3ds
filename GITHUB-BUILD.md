@@ -68,3 +68,8 @@ This does not require any migration or replacement of `SD:/3ds/The Choicer Voice
 ## Export the completed dub as a full MP4
 
 The Old 3DS saves your line recordings and timestamps, but should not encode the full video in real time. On Windows, run `EXPORT-DUB-VIDEO-WINDOWS.bat`, select the saved `session.ini` from the SD card, choose the original source pack folder from `packs_voice/`, and select an output MP4 path. Read `EXPORT-FULL-DUB.md` for details.
+
+
+## v25 runtime staging fix
+
+Default WAV music and SFX are preserved by the pruning pass unless a distinct `.3ds.wav` companion exists. The GitHub Actions staging step prints the exact failed command and line for easier diagnosis.

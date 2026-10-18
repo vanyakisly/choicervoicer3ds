@@ -130,7 +130,8 @@ jobs:
       - name: Prepare compact runtime assets for embedding in the application
         shell: bash
         run: |
-          set -euo pipefail
+          set -Eeuo pipefail
+          trap 'status=$?; echo "ERROR: runtime asset staging failed at line ${LINENO}: ${BASH_COMMAND} (exit ${status})" >&2; exit "$status"' ERR
           rm -rf 3ds_port/romfs
           mkdir -p 3ds_port/romfs/tcv
           python3 tools/prepare_3ds_assets.py \

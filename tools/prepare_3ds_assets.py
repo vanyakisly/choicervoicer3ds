@@ -192,21 +192,28 @@ def prune_runtime_files(runtime_root: Path) -> tuple[int, int]:
                 pass
 
     for source in sorted((p for p in runtime_root.rglob('*') if p.is_file()), reverse=True):
-        low = source.name.lower()
+        low = source.name.casefold()
+        suffix = source.suffix.casefold()
         remove = False
-        if source.suffix.casefold() in AUDIO_EXTENSIONS:
-            # Voice and non-voice conversion paths make WAV/native companions.
-            candidates = [source.with_suffix('.wav'), source.with_name(source.stem + '.3ds.wav')]
-            remove = any(c.is_file() for c in candidates) and not low.endswith('.3ds.wav')
-        elif source.suffix.casefold() == '.ogv':
-            remove = source.with_name('dub_video.tcv').is_file()
-        elif low.endswith('.3ds.wav'):
+        # Check native companions before the broad audio-extension set: WAV is
+        # itself in AUDIO_EXTENSIONS, so source.with_suffix('.wav') would point
+        # back to the same file and could mistakenly delete every default WAV.
+        if low.endswith('.3ds.wav'):
             remove = False
-        elif source.suffix.casefold() == '.wav':
-            remove = source.with_name(source.stem + '.3ds.wav').is_file()
-        elif source.suffix.casefold() in IMAGE_EXTENSIONS:
+        elif suffix == '.wav':
+            # Preserve default music/SFX WAVs unless a distinct 3DS companion exists.
+            native_companion = source.with_name(source.stem + '.3ds.wav')
+            remove = native_companion.is_file() and native_companion.resolve() != source.resolve()
+        elif suffix in AUDIO_EXTENSIONS:
+            # Compressed sources can be removed only when a distinct normalized
+            # WAV or dedicated .3ds.wav companion has actually been generated.
+            candidates = (source.with_suffix('.wav'), source.with_name(source.stem + '.3ds.wav'))
+            remove = any(c.resolve() != source.resolve() and c.is_file() for c in candidates)
+        elif suffix == '.ogv':
+            remove = source.with_name('dub_video.tcv').is_file()
+        elif suffix in IMAGE_EXTENSIONS:
             remove = source.with_suffix('.tcvr').is_file()
-        elif source.suffix.casefold() == '.import':
+        elif suffix == '.import':
             remove = True
         if remove:
             try:
