@@ -41,3 +41,7 @@ The dub browser no longer allocates its 64-item (~39.7 KiB) scratch array on the
 MIC shared memory is allocated with a `0x1000`-aligned address and buffer size, matching libctru's MIC API and official microphone example. Failure messages retain the exact `micInit` result code. `REPEAT LINE` replays the selected cue and its matching video segment. `WATCH DUB` is locked until every timestamped line has a saved take; its completion scan is cached and invalidated after a successful take save.
 
 The native app continues to use embedded RomFS assets and automatically created writable state under `SD:/3ds/TheChoicerVoicer3DS_User/`; it does not require files to be added to or replaced in `SD:/3ds/The Choicer Voicer/`.
+
+## v20 — Pack conversion status fix
+
+If a raw legacy folder like `SD:/3ds/The Choicer Voicer/packs_voice/verity_song/` exists alongside the built-in converted pack, v20 treats `verity_song`, `verity song`, and equivalent hyphen/underscore spellings as the same name. It selects the candidate with the best native readiness, so an unconverted OGV copy no longer hides the embedded converted TCV pack. The GitHub workflow also fails early if the example video wasn't converted into a valid TCV file. No manual changes to `SD:/3ds/The Choicer Voicer/` are required.

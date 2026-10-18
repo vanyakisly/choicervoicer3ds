@@ -19,10 +19,17 @@ int main(int argc, char **argv) {
         const DubPackItem *user = find_item(test_items, all_count, "Collection/Nested Pack");
         const DubPackItem *legacy = find_item(test_items, all_count, "Legacy Pack");
         const DubPackItem *embedded = find_item(test_items, all_count, "Embedded Pack");
-        if (all_count != 3 || !user || !legacy || !embedded) {
-            fprintf(stderr, "scan-all should find three packs across user/legacy/embedded roots; got %d\n", all_count);
-            for (int i = 0; i < all_count; ++i) fprintf(stderr, "  %s\n", test_items[i].name);
+        const DubPackItem *shared = find_item(test_items, all_count, "Shared Pack");
+        if (all_count != 4 || !user || !legacy || !embedded || !shared) {
+            fprintf(stderr, "scan-all should find four unique packs across user/legacy/embedded roots; got %d\n", all_count);
+            for (int i = 0; i < all_count; ++i) fprintf(stderr, "  %s (%s)\n", test_items[i].name, test_items[i].path);
             return 20;
+        }
+        /* A raw OGV on legacy SD must not hide the converted embedded duplicate. */
+        if (!shared->has_tcv || !strstr(shared->path, "romfs:/tcv")) {
+            fprintf(stderr, "ready embedded Shared Pack should outrank raw legacy copy; got tcv=%d path=%s\n",
+                    shared->has_tcv, shared->path);
+            return 21;
         }
         return 0;
     }

@@ -137,6 +137,25 @@ jobs:
           test -s "3ds_port/romfs/tcv/audio/music/maintheme.wav"
           test -d "3ds_port/romfs/tcv/packs_voice"
           test -d "3ds_port/romfs/tcv/packs_menu"
+          # The supplied verity example is the regression pack. It must be
+          # converted before embedding; runtime cannot decode OGV directly.
+          test -s "3ds_port/romfs/tcv/packs_voice/verity song/dub_video.tcv"
+          python3 - <<'PYTCV'
+          import struct
+          from pathlib import Path
+          root = Path("3ds_port/romfs/tcv/packs_voice")
+          videos = sorted(root.rglob("dub_video.tcv"))
+          if not videos:
+              raise SystemExit("No converted dub_video.tcv files found in embedded packs_voice")
+          for path in videos:
+              data = path.read_bytes()[:20]
+              if len(data) != 20 or data[:4] != b"TCV1":
+                  raise SystemExit(f"Invalid/missing TCV header: {path}")
+              _, width, height, fps, key, frames, index = struct.unpack("<4sHHHHII", data)
+              if (width, height, fps, key, index) != (160, 90, 10, 10, 20) or frames < 1:
+                  raise SystemExit(f"Invalid TCV header values: {path}")
+          print(f"PASS: {len(videos)} embedded dub video(s) have valid TCV headers.")
+          PYTCV
           test -f "3ds_port/romfs/tcv/ROMFS-INFO.txt"
           test ! -d "3ds_port/romfs/tcv/source_assets"
           python3 - <<'PYWAV'

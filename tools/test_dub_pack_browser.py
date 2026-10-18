@@ -72,8 +72,15 @@ def main() -> None:
             root.mkdir(parents=True, exist_ok=True)
             if nested_folder:
                 make_pack(root / "Collection", pack_name, "dub_video.tcv", "[1.0]")
+            elif pack_name == "Legacy Pack":
+                make_pack(root, pack_name, "dub_video.tcv", "[1.0]")
+                # Simulate the failure: old SD path has raw OGV, and the
+                # embedded build contains a converted same-name pack.
+                make_pack(root, "Shared_Pack", "dub_video.ogv", "[1.0]")
             else:
                 make_pack(root, pack_name, "dub_video.tcv", "[1.0]")
+                if pack_name == "Embedded Pack":
+                    make_pack(root, "Shared Pack", "dub_video.tcv", "[1.0]")
         def limit_stack():
             assert resource is not None
             soft, hard = resource.getrlimit(resource.RLIMIT_STACK)

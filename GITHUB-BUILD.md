@@ -40,3 +40,9 @@ The native pack scanner uses static bounded scratch buffers instead of large sta
 The MIC buffer is allocated with `memalign(0x1000, ...)`, as required by libctru's shared-memory API. `Repeat Line` replays the current source cue/video segment. `Watch Dub` is visibly locked until each timestamped clip has a saved recording, and the start function enforces the same check. Host-side regression tests check the alignment, failure diagnostics, button mapping and all-lines gating.
 
 No manual assets are required in `SD:/3ds/The Choicer Voicer/`: defaults remain embedded in RomFS and writable recordings/settings are automatically created under `SD:/3ds/TheChoicerVoicer3DS_User/`.
+
+## v20 — Avoid false "needs video conversion" on duplicate packs
+
+The pack browser merges matching names across writable user packs, the legacy `SD:/3ds/The Choicer Voicer/packs_voice/` fallback, and embedded RomFS packs. It now normalizes spaces/underscores/hyphens when comparing names and chooses the most-ready duplicate. That means an old raw `verity_song/dub_video.ogv` folder no longer hides the embedded, preconverted `verity song/dub_video.tcv` build pack. User custom packs with the same name still take precedence when they are equally ready.
+
+GitHub Actions now verifies that the included `packs_voice/verity song/dub_video.ogv` becomes an embedded, valid `dub_video.tcv` before compiling. To include a different custom OGV-only pack without copying anything to the SD card, commit that pack under repository-root `packs_voice/<Pack Name>/` and rebuild. The converter is a build-time FFmpeg tool; the 3DS runtime does not decode OGV or run FFmpeg itself.

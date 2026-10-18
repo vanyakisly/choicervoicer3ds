@@ -9,6 +9,7 @@
 #include <3ds.h>
 #include <3ds/romfs.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
@@ -2544,6 +2545,19 @@ static int scan_dub_pack_root(const char *voice_root, DubPackItem *out, int out_
     return count;
 }
 
+/* Treat common filesystem slug differences as the same pack title so an old
+   `verity_song` SD folder cannot shadow the embedded `verity song` build pack. */
+static bool dub_pack_names_match(const char *a, const char *b) {
+    if (!a || !b) return false;
+    for (;;) {
+        while (*a == ' ' || *a == '_' || *a == '-') ++a;
+        while (*b == ' ' || *b == '_' || *b == '-') ++b;
+        if (!*a || !*b) return *a == *b;
+        if (tolower((unsigned char)*a) != tolower((unsigned char)*b)) return false;
+        ++a; ++b;
+    }
+}
+
 static int scan_all_dub_pack_roots(DubPackItem *out, int out_cap) {
     if (!out || out_cap <= 0) return 0;
     const char *roots[] = {
@@ -2556,11 +2570,27 @@ static int scan_all_dub_pack_roots(DubPackItem *out, int out_cap) {
     for (size_t r = 0; r < sizeof(roots)/sizeof(roots[0]) && total < out_cap; ++r) {
         int n = scan_dub_pack_root(roots[r], dub_pack_scan_scratch, MAX_ITEMS);
         for (int i = 0; i < n && total < out_cap; ++i) {
-            bool duplicate = false;
+            int duplicate_at = -1;
             for (int j = 0; j < total; ++j) {
-                if (strcasecmp(out[j].name, dub_pack_scan_scratch[i].name) == 0) { duplicate = true; break; }
+                if (dub_pack_names_match(out[j].name, dub_pack_scan_scratch[i].name)) {
+                    duplicate_at = j;
+                    break;
+                }
             }
-            if (!duplicate) out[total++] = dub_pack_scan_scratch[i];
+            if (duplicate_at < 0) {
+                out[total++] = dub_pack_scan_scratch[i];
+            } else {
+                /* A raw legacy/SD copy may have the same name as the converted
+                   embedded build pack. Never let that unconverted copy hide a
+                   ready pack. Keep user-root priority when both candidates are
+                   equally capable, so converted custom packs still override
+                   the built-in pack of the same name. */
+                DubPackItem *current = &out[duplicate_at];
+                DubPackItem *candidate = &dub_pack_scan_scratch[i];
+                if (dub_pack_quality(candidate) < dub_pack_quality(current)) {
+                    *current = *candidate;
+                }
+            }
         }
     }
     qsort(out, (size_t)total, sizeof(out[0]), compare_dub_packs);
